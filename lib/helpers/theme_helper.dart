@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mengo_delivery/utils/app_colors.dart' hide viewLineColor;
 import 'package:nb_utils/nb_utils.dart';
@@ -7,18 +8,28 @@ import 'package:nb_utils/nb_utils.dart';
 class ThemeHelper {
   static final ThemeData lightTheme = ThemeData(
           primaryColor: primaryColor,
-          scaffoldBackgroundColor: Colors.white,
-          fontFamily: GoogleFonts.notoSansMyanmar().fontFamily,
+          scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+          // scaffoldBackgroundColor: Colors.white,
+          // fontFamily: GoogleFonts.nunito(fontWeight: FontWeight.w500,fontSize: 15).fontFamily,
+          fontFamily:
+              GoogleFonts.poppins( fontSize: 15)
+                  .fontFamily,
           iconTheme: const IconThemeData(color: Colors.black),
           dialogBackgroundColor: Colors.white,
           unselectedWidgetColor: Colors.grey,
           dividerColor: viewLineColor,
           cardColor: Colors.white,
           tabBarTheme: const TabBarTheme(labelColor: Colors.black),
-          appBarTheme: const AppBarTheme(
+          appBarTheme: AppBarTheme(
             color: primaryColor,
             elevation: 0,
-            systemOverlayStyle: SystemUiOverlayStyle(
+            titleTextStyle: TextStyle(
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+            systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.light,
                 statusBarColor: primaryColor),
           ),
@@ -29,11 +40,12 @@ class ThemeHelper {
             primary: primaryColor,
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              selectedLabelStyle: boldTextStyle(color: Colors.black),
+              selectedLabelStyle: boldTextStyle(color: Colors.white),
               unselectedLabelStyle: boldTextStyle(color: Colors.grey),
-              selectedItemColor: Colors.black,
+              selectedItemColor: black,
               showUnselectedLabels: false,
-              unselectedItemColor: Colors.black))
+              showSelectedLabels: false,
+              unselectedItemColor: grey))
       .copyWith(
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{

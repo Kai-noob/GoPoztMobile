@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:mengo_delivery/bindings/init_binding.dart';
 import 'package:mengo_delivery/controllers/localization_controller.dart';
-import 'package:mengo_delivery/controllers/theme_controller.dart';
-import 'package:mengo_delivery/helpers/route_helper.dart';
+
 import 'package:mengo_delivery/helpers/theme_helper.dart';
 
+import '../routes/app_pages.dart';
 import '../utils/app_constants.dart';
 import '../utils/messages.dart';
-import 'menu/menu_page.dart';
 
 class App extends StatelessWidget {
-  final Map<String, Map<String, String>>? languages;
+  final Map<String, Map<String, String>> languages;
   const App({super.key, required this.languages});
 
   @override
@@ -22,22 +22,22 @@ class App extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetBuilder<ThemeController>(builder: (themeController) {
-          return GetBuilder<LocalizationController>(
-              builder: (localizationController) {
-            return GetMaterialApp(
+        return GetBuilder<LocalizationController>(
+            builder: (localizationController) {
+          return GlobalLoaderOverlay(
+            child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeHelper.lightTheme,
               translations: Messages(languages: languages),
               fallbackLocale: Locale(AppConstants.languages[0].languageCode!,
                   AppConstants.languages[0].countryCode),
               locale: localizationController.locale,
-              initialRoute: RouteHelper.getInitialRoute(),
-              getPages: RouteHelper.routes,
+              initialRoute:
+                  AppPages.INITIAL, // first screen to show when app is running
+              getPages: AppPages.routes,
               initialBinding: InitBinding(),
-              home: MenuPage(),
-            );
-          });
+            ),
+          );
         });
       },
     );

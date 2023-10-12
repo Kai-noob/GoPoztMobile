@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:mengo_delivery/utils/app_images.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -9,23 +10,43 @@ import '../models/language_model.dart';
 class AppConstants {
   static SvgPicture homeIcon = SvgPicture.asset(
     home,
-    height: 18,
+    height: 19,
     color: blackColor,
   );
   static SvgPicture notiIcon = SvgPicture.asset(
     noti,
-    height: 18,
+    height: 19,
     color: blackColor,
   );
   static SvgPicture historyIcon = SvgPicture.asset(
     history,
-    height: 18,
+    height: 19,
     color: blackColor,
   );
   static SvgPicture settingIcon = SvgPicture.asset(
     setting,
-    height: 18,
+    height: 19,
     color: blackColor,
+  );
+    static SvgPicture homeActiveIcon = SvgPicture.asset(
+    home,
+    height: 19,
+    color: primaryColor,
+  );
+  static SvgPicture notiActiveIcon = SvgPicture.asset(
+    noti,
+    height: 19,
+    color: primaryColor,
+  );
+  static SvgPicture historyActiveIcon = SvgPicture.asset(
+    history,
+    height: 19,
+    color: primaryColor,
+  );
+  static SvgPicture settingActiveIcon = SvgPicture.asset(
+    setting,
+    height: 19,
+    color: primaryColor,
   );
   static SvgPicture timeIcon = SvgPicture.asset(
     time,

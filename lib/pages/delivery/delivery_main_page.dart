@@ -1,44 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:mengo_delivery/components/appbar_widget.dart';
-import 'package:mengo_delivery/pages/delivery/widgets/delivery_limit_orders_text_widget.dart';
-import 'package:mengo_delivery/pages/delivery/widgets/delivery_select_address_card.dart';
-import 'package:mengo_delivery/pages/delivery/widgets/delivery_warning_widget.dart';
-import 'package:mengo_delivery/utils/app_constants.dart';
 
-import 'widgets/delivery_instruction_widget.dart';
-import 'widgets/delivery_order_button.dart';
+import 'package:get/get.dart';
+
+import 'package:mengo_delivery/components/custom_backbutton.dart';
+import 'package:mengo_delivery/controllers/delivery_controller.dart';
+
+
+import 'order/create_order/create_order_page.dart';
+
+import 'order/order_history/order_history_page.dart';
+import 'widgets/delivery_bottom_nav_bar_widget.dart';
+import 'widgets/delivery_tabbar_widget.dart';
 
 class DeliveryMainPage extends StatelessWidget {
-  const DeliveryMainPage({super.key});
+  DeliveryMainPage({super.key});
+  final DeliveryController controller = Get.find<DeliveryController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarWidget(
-        title: "Mengo Delivery",
-        isBackIconShow: true,
-        onBackIconPressed: () {
-          Get.back();
-        },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        // appBar: AppBarWidget(
+        //   title: "Mengo Delivery",
+        //   isBackIconShow: true,
+        //   onBackIconPressed: () {
+        //     Get.back();
+        //   },
+        // ),
+        appBar: AppBar(
+          leading: const CustomBackButton(),
+          title: const DeliveryTabBarWidget(),
+        ),
+        body: const TabBarView(
+          children: [CreateOrderPage(), OrderHistoryPage()],
+        ),
+        bottomNavigationBar: DeliveryBottomNavBarWidget(
+          controller: controller,
+          senders:controller.senders,
+          receivers: controller.receivers,
+        ),
       ),
-      body: ListView(children: [
-        // AppConstants.defaultSpacer,
-        const DeliverySelectAddressCard(),
-        const DeliveryWarningWidget(),
-        AppConstants.defaultSpacer,
-        const DeliveryInstructionWidget(),
-        SizedBox(
-          height: 5.h,
-        ),
-        const DeliveryLimitOrdersWidget(),
-        AppConstants.defaultSpacer,
-        const DeliveryOrderButton(),
-        SizedBox(
-          height: 20.h,
-        ),
-      ]),
     );
   }
 }
