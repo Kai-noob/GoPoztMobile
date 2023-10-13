@@ -12,22 +12,25 @@ class ThemeHelper {
           // scaffoldBackgroundColor: Colors.white,
           // fontFamily: GoogleFonts.nunito(fontWeight: FontWeight.w500,fontSize: 15).fontFamily,
           fontFamily:
-              GoogleFonts.poppins( fontSize: 15)
+              GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600)
                   .fontFamily,
           iconTheme: const IconThemeData(color: Colors.black),
           dialogBackgroundColor: Colors.white,
           unselectedWidgetColor: Colors.grey,
           dividerColor: viewLineColor,
           cardColor: Colors.white,
-          tabBarTheme: const TabBarTheme(labelColor: Colors.black),
+          // tabBarTheme: const TabBarTheme(labelColor: Colors.black),
           appBarTheme: AppBarTheme(
             color: primaryColor,
-            elevation: 0,
+            elevation: 10,
             titleTextStyle: TextStyle(
-              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontFamily:
+                  GoogleFonts.poppins( fontWeight: FontWeight.w600)
+                      .fontFamily,
               fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+              // fontSize: 16.sp,
+              // fontWeight: FontWeight.w500,
+              color: Colors.white,
             ),
             systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.light,
@@ -56,38 +59,38 @@ class ThemeHelper {
     ),
   );
 
-  static final ThemeData darkTheme = ThemeData(
-    primaryColor: primaryColor,
-    scaffoldBackgroundColor: scaffoldDarkColor,
-    fontFamily: GoogleFonts.roboto().fontFamily,
-    iconTheme: const IconThemeData(color: Colors.white),
-    dialogBackgroundColor: scaffoldSecondaryDark,
-    unselectedWidgetColor: Colors.white60,
-    dividerColor: Colors.white12,
-    cardColor: scaffoldSecondaryDark,
-    tabBarTheme: const TabBarTheme(labelColor: Colors.white),
-    appBarTheme: const AppBarTheme(
-      color: scaffoldSecondaryDark,
-      elevation: 0,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
-        statusBarColor: scaffoldSecondaryDark,
-      ),
-    ),
-    dialogTheme: DialogTheme(shape: dialogShape()),
-    snackBarTheme: const SnackBarThemeData(backgroundColor: appButtonColorDark),
-    bottomSheetTheme:
-        const BottomSheetThemeData(backgroundColor: appButtonColorDark),
-    colorScheme: const ColorScheme.dark(
-      primary: primaryColor,
-    ),
-  ).copyWith(
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: <TargetPlatform, PageTransitionsBuilder>{
-        TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
-        TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
-    ),
-  );
+  // static final ThemeData darkTheme = ThemeData(
+  //   primaryColor: primaryColor,
+  //   scaffoldBackgroundColor: scaffoldDarkColor,
+  //   fontFamily: GoogleFonts.roboto().fontFamily,
+  //   iconTheme: const IconThemeData(color: Colors.white),
+  //   dialogBackgroundColor: scaffoldSecondaryDark,
+  //   unselectedWidgetColor: Colors.white60,
+  //   dividerColor: Colors.white12,
+  //   cardColor: scaffoldSecondaryDark,
+  //   tabBarTheme: const TabBarTheme(labelColor: Colors.white),
+  //   appBarTheme: const AppBarTheme(
+  //     color: scaffoldSecondaryDark,
+  //     elevation: 0,
+  //     systemOverlayStyle: SystemUiOverlayStyle(
+  //       statusBarIconBrightness: Brightness.light,
+  //       statusBarColor: scaffoldSecondaryDark,
+  //     ),
+  //   ),
+  //   dialogTheme: DialogTheme(shape: dialogShape()),
+  //   snackBarTheme: const SnackBarThemeData(backgroundColor: appButtonColorDark),
+  //   bottomSheetTheme:
+  //       const BottomSheetThemeData(backgroundColor: appButtonColorDark),
+  //   colorScheme: const ColorScheme.dark(
+  //     primary: primaryColor,
+  //   ),
+  // ).copyWith(
+  //   pageTransitionsTheme: const PageTransitionsTheme(
+  //     builders: <TargetPlatform, PageTransitionsBuilder>{
+  //       TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+  //       TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
+  //       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+  //     },
+  //   ),
+  // );
 }

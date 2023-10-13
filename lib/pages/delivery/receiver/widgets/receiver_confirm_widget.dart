@@ -3,13 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../utils/app_colors.dart';
 
-
 class ReceiverConfirmWidget extends StatelessWidget {
   final VoidCallback onTap;
-  const ReceiverConfirmWidget({
-    super.key,
-    required this.onTap
-  });
+  const ReceiverConfirmWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +21,8 @@ class ReceiverConfirmWidget extends StatelessWidget {
             child: Text(
               "Confirm",
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.sp,
+                  color: Colors.white,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500),
             ),
           ),

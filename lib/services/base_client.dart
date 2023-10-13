@@ -2,11 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_utils/get_utils.dart';
 
 import 'package:logger/logger.dart';
+import 'package:mengo_delivery/utils/app_cache_part.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../utils/string_enum.dart';
@@ -20,11 +23,22 @@ enum RequestType {
 }
 
 class BaseClient {
-  static final Dio _dio = Dio(BaseOptions(headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }))
-    ..interceptors.add(PrettyDioLogger(
+  static Dio getDioInstance() {
+    final Dio dio = Dio(BaseOptions(
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ));
+
+    _addLoggerInterceptor(dio);
+    _addCacheInterceptor(dio);
+
+    return dio;
+  }
+
+  static void _addLoggerInterceptor(Dio dio) {
+    final loggerInterceptor = PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
       responseBody: true,
@@ -32,13 +46,34 @@ class BaseClient {
       error: true,
       compact: true,
       maxWidth: 90,
-    ));
+    );
+    dio.interceptors.add(loggerInterceptor);
+  }
+
+  static void _addCacheInterceptor(Dio dio) {
+    final cacheInterceptor = DioCacheInterceptor(
+      options: CacheOptions(
+        store:
+            HiveCacheStore(AppCachePathProvider.path, hiveBoxName: "go_pozt"),
+        policy: CachePolicy.forceCache,
+        hitCacheOnErrorExcept: [401, 404],
+        maxStale: const Duration(minutes: 5),
+        keyBuilder: (request) {
+          return request.uri.toString();
+        },
+        allowPostMethod: false,
+        priority: CachePriority.high,
+      ),
+    );
+    dio.interceptors.add(cacheInterceptor);
+  }
 
   // request timeout (default 10 seconds)
   static const int _timeoutInSeconds = 10;
 
   /// dio getter (used for testing)
-  static get dio => _dio;
+  // static get dio => _dio;
+  static final Dio _dio = getDioInstance();
 
   /// perform safe api request
   static safeApiCall(
@@ -280,57 +315,56 @@ class BaseClient {
     // String msg = apiException.response!.data?["message"]?.toString() ??
     //     "An error occurred";
 
-   String message = "";
+    String message = "";
 
-try {
-  // Your API call or logic here
+    try {
+      // Your API call or logic here
 
-  if (apiException.response != null &&
-      apiException.response!.data != null &&
-      apiException.response!.data!.containsKey("errors")) {
-    final errors = apiException.response!.data!["errors"];
+      if (apiException.response != null &&
+          apiException.response!.data != null &&
+          apiException.response!.data!.containsKey("errors")) {
+        final errors = apiException.response!.data!["errors"];
 
-    if (errors is Map) {
-      final phoneErrors = errors["phone"] ?? [];
-      final passwordErrors = errors["password"] ?? [];
+        if (errors is Map) {
+          final phoneErrors = errors["phone"] ?? [];
+          final passwordErrors = errors["password"] ?? [];
 
-      if (phoneErrors.isNotEmpty) {
-        // Handle phone field errors
-        message = phoneErrors.join(", ");
+          if (phoneErrors.isNotEmpty) {
+            // Handle phone field errors
+            message = phoneErrors.join(", ");
+          }
+
+          if (passwordErrors.isNotEmpty) {
+            // Handle password field errors
+            message = passwordErrors.join(", ");
+          }
+        } else {
+          // Handle unexpected error structure
+          message = "Something wrong";
+        }
+      } else {
+        // Handle other types of errors
+        message = apiException.response!.data["message"];
       }
-
-      if (passwordErrors.isNotEmpty) {
-        // Handle password field errors
-        message = passwordErrors.join(", ");
-      }
-    } else {
-      // Handle unexpected error structure
-      message = "Something wrong";
+    } catch (error) {
+      // Handle other types of errors, e.g., network errors or unexpected exceptions
+      message = "An unexpected error occurred";
     }
-  } else {
-    // Handle other types of errors
-    message = "An error occurred";
-  }
-} catch (error) {
-  // Handle other types of errors, e.g., network errors or unexpected exceptions
-  message = "An unexpected error occurred";
-}
 
 // Provide a default message if the response doesn't contain errors.
-if (message.isEmpty) {
-  message = "Unknown error";
-}
+    if (message.isEmpty) {
+      message = "Unknown error";
+    }
 
-Fluttertoast.showToast(
-  msg: message,
-  toastLength: Toast.LENGTH_SHORT,
-  gravity: ToastGravity.BOTTOM_RIGHT,
-  timeInSecForIosWeb: 2,
-  backgroundColor: Colors.red,
-  textColor: Colors.white,
-  fontSize: 16.0,
-);
-
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM_RIGHT,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   static void handleAuthError(ApiException apiException) {

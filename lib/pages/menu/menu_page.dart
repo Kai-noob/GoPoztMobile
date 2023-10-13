@@ -5,6 +5,7 @@ import 'package:iconoir_flutter/iconoir_flutter.dart';
 import 'package:mengo_delivery/controllers/menu_controller.dart';
 import 'package:mengo_delivery/routes/app_pages.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../utils/unicorn_icon_widdget.dart';
 
@@ -34,23 +35,23 @@ class _DashboardPageState extends State<DashboardPage> {
             radius: 50,
             onPressed: () {},
             child: FloatingActionButton(
-                backgroundColor: primaryColor,
+                backgroundColor: Colors.white,
                 elevation: 1,
                 onPressed: () {
                   Get.toNamed(Routes.delivery);
                 },
                 child: const Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(5.0),
                     child: BoxIso(
-                      height: 50,
-                      width: 50,
-                      color: Colors.white,
+                      height: 35,
+                      width: 30,
+                      color: primaryColor,
                     )))),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           height: 60,
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: primaryColor,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,22 +60,34 @@ class _DashboardPageState extends State<DashboardPage> {
                   onPressed: () {
                     Get.find<DashboardController>().selectHomePage();
                   },
-                  icon: const HomeSimpleDoor()),
+                  icon: const HomeSimpleDoor(
+                    height: 24,
+                    color: Colors.white,
+                  )),
               IconButton(
                   onPressed: () {
                     Get.find<DashboardController>().selectHistoryPage();
                   },
-                  icon: const Clock()),
+                  icon: const Clock(
+                    height: 24,
+                    color: Colors.white,
+                  )),
               IconButton(
                   onPressed: () {
                     Get.find<DashboardController>().selectNotificationPage();
                   },
-                  icon: const BellNotification()),
+                  icon: const BellNotification(
+                    height: 24,
+                    color: Colors.white,
+                  )),
               IconButton(
                   onPressed: () {
                     Get.find<DashboardController>().selectSettingPage();
                   },
-                  icon: const UserCircle()),
+                  icon: const UserCircle(
+                    height: 24,
+                    color: Colors.white,
+                  )),
             ],
           ),
         ),

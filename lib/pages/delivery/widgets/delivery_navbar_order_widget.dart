@@ -34,8 +34,8 @@ class DeliveryNavBarOrderWidget extends StatelessWidget {
             child: Text(
               "Order now",
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.sp,
+                  color: Colors.white,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500),
             ),
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import '../../../controllers/home_controller.dart';
 import 'online_shop_card.dart';
 
@@ -21,7 +20,9 @@ class OnlineShopsGrid extends StatelessWidget {
           mainAxisSpacing: 20,
           crossAxisSpacing: 35,
         ),
-        itemCount: controller.onlineShops.length,
+        itemCount: controller.onlineShops.length > 8
+            ? 8
+            : controller.onlineShops.length,
         itemBuilder: (BuildContext context, int index) {
           return OnlineShopCard(shop: controller.onlineShops[index]);
         },

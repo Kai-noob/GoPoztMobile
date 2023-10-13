@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_backbutton.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
 
-
 import 'order/create_order/create_order_page.dart';
 
 import 'order/order_history/order_history_page.dart';
@@ -37,7 +36,7 @@ class DeliveryMainPage extends StatelessWidget {
         ),
         bottomNavigationBar: DeliveryBottomNavBarWidget(
           controller: controller,
-          senders:controller.senders,
+          senders: controller.senders,
           receivers: controller.receivers,
         ),
       ),

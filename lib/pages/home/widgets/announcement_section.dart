@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mengo_delivery/pages/home/home_page.dart';
 
 import '../../../controllers/home_controller.dart';
-
+import 'announcement_card.dart';
 
 class AnnouncementsSection extends StatelessWidget {
   final HomeController controller;

@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
+
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+
 import 'package:logger/logger.dart';
-import 'package:lottie/lottie.dart';
+import 'package:mengo_delivery/helpers/snackbar_helper.dart';
+
 import 'package:mengo_delivery/models/category_model.dart';
 import 'package:mengo_delivery/models/city_model.dart';
 
@@ -349,6 +350,17 @@ class DeliveryController extends GetxController {
 
   createOrder(BuildContext context, List<SenderModel> senders,
       List<ReceiverModel> receivers) async {
+    if (senders.isEmpty) {
+      SnackBarHelper.showErrorMessage(
+        context: context,
+        title: "Please fill sender info",
+      );
+      return;
+    }
+    if (receivers.isEmpty) {
+      Fluttertoast.showToast(msg: "Please fill receiver info");
+      return;
+    }
     // *) perform api call
     await BaseClient.safeApiCall(
       ApiUrls.ordersUrl, // url
@@ -371,10 +383,6 @@ class DeliveryController extends GetxController {
         'receivers': jsonEncode(receivers),
       }),
       onLoading: () {
-        context.loaderOverlay.show(
-            widget: Material(
-                child:
-                    Center(child: Lottie.asset("assets/images/loading.json"))));
         apiCallStatus = ApiCallStatus.loading;
         update();
       },
@@ -384,11 +392,9 @@ class DeliveryController extends GetxController {
         Logger().d(response.data);
 
         Get.offAllNamed(Routes.dashboard);
-        IconSnackBar.show(
-            context: context,
-            snackBarType: SnackBarType.alert,
-            label: response.data["message"]);
-        context.loaderOverlay.hide();
+        SnackBarHelper.showSuccessMessage(
+            context: context, title: response.data["message"]);
+
         clearFromCache();
 
         // *) indicate success state
@@ -401,7 +407,6 @@ class DeliveryController extends GetxController {
         // show error message to user
         BaseClient.handleApiError(error);
 
-        context.loaderOverlay.hide();
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
         update();
@@ -409,12 +414,5 @@ class DeliveryController extends GetxController {
     );
   }
 
-  void showSnackBar(
-      BuildContext context, String message, SnackBarType snackBarType) {
-    IconSnackBar.show(
-      context: context,
-      label: message,
-      snackBarType: snackBarType,
-    );
-  }
+ 
 }

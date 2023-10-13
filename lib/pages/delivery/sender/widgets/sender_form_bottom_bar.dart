@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/delivery_controller.dart';
+import '../../../../helpers/snackbar_helper.dart';
 import '../../../../models/sender_model.dart';
 import 'sender_clear_all_widget.dart';
 import 'sender_confirm_widget.dart';
-
 
 class SenderFormBottomBar extends StatelessWidget {
   final DeliveryController controller;
@@ -43,20 +43,20 @@ class SenderFormBottomBar extends StatelessWidget {
               }
               if (controller.senderCityName.isEmpty ||
                   controller.senderTownshipName.isEmpty) {
-                IconSnackBar.show(
+                SnackBarHelper.showErrorMessage(
                   context: context,
-                  label: "Please Select City And Township",
-                  snackBarType: SnackBarType.alert,
+                  title: "Please Select City And Township",
                 );
+
                 return;
               }
 
               if (controller.pickUpTime.isEmpty) {
-                IconSnackBar.show(
+                SnackBarHelper.showErrorMessage(
                   context: context,
-                  label: "Please Select Pick Up Time",
-                  snackBarType: SnackBarType.alert,
+                  title: "Please Select Pick Up Time",
                 );
+
                 return;
               }
 

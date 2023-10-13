@@ -22,7 +22,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
           child: Text(
             "Way 1",
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 13.sp,
               fontWeight: FontWeight.w500,
             ),

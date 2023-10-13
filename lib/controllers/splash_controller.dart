@@ -40,7 +40,7 @@ class SplashController extends GetxController {
   getProfile() async {
     //profile
     await BaseClient.safeApiCall(
-      ApiUrls.profileUrl, 
+      ApiUrls.profileUrl,
       RequestType.get,
       headers: {
         'Accept': 'application/json',
@@ -68,6 +68,7 @@ class SplashController extends GetxController {
 
         if (error.response!.statusCode == 401) {
           invalidToken = true;
+          MySharedPref.clear();
           update();
         }
         // *) indicate error status

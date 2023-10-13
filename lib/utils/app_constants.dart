@@ -80,7 +80,7 @@ class AppConstants {
     height: 7.h,
   );
 
-  static List<LanguageModel> languages = [
+static List<LanguageModel> languages = [
     LanguageModel(
         imageUrl: "",
         languageName: 'English',

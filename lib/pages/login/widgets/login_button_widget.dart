@@ -4,7 +4,6 @@ import '../../../controllers/auth_controller.dart';
 import '../../../models/login_model.dart';
 import '../../../utils/app_colors.dart';
 
-
 class LoginButtonWidget extends StatelessWidget {
   const LoginButtonWidget({
     super.key,
@@ -12,7 +11,10 @@ class LoginButtonWidget extends StatelessWidget {
     required AuthController authController,
     required TextEditingController phoneController,
     required TextEditingController passwordController,
-  }) : _formKey = formKey, _authController = authController, _phoneController = phoneController, _passwordController = passwordController;
+  })  : _formKey = formKey,
+        _authController = authController,
+        _phoneController = phoneController,
+        _passwordController = passwordController;
 
   final GlobalKey<FormState> _formKey;
   final AuthController _authController;
@@ -24,6 +26,7 @@ class LoginButtonWidget extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Container(
+          width: double.infinity,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(100)),
               color: primaryColor),

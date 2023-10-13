@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mengo_delivery/controllers/localization_controller.dart';
+
 
 class LanguagePage extends StatelessWidget {
   LanguagePage({super.key});
 
-  final LocalizationController _localizationController =
-      Get.find<LocalizationController>();
+  // final LocalizationController _localizationController =
+  //     Get.find<LocalizationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LanguagePage extends StatelessWidget {
         ListTile(
           title: const Text("Myanmar"),
           onTap: () {
-            _localizationController.setLanguage(const Locale('mm'));
+            // _localizationController.setLanguage(const Locale('mm'));
           },
         ),
         ListTile(

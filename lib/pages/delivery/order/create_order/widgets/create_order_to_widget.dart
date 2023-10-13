@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_divider.dart';
 import 'package:mengo_delivery/components/custom_text.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
+import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../../routes/app_pages.dart';
@@ -21,7 +22,7 @@ class CreateOrderToWidget extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(30)),
+            color: primaryColor, borderRadius: BorderRadius.circular(30)),
         child: const CustomText(
           text: "To",
           color: Colors.white,

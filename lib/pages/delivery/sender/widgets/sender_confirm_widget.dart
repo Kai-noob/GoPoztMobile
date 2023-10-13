@@ -4,13 +4,9 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../utils/app_colors.dart';
 
-
 class SenderConfirmWidget extends StatelessWidget {
   final VoidCallback onTap;
-  const SenderConfirmWidget({
-    super.key,
-    required this.onTap
-  });
+  const SenderConfirmWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +21,8 @@ class SenderConfirmWidget extends StatelessWidget {
           child: Text(
             "Confirm",
             style: TextStyle(
-                color: black,
-                fontSize: 15.sp,
+                color: Colors.white,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500),
           ),
         ),

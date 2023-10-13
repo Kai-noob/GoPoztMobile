@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
-
+import 'package:mengo_delivery/utils/app_colors.dart';
 
 class ReceiverWayCountWidget extends StatelessWidget {
   const ReceiverWayCountWidget({
@@ -17,7 +15,7 @@ class ReceiverWayCountWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         width: 100,
         decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(10)),
+            color: primaryColor, borderRadius: BorderRadius.circular(10)),
         child: Text(
           "WAY 1",
           style: TextStyle(

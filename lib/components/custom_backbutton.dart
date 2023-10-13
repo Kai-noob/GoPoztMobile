@@ -11,7 +11,7 @@ class CustomBackButton extends StatelessWidget {
       onPressed: () => Get.back(),
       icon: const Icon(
         Icons.arrow_back_ios,
-        color: blackColor,
+        color: Colors.white,
         size: 22,
       ),
     );

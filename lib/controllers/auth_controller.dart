@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
+
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+
 import 'package:logger/logger.dart';
-import 'package:lottie/lottie.dart';
 
 import 'package:mengo_delivery/helpers/shared_pref_helper.dart';
+import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 import 'package:mengo_delivery/models/register_model.dart';
 import 'package:mengo_delivery/routes/app_pages.dart';
-
 
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
@@ -16,7 +15,6 @@ import '../models/login_model.dart';
 import '../utils/api_url.dart';
 
 class AuthController extends GetxController {
-
   List<dynamic>? data;
 
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
@@ -35,10 +33,7 @@ class AuthController extends GetxController {
       },
       onLoading: () {
         // *) indicate loading state
-        context.loaderOverlay.show(
-            widget: Material(
-                child:
-                    Center(child: Lottie.asset("assets/images/loading.json"))));
+
         apiCallStatus = ApiCallStatus.loading;
         update();
       },
@@ -47,11 +42,9 @@ class AuthController extends GetxController {
 
         MySharedPref.setToken(response.data["token"]);
         Get.offAllNamed(Routes.dashboard);
-        IconSnackBar.show(
-            context: context,
-            snackBarType: SnackBarType.alert,
-            label: 'Successfully registerd.');
-        context.loaderOverlay.hide();
+        SnackBarHelper.showSuccessMessage(
+            context: context, title: "Successfully registerd.");
+
         // Get.offNamed(Routes.LOGIN);
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
@@ -63,7 +56,7 @@ class AuthController extends GetxController {
       onError: (error) {
         // show error message to user
         BaseClient.handleApiError(error);
-        context.loaderOverlay.hide();
+
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
         update();
@@ -86,10 +79,6 @@ class AuthController extends GetxController {
         "password": loginModel.password
       },
       onLoading: () {
-        context.loaderOverlay.show(
-            widget: Material(
-                child:
-                    Center(child: Lottie.asset("assets/images/loading.json"))));
         apiCallStatus = ApiCallStatus.loading;
         update();
       },
@@ -99,11 +88,8 @@ class AuthController extends GetxController {
         Logger().d(response.data["token"]);
         MySharedPref.setToken(response.data["token"]);
         Get.offAllNamed(Routes.dashboard);
-        IconSnackBar.show(
-            context: context,
-            snackBarType: SnackBarType.alert,
-            label: response.data["message"]);
-        context.loaderOverlay.hide();
+        SnackBarHelper.showSuccessMessage(
+            context: context, title: "Successfully logined.");
 
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
@@ -115,7 +101,6 @@ class AuthController extends GetxController {
         // show error message to user
         BaseClient.handleApiError(error);
 
-        context.loaderOverlay.hide();
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
         update();

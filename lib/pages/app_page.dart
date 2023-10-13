@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+
 import 'package:mengo_delivery/bindings/init_binding.dart';
 import 'package:mengo_delivery/controllers/localization_controller.dart';
 
@@ -24,19 +24,17 @@ class App extends StatelessWidget {
       builder: (context, child) {
         return GetBuilder<LocalizationController>(
             builder: (localizationController) {
-          return GlobalLoaderOverlay(
-            child: GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: ThemeHelper.lightTheme,
-              translations: Messages(languages: languages),
-              fallbackLocale: Locale(AppConstants.languages[0].languageCode!,
-                  AppConstants.languages[0].countryCode),
-              locale: localizationController.locale,
-              initialRoute:
-                  AppPages.INITIAL, // first screen to show when app is running
-              getPages: AppPages.routes,
-              initialBinding: InitBinding(),
-            ),
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeHelper.lightTheme,
+            translations: Messages(languages: languages),
+            fallbackLocale: Locale(AppConstants.languages[0].languageCode!,
+                AppConstants.languages[0].countryCode),
+            locale: localizationController.locale,
+            initialRoute:
+                AppPages.INITIAL, // first screen to show when app is running
+            getPages: AppPages.routes,
+            initialBinding: InitBinding(),
           );
         });
       },
