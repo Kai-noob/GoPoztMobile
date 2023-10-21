@@ -7,7 +7,7 @@ import 'package:mengo_delivery/controllers/delivery_controller.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
-import '../../../services/api_call_status.dart';
+import '../../../network/api_call_status.dart';
 import 'widgets/sender_form.dart';
 import 'widgets/sender_form_bottom_bar.dart';
 

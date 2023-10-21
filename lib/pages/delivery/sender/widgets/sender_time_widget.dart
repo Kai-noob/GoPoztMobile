@@ -2,6 +2,7 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:nb_utils/nb_utils.dart';
 
@@ -10,12 +11,7 @@ import '../../../../utils/app_colors.dart';
 
 class SenderTimeWidget extends StatelessWidget {
   final DeliveryController controller;
-  SenderTimeWidget({
-    super.key,
-    required this.controller
-  });
-
-
+  const SenderTimeWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +28,12 @@ class SenderTimeWidget extends StatelessWidget {
                   () => Text(
                     controller.pickUpTime.isEmpty
                         ? "Pick up time"
-                        : controller.pickUpTime,
+                        : DateFormat(
+                            "d/M/y hh:mm a",
+                          ).format(DateTime.parse(controller.pickUpTime)),
                     style: TextStyle(
                         color: black,
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -64,9 +62,9 @@ class SenderTimeWidget extends StatelessWidget {
         print('Picker closed');
       },
       buttonText: 'Confirm',
-      buttonTextStyle: const TextStyle(color: Colors.black),
+      buttonTextStyle: const TextStyle(color: Colors.white),
       buttonSingleColor: primaryColor,
-      iconColor: Colors.black,
+      iconColor: Colors.white,
       minDateTime: DateTime.now(),
       maxDateTime: DateTime.now().add(const Duration(days: 50)),
       gradientColors: const [Color(0xfffdcbf1), Color(0xffe6dee9)],

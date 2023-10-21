@@ -28,7 +28,7 @@ class ReceiverDeliveryTimeWidget extends StatelessWidget {
                         : controller.deliveryTime.capitalize!,
                     style: TextStyle(
                         color: black,
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                 ),

@@ -26,7 +26,7 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                     ? "Parcel Size"
                     : controller.parcelSize,
                 style: TextStyle(
-                    color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                    color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
             const Icon(
@@ -61,23 +61,23 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          controller.setParcelSize("Sm");
+                          controller.setParcelSize("sm");
                         },
                         child: Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: controller.parcelSize == "Sm"
+                              color: controller.parcelSize == "sm"
                                   ? primaryColor
                                   : Colors.white,
                               border: Border.all(
-                                  color: controller.parcelSize == "Sm"
+                                  color: controller.parcelSize == "sm"
                                       ? primaryColor
                                       : Colors.black),
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            "Sm",
+                            "sm",
                             style: TextStyle(
-                                color: controller.parcelSize == "Sm"
+                                color: controller.parcelSize == "sm"
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 15.sp,
@@ -87,22 +87,22 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                       ),
                       10.horizontalSpace,
                       GestureDetector(
-                        onTap: () => controller.setParcelSize("m"),
+                        onTap: () => controller.setParcelSize("md"),
                         child: Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: controller.parcelSize == "m"
+                              color: controller.parcelSize == "md"
                                   ? primaryColor
                                   : Colors.white,
                               border: Border.all(
-                                  color: controller.parcelSize == "m"
+                                  color: controller.parcelSize == "md"
                                       ? primaryColor
                                       : Colors.black),
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            "m",
+                            "md",
                             style: TextStyle(
-                                color: controller.parcelSize == "m"
+                                color: controller.parcelSize == "md"
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 15.sp,

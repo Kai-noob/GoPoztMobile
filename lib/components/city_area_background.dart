@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CityAreaBackground extends StatelessWidget {
   final Widget child;
@@ -12,8 +12,8 @@ class CityAreaBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300.0,
-      height: 400.0,
+      // width: 300.0,
+      height: 400.0.h,
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),

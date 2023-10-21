@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../controllers/delivery_controller.dart';
+
 
 class OrderHistoryStatusWidget extends StatelessWidget {
+    final int index;
+  final DeliveryController controller;
+  
   const OrderHistoryStatusWidget({
-    super.key,
+    super.key, required this.index, required this.controller,
+    
   });
 
   @override
@@ -14,7 +20,7 @@ class OrderHistoryStatusWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerRight,
         child: Text(
-          "Pending..",
+          controller.orders[index].status.toUpperCase(),
           style: TextStyle(
               color: Colors.black,
               fontSize: 13.sp,

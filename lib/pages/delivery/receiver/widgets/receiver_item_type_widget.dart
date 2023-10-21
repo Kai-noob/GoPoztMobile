@@ -17,7 +17,7 @@ class ReceiverItemTypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Expanded(
-          flex: 3,
+          flex: 4,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: DropdownButtonFormField<CategoryModel>(
@@ -29,7 +29,7 @@ class ReceiverItemTypeWidget extends StatelessWidget {
                       value: e,
                       child: Text(
                         e.name,
-                        style: TextStyle(color: Colors.black, fontSize: 13.sp),
+                        style: TextStyle(color: Colors.black, fontSize: 14.sp),
                       )))
                   .toList(),
               onChanged: (value) {
@@ -39,7 +39,7 @@ class ReceiverItemTypeWidget extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                    color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                    color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                 hintText: "Item type",
               ),
             ),

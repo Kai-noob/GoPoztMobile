@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../services/api_call_status.dart';
+import '../network/api_call_status.dart';
 
 class MyWidgetsAnimator extends StatelessWidget {
   final ApiCallStatus apiCallStatus;

@@ -21,10 +21,14 @@ class CityModel {
 
 class City {
   int id;
+
+  int isAvailable;
   String name;
 
   City({
     required this.id,
+
+    required this.isAvailable,
     required this.name,
   });
 
@@ -32,6 +36,8 @@ class City {
     return City(
       id: json['id'],
       name: json['name'],
+
+      isAvailable: json['isAvailable']
     );
   }
 }

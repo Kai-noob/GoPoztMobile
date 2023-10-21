@@ -9,10 +9,7 @@ import '../../../../utils/app_colors.dart';
 
 class ReceiverCashAmountWidget extends StatelessWidget {
   final DeliveryController controller;
-  const ReceiverCashAmountWidget({
-    super.key,
-    required this.controller
-  });
+  const ReceiverCashAmountWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -22,76 +19,20 @@ class ReceiverCashAmountWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: TextFormField(
           initialValue: controller.receiverCashAmount,
-          onChanged: (value)=>controller.setReceiverCashAmount(value),
+          onChanged: (value) => controller.setReceiverCashAmount(value),
           validator: ValidatorHelper().cashValidator,
-          keyboardType: TextInputType.name,
-          style: primaryTextStyle(
-              color: black, weight: FontWeight.normal, size: 12),
+          keyboardType: TextInputType.number,
+          style: TextStyle(
+              color: black, fontWeight: FontWeight.normal, fontSize: 14.sp),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.zero,
             border: InputBorder.none,
             hintText: "Collect cash amount",
             hintStyle: TextStyle(
-                color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ),
       ),
     );
-  }
-
-  void _openCollectButton(BuildContext context) {
-    showBarModalBottomSheet(
-        context: context,
-        builder: (context) => SizedBox(
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    15.verticalSpace,
-                    Text(
-                      "Collect Payment",
-                      style: TextStyle(
-                          color: black,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    30.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: primaryColor),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: white),
-                            onPressed: () {},
-                            child: const Text(
-                              "Collect from sender",
-                              style: TextStyle(color: primaryColor),
-                            )),
-                        8.horizontalSpace,
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: primaryColor),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: white),
-                            onPressed: () {},
-                            child: const Text(
-                              "Collect from recipient",
-                              style: TextStyle(color: primaryColor),
-                            )),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ));
   }
 }

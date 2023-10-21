@@ -2,10 +2,10 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:mengo_delivery/models/announcement_model.dart';
 import 'package:mengo_delivery/models/online_shop_model.dart';
-import 'package:mengo_delivery/services/api_call_status.dart';
+import 'package:mengo_delivery/network/api_call_status.dart';
 
 import '../helpers/shared_pref_helper.dart';
-import '../services/base_client.dart';
+import '../network/base_client.dart';
 import '../utils/api_url.dart';
 
 class HomeController extends GetxController {
@@ -16,9 +16,10 @@ class HomeController extends GetxController {
 
   final RxList<OnlineShop> _onlineShops = RxList.empty();
   List<OnlineShop> get onlineShops => _onlineShops.toList();
+  final BaseClient _baseClient = BaseClient();
 
-  getAnouncements() async {
-    await BaseClient.safeApiCall(
+  Future<void> getAnouncements() async {
+    await _baseClient.safeApiCall(
       ApiUrls.anounementsUrl, // url
       RequestType.get,
       headers: {
@@ -43,14 +44,14 @@ class HomeController extends GetxController {
 
       onError: (error) {
         apiCallStatus = ApiCallStatus.error;
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
         update();
       },
     );
   }
 
-  getOnlineShops() async {
-    await BaseClient.safeApiCall(
+  Future<void> getOnlineShops() async {
+    await _baseClient.safeApiCall(
       ApiUrls.onlineshopsUrl, // url
       RequestType.get,
       headers: {
@@ -75,16 +76,19 @@ class HomeController extends GetxController {
 
       onError: (error) {
         apiCallStatus = ApiCallStatus.error;
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
         update();
       },
     );
   }
 
+  Future<void> getData() async {
+    await Future.wait([getAnouncements(), getOnlineShops()]);
+  }
+
   @override
   void onInit() {
-    getAnouncements();
-    getOnlineShops();
+    getData();
     super.onInit();
   }
 }

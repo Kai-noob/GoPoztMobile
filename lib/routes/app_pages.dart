@@ -10,6 +10,7 @@ import 'package:mengo_delivery/pages/signup/sign_up_page.dart';
 import 'package:mengo_delivery/pages/splash/splash_page.dart';
 
 import '../bindings/auth_binding.dart';
+import '../bindings/splash_binding.dart';
 import '../pages/delivery/sender/sender_main_page.dart';
 
 part 'app_routes.dart';
@@ -26,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.home,
-      page: () => HomePage(),
+      page: () => const HomePage(),
     ),
     GetPage(
       name: _Paths.register,
@@ -39,12 +40,12 @@ class AppPages {
       binding: AuthBinding(),
     ),
     GetPage(
-      name: _Paths.splash,
-      page: () => SplashPage(),
-    ),
+        name: _Paths.splash,
+        page: () => const SplashPage(),
+        binding: SplashBinding()),
     GetPage(
         name: _Paths.delivery,
-        page: () => DeliveryMainPage(),
+        page: () => const DeliveryMainPage(),
         binding: DeliveryBinding()),
     GetPage(
         name: _Paths.recipient,

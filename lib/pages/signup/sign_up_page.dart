@@ -6,7 +6,7 @@ import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 import 'package:mengo_delivery/controllers/auth_controller.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
-import '../../services/api_call_status.dart';
+import '../../network/api_call_status.dart';
 import '../../utils/app_colors.dart';
 import 'widgets/sign_up_button_widget.dart';
 import 'widgets/sign_up_login_widget.dart';

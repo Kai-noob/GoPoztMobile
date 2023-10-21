@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/controllers/profile_controller.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
-import '../../services/api_call_status.dart';
+import '../../network/api_call_status.dart';
 import '../../utils/app_colors.dart';
+import 'widgets/logout_dialog.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -27,40 +28,55 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: ListView(
               children: [
-                // User card
-                BigUserCard(
-                  settingColor: Colors.white,
-                  // cardColor: Colors.red,
-                  userName: controller.userModel.name,
-                  // backgroundColor: primaryColor,
-                  userMoreInfo: Column(children: [
-                    Text(
-                      controller.userModel.phone,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ]),
-
+                SimpleUserCard(
                   userProfilePic:
                       const AssetImage("assets/images/profile.jpeg"),
-                  cardActionWidget: SettingsItem(
-                    icons: Icons.edit,
-                    iconStyle: IconStyle(
-                      withBackground: true,
-                      borderRadius: 50,
-                      backgroundColor: Colors.yellow[600],
-                    ),
-                    title: "Edit Profile",
-                    subtitle: "Tap to change your data",
-                    onTap: () {
-                      print("OK");
-                    },
-                  ),
+                  userName: controller.userModel.name,
                 ),
+                // User card
+                // BigUserCard(
+                //   settingColor: Colors.white,
+                //   // cardColor: Colors.red,
+                //   userName: controller.userModel.name,
+                //   // backgroundColor: primaryColor,
+                //   userMoreInfo: Column(children: [
+                //     Text(
+                //       controller.userModel.phone,
+                //       style: const TextStyle(
+                //           color: Colors.black,
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.w500),
+                //     )
+                //   ]),
+
+                //   userProfilePic:
+                //       const
+                //   cardActionWidget: SettingsItem(
+                //     icons: Icons.edit,
+                //     iconStyle: IconStyle(
+                //       withBackground: true,
+                //       borderRadius: 50,
+                //       backgroundColor: Colors.yellow[600],
+                //     ),
+                //     title: "Edit Profile",
+                //     subtitle: "Tap to change your data",
+                //     onTap: () {
+                //       print("OK");
+                //     },
+                //   ),
+                // ),
                 SettingsGroup(
                   items: [
+                    SettingsItem(
+                      onTap: () {},
+                      icons: Icons.edit,
+                      iconStyle: IconStyle(
+                          iconsColor: Colors.white,
+                          withBackground: true,
+                          backgroundColor: primaryColor),
+                      title: 'Edit Profile',
+                      subtitle: "Tap to change your profile",
+                    ),
                     SettingsItem(
                       onTap: () {},
                       icons: Icons.language,
@@ -126,7 +142,9 @@ class SettingPage extends StatelessWidget {
                   items: [
                     SettingsItem(
                       onTap: () {
-                        controller.logout(context);
+                        showLogoutDialog(context, () {
+                          controller.logout(context);
+                        });
                       },
                       icons: Icons.logout,
                       title: "Sign Out",
@@ -148,5 +166,16 @@ class SettingPage extends StatelessWidget {
         ),
       );
     });
+  }
+
+  void showLogoutDialog(BuildContext context, VoidCallback onTap) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return LogoutDialog(
+          onTap: onTap,
+        );
+      },
+    );
   }
 }

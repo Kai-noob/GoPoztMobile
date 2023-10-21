@@ -10,4 +10,9 @@ static const loginUrl = '$baseUrl/customer/sign-in';
 
   static const citiesUrl = '$baseUrl/customer/cities';
   static const ordersUrl = '$baseUrl/customer/orders';
+  static const waysUrl = '$baseUrl/customer/ways/from';
+
+  static const extraFeesUrl = '$baseUrl/customer/setting';
+
+
 }

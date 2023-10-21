@@ -6,6 +6,8 @@ import 'package:mengo_delivery/components/custom_backbutton.dart';
 import 'package:mengo_delivery/components/custom_divider.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/models/category_model.dart';
+import 'package:mengo_delivery/models/parcel_model.dart';
 
 import 'package:mengo_delivery/models/receiver_model.dart';
 
@@ -18,7 +20,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
 import '../../../helpers/snackbar_helper.dart';
-import '../../../services/api_call_status.dart';
+import '../../../network/api_call_status.dart';
 import '../../../utils/app_colors.dart';
 import 'widgets/receiver_address_widget.dart';
 import 'widgets/receiver_cash_amount_widget.dart';
@@ -38,13 +40,18 @@ import 'widgets/receiver_vertical_divider_widget.dart';
 import 'widgets/receiver_weight_widget.dart';
 
 class ReceiverMainPage extends StatelessWidget {
-  ReceiverMainPage({super.key});
+  ReceiverMainPage({
+    super.key,
+  });
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // final DeliveryController controller = Get.find<DeliveryController>();
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder<DeliveryController>(builder: (controller) {
+          // controller.getReceiverCities();
       return OverlayLoaderWithAppIcon(
         isLoading: controller.apiCallStatus == ApiCallStatus.loading,
         overlayBackgroundColor: Colors.black,
@@ -56,7 +63,7 @@ class ReceiverMainPage extends StatelessWidget {
             leading: const CustomBackButton(),
           ),
           body: Form(
-            key: _formKey,
+            key: formKey,
             child: ListView(padding: AppConstants.defaultPadding, children: [
               Container(
                 padding:
@@ -68,7 +75,9 @@ class ReceiverMainPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       10.verticalSpace,
-                      const ReceiverWayCountWidget(),
+                      ReceiverWayCountWidget(
+                        controller: controller,
+                      ),
                       SizedBox(
                         height: 35.h,
                         child: Row(
@@ -198,7 +207,13 @@ class ReceiverMainPage extends StatelessWidget {
               const ReceiverEstimationWidget(),
               ReceiverConfirmWidget(
                 onTap: () {
-                  if (!_formKey.currentState!.validate()) {
+                  if (!formKey.currentState!.validate()) {
+                    Future.delayed(Duration.zero, () {
+                      SnackBarHelper.showErrorMessage(
+                        context: context,
+                        title: "Please fix the errors above.",
+                      );
+                    });
                     return; // Exit early if form validation fails.
                   }
 
@@ -227,15 +242,37 @@ class ReceiverMainPage extends StatelessWidget {
                   }
 
                   controller.saveReceiverForm(
-                    ReceiverModel(
-                      name: controller.receiverName,
-                      phone: controller.receiverNumber,
-                      cityId: controller.receiverCityId,
-                      townshipId: controller.receiverTownshipId,
-                      street: controller.receiverAddress,
-                      description: controller.receiverNote,
-                    ),
+                    context,
+                    ParcelModel(
+                        pickupTime: controller.pickUpTime,
+                        deliveryTime: controller.deliveryTime,
+                        itemType: controller.selectedCategory.name,
+                        prepaid: controller.isPrepaid == true ? 1 : 0,
+                        parcelSize: controller.parcelSize,
+                        parcelWeight: controller.parcelWeight,
+                        parcelPhotos: ["fsdfsdf", "dfsfs"],
+                        collectCashAmount:
+                            double.parse(controller.receiverCashAmount),
+                        receiver: ReceiverModel(
+                          name: controller.receiverName,
+                          phone: controller.receiverNumber,
+                          cityId: controller.receiverCityId,
+                          townshipId: controller.receiverTownshipId,
+                          street: controller.receiverAddress,
+                          description: controller.receiverNote,
+                        )),
                   );
+                  controller.setReceiverName("");
+                  controller.setReceiverNumber("");
+                  controller.selectReceiverCity(0, "");
+                  controller.selectReceiverTownship(0, "");
+                  controller.setReceiverAddress("");
+                  controller.setDeliveryTime("");
+                  controller.changePrepaid(false);
+                  controller.setParcelSize("");
+                  controller.setReceiverCashAmount("");
+                  controller.setReceiverNote("");
+                  // controller.set
                 },
               )
             ]),

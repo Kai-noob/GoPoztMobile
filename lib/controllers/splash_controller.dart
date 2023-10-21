@@ -6,10 +6,10 @@ import 'package:mengo_delivery/routes/app_pages.dart';
 
 import 'dart:async';
 
-import 'package:mengo_delivery/services/api_call_status.dart';
+import 'package:mengo_delivery/network/api_call_status.dart';
 import 'package:mengo_delivery/utils/api_url.dart';
 
-import '../../../services/base_client.dart';
+import '../network/base_client.dart';
 
 class SplashController extends GetxController {
   Timer? _timer;
@@ -17,6 +17,7 @@ class SplashController extends GetxController {
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
 
   bool invalidToken = false;
+  final BaseClient _baseClient = BaseClient();
 
   void checkAuthenticationStatus() async {
     await getProfile();
@@ -39,7 +40,7 @@ class SplashController extends GetxController {
 
   getProfile() async {
     //profile
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.profileUrl,
       RequestType.get,
       headers: {
@@ -56,7 +57,7 @@ class SplashController extends GetxController {
       },
       onSuccess: (response) {
         // api done successfully
-
+  print(response);
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
         update();
@@ -65,7 +66,7 @@ class SplashController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-
+  print(error);
         if (error.response!.statusCode == 401) {
           invalidToken = true;
           MySharedPref.clear();

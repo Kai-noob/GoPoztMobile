@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/models/create_order_model.dart';
+import 'package:mengo_delivery/models/parcel_model.dart';
 
 import 'package:mengo_delivery/models/sender_model.dart';
 
@@ -9,13 +11,13 @@ import '../../../utils/app_colors.dart';
 
 class DeliveryNavBarOrderWidget extends StatelessWidget {
   final DeliveryController controller;
-  final List<SenderModel> senders;
-  final List<ReceiverModel> receivers;
+  final SenderModel sender;
+  final List<ParcelModel> parcels;
   const DeliveryNavBarOrderWidget({
     super.key,
     required this.controller,
-    required this.senders,
-    required this.receivers,
+    required this.sender,
+    required this.parcels,
   });
 
   @override
@@ -24,7 +26,7 @@ class DeliveryNavBarOrderWidget extends StatelessWidget {
         flex: 1,
         child: GestureDetector(
           onTap: () {
-            controller.createOrder(context, senders, receivers);
+            controller.createOrder(context,sender,parcels);
           },
           child: Container(
             alignment: Alignment.center,

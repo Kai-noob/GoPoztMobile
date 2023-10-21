@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mengo_delivery/controllers/delivery_controller.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 
 class ReceiverWayCountWidget extends StatelessWidget {
-  const ReceiverWayCountWidget({
-    super.key,
-  });
+  final DeliveryController controller;
+  const ReceiverWayCountWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ReceiverWayCountWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: primaryColor, borderRadius: BorderRadius.circular(10)),
         child: Text(
-          "WAY 1",
+          "WAY ${controller.parcels.length + 1}",
           style: TextStyle(
             color: Colors.white,
             fontSize: 13.sp,

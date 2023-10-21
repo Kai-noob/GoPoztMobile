@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mengo_delivery/controllers/auth_controller.dart';
-import 'package:mengo_delivery/services/api_call_status.dart';
+import 'package:mengo_delivery/network/api_call_status.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
 import '../../components/auth_clipper.dart';

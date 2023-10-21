@@ -18,12 +18,12 @@ class ReceiverPrepaidWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        flex: 1,
+        flex: 2,
         child: Obx(
           () => Row(children: [
             Text(
               "Prepaid",
-              style: boldTextStyle(size: 12, weight: FontWeight.normal),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal),
             ),
             SizedBox(
               width: 7.w,

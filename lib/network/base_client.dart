@@ -6,9 +6,12 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:get/route_manager.dart';
 
 import 'package:logger/logger.dart';
+import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 import 'package:mengo_delivery/utils/app_cache_part.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -23,7 +26,11 @@ enum RequestType {
 }
 
 class BaseClient {
-  static Dio getDioInstance() {
+  final Dio _dio;
+
+  BaseClient() : _dio = _createDioInstance();
+
+  static Dio _createDioInstance() {
     final Dio dio = Dio(BaseOptions(
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +39,7 @@ class BaseClient {
     ));
 
     _addLoggerInterceptor(dio);
-    _addCacheInterceptor(dio);
+    // _addCacheInterceptor(dio);
 
     return dio;
   }
@@ -55,7 +62,7 @@ class BaseClient {
       options: CacheOptions(
         store:
             HiveCacheStore(AppCachePathProvider.path, hiveBoxName: "go_pozt"),
-        policy: CachePolicy.forceCache,
+        policy: CachePolicy.refreshForceCache,
         hitCacheOnErrorExcept: [401, 404],
         maxStale: const Duration(minutes: 5),
         keyBuilder: (request) {
@@ -73,10 +80,9 @@ class BaseClient {
 
   /// dio getter (used for testing)
   // static get dio => _dio;
-  static final Dio _dio = getDioInstance();
 
   /// perform safe api request
-  static safeApiCall(
+  Future<void> safeApiCall(
     String url,
     RequestType requestType, {
     Map<String, dynamic>? headers,
@@ -150,9 +156,9 @@ class BaseClient {
         url: url,
         onError: onError,
       );
-    } catch (error, stackTrace) {
+    } catch (error) {
       // print the line of code that throw unexpected exception
-      Logger().e(stackTrace);
+      Logger().e(error);
       // unexpected error for example (parsing json error)
       _handleUnexpectedException(
         url: url,
@@ -162,32 +168,32 @@ class BaseClient {
     }
   }
 
-  /// download file
-  static download({
-    required String url, // file url
-    required String savePath, // where to save file
-    Function(ApiException)? onError,
-    Function(int value, int progress)? onReceiveProgress,
-    required Function onSuccess,
-  }) async {
-    try {
-      await _dio.download(
-        url,
-        savePath,
-        options: Options(
-            receiveTimeout: const Duration(seconds: _timeoutInSeconds),
-            sendTimeout: const Duration(seconds: _timeoutInSeconds)),
-        onReceiveProgress: onReceiveProgress,
-      );
-      onSuccess();
-    } catch (error) {
-      var exception = ApiException(url: url, message: error.toString());
-      onError?.call(exception) ??
-          _handleError(
-            error.toString(),
-          );
-    }
-  }
+  // /// download file
+  // static download({
+  //   required String url, // file url
+  //   required String savePath, // where to save file
+  //   Function(ApiException)? onError,
+  //   Function(int value, int progress)? onReceiveProgress,
+  //   required Function onSuccess,
+  // }) async {
+  //   try {
+  //     await _dio.download(
+  //       url,
+  //       savePath,
+  //       options: Options(
+  //           receiveTimeout: const Duration(seconds: _timeoutInSeconds),
+  //           sendTimeout: const Duration(seconds: _timeoutInSeconds)),
+  //       onReceiveProgress: onReceiveProgress,
+  //     );
+  //     onSuccess();
+  //   } catch (error) {
+  //     var exception = ApiException(url: url, message: error.toString());
+  //     onError?.call(exception) ??
+  //         _handleError(
+  //           error.toString(),
+  //         );
+  //   }
+  // }
 
   /// handle unexpected error
   static _handleUnexpectedException({
@@ -289,7 +295,7 @@ class BaseClient {
         return onError(exception);
       } else {
         return handleApiError(
-          exception,
+          apiException: exception,
         );
       }
     }
@@ -300,10 +306,12 @@ class BaseClient {
         response: error.response,
         statusCode: error.response?.statusCode);
     if (onError != null) {
-      return onError(exception);
+      return onError(
+        exception,
+      );
     } else {
       return handleApiError(
-        exception,
+        apiException: exception,
       );
     }
   }
@@ -311,7 +319,8 @@ class BaseClient {
   /// handle error automaticly (if user didnt pass onError) method
   /// it will try to show the message from api if there is no message
   /// from api it will show the reason (the dio message)
-  static void handleApiError(ApiException apiException) {
+  static void handleApiError(
+      {required ApiException apiException, BuildContext? context}) {
     // String msg = apiException.response!.data?["message"]?.toString() ??
     //     "An error occurred";
 
@@ -347,24 +356,20 @@ class BaseClient {
         message = apiException.response!.data["message"];
       }
     } catch (error) {
+      Logger().i(error.toString());
       // Handle other types of errors, e.g., network errors or unexpected exceptions
-      message = "An unexpected error occurred";
+      message = "";
     }
 
 // Provide a default message if the response doesn't contain errors.
     if (message.isEmpty) {
       message = "Unknown error";
     }
-
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM_RIGHT,
-      timeInSecForIosWeb: 2,
-      backgroundColor: Colors.black,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    if (context != null) {
+      // SnackBarHelper.showErrorMessage(context: context, title: message);
+    } else {
+      Fluttertoast.showToast(msg: message);
+    }
   }
 
   static void handleAuthError(ApiException apiException) {

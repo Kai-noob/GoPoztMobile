@@ -23,13 +23,13 @@ class ReceiverNameWidget extends StatelessWidget {
           keyboardType: TextInputType.name,
           validator: ValidatorHelper().nameValidator,
           onChanged: (value) => controller.setReceiverName(value),
-          style: primaryTextStyle(
-              color: black, weight: FontWeight.normal, size: 12),
+          style: TextStyle(
+              color: black, fontWeight: FontWeight.normal, fontSize: 14.sp),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.zero,
             border: InputBorder.none,
             hintStyle: TextStyle(
-                color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
             hintText: "Name",
           ),
         ),

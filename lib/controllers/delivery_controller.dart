@@ -12,6 +12,10 @@ import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 
 import 'package:mengo_delivery/models/category_model.dart';
 import 'package:mengo_delivery/models/city_model.dart';
+import 'package:mengo_delivery/models/create_order_model.dart';
+import 'package:mengo_delivery/models/delivery_model.dart';
+import 'package:mengo_delivery/models/extrafee_model.dart';
+import 'package:mengo_delivery/models/order_model.dart';
 
 import 'package:mengo_delivery/models/parcel_model.dart';
 import 'package:mengo_delivery/models/receiver_model.dart';
@@ -21,13 +25,13 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../helpers/shared_pref_helper.dart';
 import '../routes/app_pages.dart';
-import '../services/api_call_status.dart';
-import '../services/base_client.dart';
+import '../network/api_call_status.dart';
+import '../network/base_client.dart';
 import '../utils/api_url.dart';
 
 class DeliveryController extends GetxController {
-  final Rx<int> _weight = 3.obs;
-  int get weight => _weight.value;
+  final RxDouble _parcelWeight = 3.0.obs;
+  double get parcelWeight => _parcelWeight.value;
   final RxBool _isPrepaid = false.obs;
   bool get isPrepaid => _isPrepaid.value;
 
@@ -35,16 +39,32 @@ class DeliveryController extends GetxController {
   final RxList<CategoryModel> _categories = <CategoryModel>[].obs;
   List<CategoryModel> get categories => _categories.toList();
   final Rx<CategoryModel> _selectedCategory =
-      CategoryModel(id: 1, name: "").obs;
+      CategoryModel(id: 1, name: "", isAvaliable: 0).obs;
   CategoryModel get selectedCategory => _selectedCategory.value;
   final RxList<City> _cities = <City>[].obs;
   List<City> get cities => _cities.toList();
   final RxList<Township> _townships = <Township>[].obs;
   List<Township> get townships => _townships.toList();
 
+  final RxList<Order> _orders = RxList.empty();
+  List<Order> get orders => _orders.toList();
+
+  final RxDouble _urgentFee = 0.0.obs;
+  double get urgentFee => _urgentFee.value;
+
+  final RxDouble _overWeightFee = 0.0.obs;
+  double get overWeightFee => _overWeightFee.value;
+
   //?sender
-  final RxList<SenderModel> _senders = RxList.empty();
-  List<SenderModel> get senders => _senders.toList();
+  final Rx<SenderModel> _sender = SenderModel(
+          name: "",
+          phone: "",
+          cityId: 0,
+          townshipId: 0,
+          street: "",
+          description: "")
+      .obs;
+  SenderModel get sender => _sender.value;
 
   final RxInt _senderCityId = 0.obs;
   int get senderCityId => _senderCityId.value;
@@ -64,8 +84,8 @@ class DeliveryController extends GetxController {
   String get senderNote => _senderNote.value;
 
   //?receiver
-  final RxList<ReceiverModel> _receivers = RxList.empty();
-  List<ReceiverModel> get receivers => _receivers.toList();
+  final RxList<ParcelModel> _parcels = RxList.empty();
+  List<ParcelModel> get parcels => _parcels.toList();
   final RxString _receiverName = "".obs;
   String get receiverName => _receiverName.value;
   final RxString _receiverNumber = "".obs;
@@ -90,26 +110,41 @@ class DeliveryController extends GetxController {
   String get receiverCityName => _receiverCityName.value;
   final RxString _receiverTownshipName = "".obs;
   String get receiverTownshipName => _receiverTownshipName.value;
+  final BaseClient _baseClient = BaseClient();
 
-  // final Rxn<SenderModel> _senderFromCache = Rxn<SenderModel>();
-  // SenderModel? get senderFromCache => _senderFromCache.value;
-  // final Rxn<ReceiverModel> _receiverFromCache = Rxn<ReceiverModel>();
-  // ReceiverModel? get receiverFromCache => _receiverFromCache.value;
-  // final Rxn<ParcelModel> _parcelFromCache = Rxn<ParcelModel>();
-  // ParcelModel? get parcelFromCache => _parcelFromCache.value;
-  // final RxString _pickUpTimeFromCache = "".obs;
-  // String get pickUpTimeFromCache => _pickUpTimeFromCache.value;
+  Future<void> getExtraFees() async {
+    await _baseClient.safeApiCall(
+      ApiUrls.extraFeesUrl, // url
+      RequestType.get,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
 
-  @override
-  void onInit() {
-    getCategories();
-    getCities();
-    getSenderForm();
-    super.onInit();
+      onLoading: () {
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        apiCallStatus = ApiCallStatus.success;
+        ExtraFeeModel extraFeeModel =
+            ExtraFeeModel.fromJson(response.data['setting']);
+        _urgentFee.value = extraFeeModel.urgentFee;
+        _overWeightFee.value = extraFeeModel.overWeightFee;
+        update();
+      },
+
+      onError: (error) {
+        apiCallStatus = ApiCallStatus.error;
+        BaseClient.handleApiError(apiException: error);
+        update();
+      },
+    );
   }
 
-  getCategories() async {
-    await BaseClient.safeApiCall(
+  Future<void> getCategories() async {
+    await _baseClient.safeApiCall(
       ApiUrls.categoriesUrl, // url
       RequestType.get,
       headers: {
@@ -124,7 +159,7 @@ class DeliveryController extends GetxController {
       },
       onSuccess: (response) {
         apiCallStatus = ApiCallStatus.success;
-        Logger().d(response.data["categories"]);
+        Logger().d("Categories ${response.data}");
         _categories.value =
             (response.data['categories'] as List<dynamic>).map((item) {
           Logger().e(item);
@@ -136,14 +171,14 @@ class DeliveryController extends GetxController {
 
       onError: (error) {
         apiCallStatus = ApiCallStatus.error;
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
         update();
       },
     );
   }
 
-  getCities() async {
-    await BaseClient.safeApiCall(
+  Future<void> getCities() async {
+    await _baseClient.safeApiCall(
       ApiUrls.citiesUrl, // url
       RequestType.get,
       headers: {
@@ -159,7 +194,8 @@ class DeliveryController extends GetxController {
       onSuccess: (response) {
         apiCallStatus = ApiCallStatus.success;
         // Logger().d(response.data["regions"]);
-        _cities.value = (response.data['cities'] as List<dynamic>).map((item) {
+        _cities.value =
+            (response.data['townships'] as List<dynamic>).map((item) {
           return City.fromJson(item);
         }).toList();
 
@@ -168,14 +204,14 @@ class DeliveryController extends GetxController {
 
       onError: (error) {
         apiCallStatus = ApiCallStatus.error;
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
         update();
       },
     );
   }
 
   getTownships(int cityId) async {
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       "${ApiUrls.citiesUrl}/$cityId/townships", // url
       RequestType.get,
       headers: {
@@ -201,21 +237,88 @@ class DeliveryController extends GetxController {
 
       onError: (error) {
         apiCallStatus = ApiCallStatus.error;
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
+        update();
+      },
+    );
+  }
+
+  Future<void> getReceiverCities() async {
+    await _baseClient.safeApiCall(
+      "${ApiUrls.waysUrl}/$senderCityId/available", // url
+      RequestType.get,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      onLoading: () {
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        // apiCallStatus = ApiCallStatus.success;
+        Logger().d(response.data);
+        // _townships.value =
+        //     (response.data['townships'] as List<dynamic>).map((item) {
+        //   return Township.fromJson(item);
+        // }).toList();
+
+        update();
+      },
+
+      onError: (error) {
+        print(error.response);
+        apiCallStatus = ApiCallStatus.error;
+        BaseClient.handleApiError(apiException: error);
+        update();
+      },
+    );
+  }
+
+  Future<void> getOrders() async {
+    await _baseClient.safeApiCall(
+      ApiUrls.ordersUrl, // url
+      RequestType.get,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      onLoading: () {
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        apiCallStatus = ApiCallStatus.success;
+        Logger().e("Response ${response.data}");
+        OrderResponse orderResponse = OrderResponse.fromJson(response.data);
+        _orders.value = orderResponse.orders;
+
+        // Logger().d("Order ${_orders[0].parcels}");
+
+        update();
+      },
+
+      onError: (error) {
+        apiCallStatus = ApiCallStatus.error;
+        BaseClient.handleApiError(apiException: error);
         update();
       },
     );
   }
 
   void increseWeight() {
-    _weight.value += 1;
+    _parcelWeight.value += 1;
   }
 
   void decreaseWeight() {
-    if (_weight.value == 3) {
-      _weight.value = 3;
+    if (_parcelWeight.value == 3) {
+      _parcelWeight.value = 3;
     } else {
-      _weight.value -= 1;
+      _parcelWeight.value -= 1;
     }
   }
 
@@ -299,22 +402,25 @@ class DeliveryController extends GetxController {
     _receiverCashAmount.value = value;
   }
 
-  void saveSenderForm(SenderModel sender, String pickUpTime) {
+  void saveSenderForm(
+      BuildContext context, SenderModel sender, String pickUpTime) {
     // MySharedPref.setSenderForm(sender);
     // Logger().d("Sender $sender");
     // MySharedPref.setPickUpTime(pickUpTime);
     // Logger().d("Sender $pickUpTime");
-    _senders.add(sender);
+    Logger().i("Sender ${sender.toJson()}");
+    _sender.value = sender;
     _pickUpTime.value = pickUpTime;
 
-    Fluttertoast.showToast(msg: "Success");
+    // Fluttertoast.showToast(msg: "Success");
+    SnackBarHelper.showSuccessMessage(context: context, title: "Success");
     Get.back();
   }
 
-  Future<SenderModel?> getSenderForm() async {
-    SenderModel? senderModel = MySharedPref.getSenderForm();
-    return senderModel;
-  }
+  // Future<SenderModel?> getSenderForm() async {
+  //   SenderModel? senderModel = MySharedPref.getSenderForm();
+  //   return senderModel;
+  // }
 
   Future<ReceiverModel?> getReceiverForm() async {
     ReceiverModel? receiverModel = MySharedPref.getReceiverForm();
@@ -331,16 +437,17 @@ class DeliveryController extends GetxController {
     return pickupTime;
   }
 
-  void saveReceiverForm(ReceiverModel receiverModel) {
+  void saveReceiverForm(BuildContext context, ParcelModel parcelModel) {
     // MySharedPref.setReceiverForm(receiverModel);
 
     // ReceiverModel? receiver = MySharedPref.getReceiverForm();
     // Logger().d("Receiver ${receiver!.toJson()}");
     // MySharedPref.setParcelDetails(parcelModel);
     // ParcelModel? parcel = MySharedPref.getParcelDetails();
-    _receivers.add(receiverModel);
 
-    Fluttertoast.showToast(msg: "Success");
+    _parcels.add(parcelModel);
+
+    SnackBarHelper.showSuccessMessage(context: context, title: "Success");
     Get.back();
   }
 
@@ -348,40 +455,46 @@ class DeliveryController extends GetxController {
     MySharedPref.clearForm();
   }
 
-  createOrder(BuildContext context, List<SenderModel> senders,
-      List<ReceiverModel> receivers) async {
-    if (senders.isEmpty) {
+  createOrder(BuildContext context, SenderModel senderModel,
+      List<ParcelModel> parcelModel) async {
+    Logger().f(
+      senderModel.toJson(),
+    );
+    // Logger().f(parcelModel[0].toJson());
+    if (sender.name.isEmpty ||
+        sender.street.isEmpty ||
+        sender.description.isEmpty ||
+        sender.cityId == 0 ||
+        sender.townshipId == 0 ||
+        sender.phone.isEmpty ||
+        pickUpTime.isEmpty) {
       SnackBarHelper.showErrorMessage(
         context: context,
         title: "Please fill sender info",
       );
       return;
     }
-    if (receivers.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill receiver info");
+    if (parcels.isEmpty) {
+      SnackBarHelper.showErrorMessage(
+        context: context,
+        title: "Please fill recipient info",
+      );
+
       return;
     }
+    DeliveryModel deliveryModel =
+        DeliveryModel(sender: sender, parcels: parcels);
+    Logger().f(deliveryModel.toJson());
     // *) perform api call
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.ordersUrl, // url
       RequestType.post,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         'Authorization': "Bearer ${MySharedPref.getToken()}",
       },
-      data: FormData.fromMap({
-        'pickup_time': pickUpTime,
-        'delivery_time': deliveryTime,
-        'item_type': selectedCategory.name,
-        'prepaid': isPrepaid == true ? 1 : 0,
-        'parcel_size': parcelSize,
-        'parcel_weight': weight,
-        'collect_cash_amount': receiverCashAmount,
-        // 'parcel_photos': ["Test.jpg", "Test.jpg"],
-        'senders': jsonEncode(senders),
-        'receivers': jsonEncode(receivers),
-      }),
+      queryParameters: deliveryModel.toJson(),
       onLoading: () {
         apiCallStatus = ApiCallStatus.loading;
         update();
@@ -405,7 +518,9 @@ class DeliveryController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error, context: context);
+
+        Logger().e(error.message);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
@@ -414,5 +529,24 @@ class DeliveryController extends GetxController {
     );
   }
 
- 
+  getData() async {
+    await Future.wait([
+      getCategories(),
+      getExtraFees(),
+      getCities(),
+      getOrders(),
+    ]);
+  }
+
+  @override
+  void onInit() {
+    getData();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
 }

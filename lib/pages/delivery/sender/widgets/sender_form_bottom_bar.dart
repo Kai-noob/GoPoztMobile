@@ -39,8 +39,11 @@ class SenderFormBottomBar extends StatelessWidget {
           SenderConfirmWidget(
             onTap: () {
               if (!formKey.currentState!.validate()) {
+                SnackBarHelper.showErrorMessage(
+                    context: context, title: "Please fix the errors above.");
                 return;
               }
+
               if (controller.senderCityName.isEmpty ||
                   controller.senderTownshipName.isEmpty) {
                 SnackBarHelper.showErrorMessage(
@@ -61,6 +64,7 @@ class SenderFormBottomBar extends StatelessWidget {
               }
 
               controller.saveSenderForm(
+                context,
                 SenderModel(
                   name: controller.senderName,
                   phone: controller.senderNumber,

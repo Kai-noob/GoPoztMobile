@@ -5,11 +5,11 @@ import 'package:logger/logger.dart';
 import 'package:mengo_delivery/models/user_model.dart';
 
 import 'package:mengo_delivery/routes/app_pages.dart';
-import 'package:mengo_delivery/services/api_call_status.dart';
+import 'package:mengo_delivery/network/api_call_status.dart';
 
 import '../helpers/shared_pref_helper.dart';
 import '../helpers/snackbar_helper.dart';
-import '../services/base_client.dart';
+import '../network/base_client.dart';
 import '../utils/api_url.dart';
 
 class ProfileController extends GetxController {
@@ -17,10 +17,11 @@ class ProfileController extends GetxController {
 
   final Rx<UserModel> _userModel=UserModel(id: 0, name: "", phone: "", level: "").obs;
   UserModel get userModel=> _userModel.value;
+  final BaseClient _baseClient = BaseClient();
 
   logout(BuildContext context) async {
     // *) perform api call
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.logoutUrl, // url
       RequestType.post,
       headers: {
@@ -53,7 +54,7 @@ class ProfileController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
@@ -63,7 +64,7 @@ class ProfileController extends GetxController {
   }
 
   getProfile() async {
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.profileUrl,
       RequestType.get,
       headers: {

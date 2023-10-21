@@ -9,8 +9,8 @@ import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 import 'package:mengo_delivery/models/register_model.dart';
 import 'package:mengo_delivery/routes/app_pages.dart';
 
-import '../../../services/api_call_status.dart';
-import '../../../services/base_client.dart';
+import '../network/api_call_status.dart';
+import '../network/base_client.dart';
 import '../models/login_model.dart';
 import '../utils/api_url.dart';
 
@@ -18,11 +18,12 @@ class AuthController extends GetxController {
   List<dynamic>? data;
 
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
+  final BaseClient _baseClient = BaseClient();
 
   // getting data from api
   register(RegisterModel registerModel, BuildContext context) async {
     // *) perform api call
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.registerUrl, // url
       RequestType.post,
       // request type (get,post,delete,put)
@@ -55,7 +56,7 @@ class AuthController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error,context: context);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
@@ -66,7 +67,7 @@ class AuthController extends GetxController {
 
   login(LoginModel loginModel, BuildContext context) async {
     // *) perform api call
-    await BaseClient.safeApiCall(
+    await _baseClient.safeApiCall(
       ApiUrls.loginUrl, // url
       RequestType.post,
       // headers: {
@@ -99,7 +100,7 @@ class AuthController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(error);
+        BaseClient.handleApiError(apiException: error,context: context);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/app_colors.dart';
 
-
 class AuthClipper extends StatelessWidget {
   const AuthClipper({
     super.key,
@@ -20,7 +19,7 @@ class AuthClipper extends StatelessWidget {
             height: 300,
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [Color.fromARGB(32, 255, 219, 13), primaryColor])),
+                    colors: [Color.fromARGB(31, 13, 13, 255), primaryColor])),
             child: const Column(),
           ),
         ),
@@ -32,7 +31,7 @@ class AuthClipper extends StatelessWidget {
             decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
               primaryColor,
-              Color.fromARGB(210, 255, 240, 102)
+              Color.fromARGB(210, 102, 161, 255)
             ])),
             child: const Column(),
           ),
@@ -57,7 +56,7 @@ class AuthClipper extends StatelessWidget {
                 const Text(
                   "GOPOZT",
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 30),
                 ),

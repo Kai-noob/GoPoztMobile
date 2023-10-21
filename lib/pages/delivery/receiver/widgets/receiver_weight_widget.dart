@@ -35,7 +35,7 @@ class ReceiverWeightWidget extends StatelessWidget {
                   ),
                   4.horizontalSpace,
                   Text(
-                    controller.weight.toString(),
+                    controller.parcelWeight.toString(),
                     style: TextStyle(
                         color: black,
                         fontSize: 13.sp,

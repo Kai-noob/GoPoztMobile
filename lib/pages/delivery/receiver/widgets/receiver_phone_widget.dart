@@ -23,14 +23,14 @@ final DeliveryController controller;
           initialValue: controller.receiverNumber,
           validator: ValidatorHelper().phoneValidator,
           onChanged: (value)=>controller.setReceiverNumber(value),
-          keyboardType: TextInputType.name,
-          style: primaryTextStyle(
-              color: black, weight: FontWeight.normal, size: 12),
+          keyboardType: TextInputType.number,
+          style: TextStyle(
+              color: black, fontWeight: FontWeight.normal, fontSize: 14.sp),
           decoration: InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.zero,
             hintStyle: TextStyle(
-                color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
             hintText: "Phone",
           ),
         ),

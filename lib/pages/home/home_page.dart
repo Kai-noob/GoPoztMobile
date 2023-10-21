@@ -12,7 +12,7 @@ import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
 import '../../models/announcement_model.dart';
 
-import '../../services/api_call_status.dart';
+import '../../network/api_call_status.dart';
 import 'widgets/home_view.dart';
 
 class HomePage extends StatelessWidget {

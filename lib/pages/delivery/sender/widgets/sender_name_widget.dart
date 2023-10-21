@@ -8,8 +8,10 @@ import 'package:nb_utils/nb_utils.dart';
 class SenderNameWidget extends StatelessWidget {
   final DeliveryController controller;
 
-  const SenderNameWidget(
-      {super.key, required this.controller,});
+  const SenderNameWidget({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +21,16 @@ class SenderNameWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: TextFormField(
           initialValue: controller.senderName,
-          onChanged: (value)=>controller.setSenderName(value),
+          onChanged: (value) => controller.setSenderName(value),
           validator: ValidatorHelper().nameValidator,
           keyboardType: TextInputType.name,
-          style: primaryTextStyle(
-              color: black, weight: FontWeight.normal, size: 13),
+          style: TextStyle(
+              color: black, fontWeight: FontWeight.normal, fontSize: 14.sp),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.zero,
             border: InputBorder.none,
             hintStyle: TextStyle(
-                color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
             hintText: "Name",
           ),
         ),

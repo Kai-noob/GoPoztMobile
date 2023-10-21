@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/controllers/home_controller.dart';
 import 'package:mengo_delivery/controllers/menu_controller.dart';
 import 'package:mengo_delivery/controllers/profile_controller.dart';
+import 'package:mengo_delivery/controllers/splash_controller.dart';
 
 class InitBinding extends Bindings {
   @override
@@ -9,7 +10,6 @@ class InitBinding extends Bindings {
     Get.lazyPut(() => DashboardController(), fenix: true);
     Get.lazyPut(() => HomeController(), fenix: true);
     Get.lazyPut(() => ProfileController(), fenix: true);
-
-
+    Get.lazyPut(() => SplashController(), fenix: true);
   }
 }

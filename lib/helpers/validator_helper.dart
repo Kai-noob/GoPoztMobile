@@ -29,7 +29,7 @@ class ValidatorHelper {
     return null;
   }
 
-   String? noteValidator(String? value) {
+  String? noteValidator(String? value) {
     if (value == null || value.isEmpty) {
       return "Please fill in your note";
     }

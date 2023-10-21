@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../controllers/delivery_controller.dart';
 import '../../../../../utils/app_colors.dart';
 
 class OrderHistoryWayWidget extends StatelessWidget {
+  final int index;
+  final DeliveryController controller;
   const OrderHistoryWayWidget({
     super.key,
+    required this.index,
+    required this.controller,
   });
 
   @override
@@ -20,7 +25,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
-            "Way 1",
+            "Way ${controller.orders[index].parcels.length} ",
             style: TextStyle(
               color: Colors.white,
               fontSize: 13.sp,

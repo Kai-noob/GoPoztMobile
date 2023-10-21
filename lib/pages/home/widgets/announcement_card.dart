@@ -24,7 +24,8 @@ class AnnouncementCard extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: announcement.image ?? "",
         fit: BoxFit.cover,
-        placeholder: (context, url) => const MediaImage(),
+        placeholder: (context, url) => const Icon(Icons.image),
+        errorWidget: (context,url,error)=>const Icon(Icons.image),
       ),
     );
   }
