@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/delivery_controller.dart';
+import '../../../../controllers/sender_controller.dart';
 import '../../../../helpers/snackbar_helper.dart';
 import '../../../../models/sender_model.dart';
 import 'sender_clear_all_widget.dart';
 import 'sender_confirm_widget.dart';
 
 class SenderFormBottomBar extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
   final GlobalKey<FormState> formKey;
 
   const SenderFormBottomBar({

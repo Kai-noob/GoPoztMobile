@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
+import 'package:mengo_delivery/controllers/sender_controller.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:selector_wheel/selector_wheel.dart';
@@ -12,13 +14,17 @@ import '../../../../models/township_model.dart';
 import '../../../../utils/app_colors.dart';
 
 class ReceiverCityAreaWidget extends StatelessWidget {
-  final DeliveryController controller;
-  const ReceiverCityAreaWidget({super.key, required this.controller});
+  final SenderController senderController;
+  final ReceiverController receiverController;
+  const ReceiverCityAreaWidget(
+      {super.key,
+      required this.senderController,
+      required this.receiverController});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showSelectCityAreaWidget(context, controller),
+      onTap: () => showSelectCityAreaWidget(context, receiverController),
       child: SizedBox(
         height: 35.h,
         child: Padding(
@@ -30,11 +36,12 @@ class ReceiverCityAreaWidget extends StatelessWidget {
                   () => Expanded(
                     flex: 5,
                     child: Text(
-                      controller.receiverCityName.isNotEmpty ||
-                              controller.receiverTownshipName.isNotEmpty ||
-                              controller.receiverCityId != 0 ||
-                              controller.receiverTownshipId != 0
-                          ? "${controller.receiverCityName}/${controller.receiverTownshipName}"
+                      receiverController.receiverCityName.isNotEmpty ||
+                              receiverController
+                                  .receiverTownshipName.isNotEmpty ||
+                              receiverController.receiverCityId != 0 ||
+                              receiverController.receiverTownshipId != 0
+                          ? "${receiverController.receiverCityName}/${receiverController.receiverTownshipName}"
                           : "City/Township",
                       style: TextStyle(
                           color: black,
@@ -43,12 +50,20 @@ class ReceiverCityAreaWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Expanded(
-                  child: Icon(
-                    Icons.arrow_drop_down_outlined,
-                    size: 32,
-                  ),
-                )
+                receiverController.receiverCityName.isNotEmpty ||
+                        receiverController.receiverTownshipName.isNotEmpty ||
+                        receiverController.receiverCityId != 0 ||
+                        receiverController.receiverTownshipId != 0
+                    ? const Expanded(
+                        child: Icon(
+                          Icons.arrow_drop_down_outlined,
+                          size: 32,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.arrow_drop_down_outlined,
+                        size: 32,
+                      )
               ],
             )),
       ),
@@ -56,7 +71,7 @@ class ReceiverCityAreaWidget extends StatelessWidget {
   }
 
   showSelectCityAreaWidget(
-      BuildContext context, DeliveryController controller) {
+      BuildContext context, ReceiverController controller) {
     showBarModalBottomSheet(
         context: context,
         builder: (context) {
@@ -65,66 +80,72 @@ class ReceiverCityAreaWidget extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "City",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Obx(() => Expanded(
-                            child: SingleChildScrollView(
-                          child: Column(
-                            children: controller.cities
-                                .map((e) => GestureDetector(
-                                      onTap: () {
-                                        controller.getTownships(e.id);
-                                        controller.selectReceiverCity(
-                                            e.id, e.name);
-                                        controller.selectReceiverTownship(
-                                            0, "");
-                                      },
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30, vertical: 15),
-                                          margin: const EdgeInsets.symmetric(
-                                            horizontal: 5,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: controller
-                                                              .receiverCityId ==
-                                                          e.id &&
-                                                      controller
-                                                              .receiverCityName ==
-                                                          e.name
-                                                  ? primaryColor
-                                                  : Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Text(
-                                            e.name,
-                                            style: TextStyle(
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "City",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Obx(() => Expanded(
+                              child: SingleChildScrollView(
+                            child: Column(
+                              children: receiverController.cities
+                                  .map((e) => GestureDetector(
+                                        onTap: () {
+                                          controller.getReceiverTownships(
+                                              senderController.senderCityId,
+                                              e.id);
+                                          controller.selectReceiverCity(
+                                              e.id, e.name);
+                                          controller.selectReceiverTownship(
+                                              0, "");
+                                        },
+                                        child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 30, vertical: 15),
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                            ),
+                                            decoration: BoxDecoration(
                                                 color: controller
                                                                 .receiverCityId ==
                                                             e.id &&
                                                         controller
                                                                 .receiverCityName ==
                                                             e.name
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500),
-                                          )),
-                                    ))
-                                .toList(),
-                          ),
-                        ))),
-                  ],
+                                                    ? primaryColor
+                                                    : Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Text(
+                                              e.name,
+                                              style: TextStyle(
+                                                  color: controller
+                                                                  .receiverCityId ==
+                                                              e.id &&
+                                                          controller
+                                                                  .receiverCityName ==
+                                                              e.name
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            )),
+                                      ))
+                                  .toList(),
+                            ),
+                          ))),
+                    ],
+                  ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -138,11 +159,15 @@ class ReceiverCityAreaWidget extends StatelessWidget {
                       Obx(() => Expanded(
                               child: SingleChildScrollView(
                             child: Column(
-                              children: controller.townships
+                              children: controller.avaliableWays
                                   .map((e) => GestureDetector(
                                         onTap: () {
                                           controller.selectReceiverTownship(
-                                              e.id, e.name);
+                                              e.township.id, e.township.name);
+                                          controller.getDeliFees(
+                                              controller.receiverCityId,
+                                              senderController.senderCityId,
+                                              e.township.id);
                                         },
                                         child: Container(
                                             padding: const EdgeInsets.symmetric(
@@ -153,23 +178,23 @@ class ReceiverCityAreaWidget extends StatelessWidget {
                                             decoration: BoxDecoration(
                                                 color: controller
                                                                 .receiverTownshipId ==
-                                                            e.id &&
+                                                            e.township.id &&
                                                         controller
                                                                 .receiverTownshipName ==
-                                                            e.name
+                                                            e.township.name
                                                     ? primaryColor
                                                     : Colors.white,
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             child: Text(
-                                              e.name,
+                                              e.township.name,
                                               style: TextStyle(
                                                   color: controller
                                                                   .receiverTownshipId ==
-                                                              e.id &&
+                                                              e.township.id &&
                                                           controller
                                                                   .receiverTownshipName ==
-                                                              e.name
+                                                              e.township.name
                                                       ? Colors.white
                                                       : Colors.black,
                                                   fontSize: 14.sp,

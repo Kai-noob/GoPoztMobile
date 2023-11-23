@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:mengo_delivery/models/ads_model.dart';
 import 'package:mengo_delivery/models/announcement_model.dart';
+import 'package:mengo_delivery/models/deliverer_model.dart';
 import 'package:mengo_delivery/models/online_shop_model.dart';
 import 'package:mengo_delivery/network/api_call_status.dart';
 
@@ -14,8 +16,11 @@ class HomeController extends GetxController {
   final RxList<Announcement> _announcements = RxList.empty();
   List<Announcement> get announcements => _announcements.toList();
 
-  final RxList<OnlineShop> _onlineShops = RxList.empty();
-  List<OnlineShop> get onlineShops => _onlineShops.toList();
+  final RxList<DelivererModel>_deliverers = RxList.empty();
+  List<DelivererModel> get deliverers => _deliverers.toList();
+
+  final RxList<Advertisement> _advertisements = RxList.empty();
+  List<Advertisement> get advertisements => _advertisements.toList();
   final BaseClient _baseClient = BaseClient();
 
   Future<void> getAnouncements() async {
@@ -50,9 +55,9 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> getOnlineShops() async {
+  Future<void> getPartners() async {
     await _baseClient.safeApiCall(
-      ApiUrls.onlineshopsUrl, // url
+      ApiUrls.partnersUrl, // url
       RequestType.get,
       headers: {
         'Accept': 'application/json',
@@ -66,10 +71,42 @@ class HomeController extends GetxController {
       },
       onSuccess: (response) {
         apiCallStatus = ApiCallStatus.success;
-        Logger().d(response.data);
-        _onlineShops.value =
-            (response.data['onlineShops'] as List<dynamic>).map((item) {
-          return OnlineShop.fromJson(item);
+        Logger().d("Partners ${response.data}");
+        _deliverers.value =
+            (response.data['deliverer'] as List<dynamic>).map((item) {
+          return DelivererModel.fromJson(item);
+        }).toList();
+        update();
+      },
+
+      onError: (error) {
+        apiCallStatus = ApiCallStatus.error;
+        BaseClient.handleApiError(apiException: error);
+        update();
+      },
+    );
+  }
+
+  Future<void> getAds() async {
+    await _baseClient.safeApiCall(
+      ApiUrls.advertisementsUrl, // url
+      RequestType.get,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      onLoading: () {
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        apiCallStatus = ApiCallStatus.success;
+
+        _advertisements.value =
+            (response.data['advertisements'] as List<dynamic>).map((item) {
+          return Advertisement.fromJson(item);
         }).toList();
         update();
       },
@@ -83,12 +120,13 @@ class HomeController extends GetxController {
   }
 
   Future<void> getData() async {
-    await Future.wait([getAnouncements(), getOnlineShops()]);
+    await Future.wait([getAnouncements(), getPartners(), getAds()]);
   }
 
   @override
   void onInit() {
     getData();
+
     super.onInit();
   }
 }

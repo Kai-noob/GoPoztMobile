@@ -1,3 +1,5 @@
+import 'package:mengo_delivery/models/deliverer_model.dart';
+import 'package:mengo_delivery/models/delivery_model.dart';
 
 import 'city_model.dart';
 import 'township_model.dart';
@@ -19,7 +21,7 @@ class Order {
   final int id;
   final Sender sender;
   final List<Parcel> parcels;
-  final dynamic deliverer;
+  final DelivererModel? deliverer;
   final String status;
   final String createdAt;
   final String updatedAt;
@@ -42,7 +44,9 @@ class Order {
       id: json['id'],
       sender: Sender.fromJson(json['sender']),
       parcels: parcels,
-      deliverer: json['deliverer'],
+      deliverer: json['deliverer'] == null
+          ? null
+          : DelivererModel.fromJson(json['deliverer']),
       status: json['status'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
@@ -54,8 +58,8 @@ class Sender {
   final int id;
   final String name;
   final String phone;
-  final City cityId;
-  final Township townshipId;
+  final City city;
+  final Township township;
   final String street;
   final dynamic description;
 
@@ -63,8 +67,8 @@ class Sender {
     required this.id,
     required this.name,
     required this.phone,
-    required this.cityId,
-    required this.townshipId,
+    required this.city,
+    required this.township,
     required this.street,
     required this.description,
   });
@@ -74,10 +78,10 @@ class Sender {
       id: json['id'],
       name: json['name'],
       phone: json['phone'],
-      cityId: City.fromJson(
-        json['city_id'],
+      city: City.fromJson(
+        json['city'],
       ),
-      townshipId: Township.fromJson(json['township_id']),
+      township: Township.fromJson(json['township']),
       street: json['street'],
       description: json['description'],
     );
@@ -85,46 +89,50 @@ class Sender {
 }
 
 class Parcel {
+  final int id;
   final String pickupTime;
   final String deliveryTime;
   final String itemType;
   final bool prepaid;
   final String parcelSize;
-  final int parcelWeight;
+  final dynamic parcelWeight;
   final String? parcelDescription;
   final Receiver receiver;
   final List<dynamic> parcelPhotos;
-  final int? collectCashAmount;
-  final int? parcelTotalAmount;
+  final String status;
+  final dynamic collectCashAmount;
+  final dynamic parcelTotalAmount;
 
-  Parcel({
-    required this.pickupTime,
-    required this.deliveryTime,
-    required this.itemType,
-    required this.prepaid,
-    required this.parcelSize,
-    required this.parcelWeight,
-     this.parcelDescription,
-    required this.receiver,
-    required this.parcelPhotos,
-     this.collectCashAmount,
-     this.parcelTotalAmount
-  });
+  Parcel(
+      {required this.id,
+      required this.pickupTime,
+      required this.deliveryTime,
+      required this.itemType,
+      required this.prepaid,
+      required this.parcelSize,
+      required this.parcelWeight,
+      this.parcelDescription,
+      required this.receiver,
+      required this.parcelPhotos,
+      required this.status,
+      this.collectCashAmount,
+      this.parcelTotalAmount});
 
   factory Parcel.fromJson(Map<String, dynamic> json) {
     return Parcel(
-      pickupTime: json['pickup_time'],
-      deliveryTime: json['delivery_time'],
-      itemType: json['item_type'],
-      prepaid: json['prepaid'],
-      parcelSize: json['parcel_size'],
-      parcelWeight: json['parcel_weight'],
-      parcelDescription: json['parcel_description'],
-      receiver: Receiver.fromJson(json['receiver']),
-      parcelPhotos: json['parcel_photos'],
-      collectCashAmount: json['collect_cash_amount'],
-      parcelTotalAmount:json['parcel_total_amount']
-    );
+        id: json['id'],
+        pickupTime: json['pickup_time'],
+        deliveryTime: json['delivery_time'],
+        itemType: json['item_type'],
+        prepaid: json['prepaid'],
+        parcelSize: json['parcel_size'],
+        parcelWeight: json['parcel_weight'],
+        parcelDescription: json['parcel_description'],
+        receiver: Receiver.fromJson(json['receiver']),
+        parcelPhotos: json['parcel_photos'],
+        status: json['status'],
+        collectCashAmount: json['collect_cash_amount'],
+        parcelTotalAmount: json['parcel_total_amount']);
   }
 }
 
@@ -132,8 +140,8 @@ class Receiver {
   final int id;
   final String name;
   final String phone;
-  final City cityId;
-  final Township townshipId;
+  final City city;
+  final Township township;
   final String street;
   final String description;
 
@@ -141,8 +149,8 @@ class Receiver {
     required this.id,
     required this.name,
     required this.phone,
-    required this.cityId,
-    required this.townshipId,
+    required this.city,
+    required this.township,
     required this.street,
     required this.description,
   });
@@ -152,8 +160,12 @@ class Receiver {
       id: json['id'],
       name: json['name'],
       phone: json['phone'],
-      cityId: City.fromJson(json['city_id'],),
-      townshipId: Township.fromJson(json['township_id'],),
+      city: City.fromJson(
+        json['city'],
+      ),
+      township: Township.fromJson(
+        json['township'],
+      ),
       street: json['street'],
       description: json['description'],
     );

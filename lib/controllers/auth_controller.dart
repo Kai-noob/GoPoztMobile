@@ -42,6 +42,7 @@ class AuthController extends GetxController {
         // api done successfully
 
         MySharedPref.setToken(response.data["token"]);
+        MySharedPref.setUserId(response.data['user']['id']);
         Get.offAllNamed(Routes.dashboard);
         SnackBarHelper.showSuccessMessage(
             context: context, title: "Successfully registerd.");
@@ -88,6 +89,7 @@ class AuthController extends GetxController {
 
         Logger().d(response.data["token"]);
         MySharedPref.setToken(response.data["token"]);
+             MySharedPref.setUserId(response.data['user']['id']);
         Get.offAllNamed(Routes.dashboard);
         SnackBarHelper.showSuccessMessage(
             context: context, title: "Successfully logined.");

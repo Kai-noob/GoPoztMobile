@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_backbutton.dart';
 
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/sender_controller.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
@@ -19,16 +20,22 @@ class SenderMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DeliveryController>(builder: (controller) {
+    return GetBuilder<SenderController>(builder: (controller) {
       return OverlayLoaderWithAppIcon(
          isLoading: controller.apiCallStatus == ApiCallStatus.loading,
         overlayBackgroundColor: Colors.black,
         circularProgressColor: primaryColor,
-        appIcon: Image.asset('assets/icons/icon.png'),
+        appIcon: ClipRRect(
+           borderRadius: BorderRadius.circular(100),
+          child: Image.asset('assets/icons/logo.png')),
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Sender Details"),
-            leading: const CustomBackButton(),
+            leading:  CustomBackButton(
+              onTap: (){
+                Get.back();
+              },
+            ),
           ),
           body: SenderForm(controller: controller, formKey: _formKey),
           bottomNavigationBar:

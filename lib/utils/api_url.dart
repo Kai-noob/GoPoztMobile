@@ -4,15 +4,26 @@ class ApiUrls {
 static const loginUrl = '$baseUrl/customer/sign-in';
   static const logoutUrl = '$baseUrl/customer/sign-out';
   static const profileUrl = '$baseUrl/customer/me';
+  static const editProfileUrl = '$baseUrl/customer/update';
+  static const deviecTokenUrl = '$baseUrl/customer/refresh/deviceToken';
+
+
   static const categoriesUrl = '$baseUrl/customer/categories';
   static const anounementsUrl = '$baseUrl/customer/announcements';
-  static const onlineshopsUrl = '$baseUrl/customer/online_shops';
+  static const partnersUrl = '$baseUrl/customer/partners';
+  static const advertisementsUrl='$baseUrl/customer/advertisements';
 
   static const citiesUrl = '$baseUrl/customer/cities';
   static const ordersUrl = '$baseUrl/customer/orders';
+  static const pendingOrdersUrl = '$baseUrl/customer/orders/pending';
+  static const deliveringOrdersUrl = '$baseUrl/customer/orders/onDelivery';
+
+
   static const waysUrl = '$baseUrl/customer/ways/from';
 
   static const extraFeesUrl = '$baseUrl/customer/setting';
+  static const notificationsUrl = '$baseUrl/customer/notifications';
+
 
 
 }

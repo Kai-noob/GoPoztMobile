@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
+  final VoidCallback onTap;
+  const CustomBackButton({super.key,required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => Get.back(),
+      onPressed:onTap,
       icon: const Icon(
         Icons.arrow_back_ios,
         color: Colors.white,

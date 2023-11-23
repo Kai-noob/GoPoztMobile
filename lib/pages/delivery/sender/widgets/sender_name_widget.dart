@@ -5,8 +5,10 @@ import 'package:mengo_delivery/helpers/validator_helper.dart';
 
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../controllers/sender_controller.dart';
+
 class SenderNameWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
 
   const SenderNameWidget({
     super.key,

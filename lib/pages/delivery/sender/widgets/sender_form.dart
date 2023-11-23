@@ -4,11 +4,12 @@ import 'package:mengo_delivery/controllers/delivery_controller.dart';
 
 import 'package:mengo_delivery/utils/app_constants.dart';
 
+import '../../../../controllers/sender_controller.dart';
 import 'sender_form_content.dart';
 
 
 class SenderForm extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
   final GlobalKey<FormState> formKey;
 
   const SenderForm({

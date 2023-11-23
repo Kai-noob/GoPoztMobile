@@ -3,6 +3,7 @@ import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 
 import '../../../../components/custom_divider.dart';
 import '../../../../controllers/delivery_controller.dart';
+import '../../../../controllers/sender_controller.dart';
 import 'sender_address_widget.dart';
 import 'sender_city_area_widget.dart';
 import 'sender_default_widget.dart';
@@ -12,7 +13,7 @@ import 'sender_section_title.dart';
 import 'sender_time_widget.dart';
 
 class SenderFormContent extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
 
   const SenderFormContent({super.key, required this.controller});
 

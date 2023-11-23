@@ -16,7 +16,7 @@ class AppConstants {
   static SvgPicture notiIcon = SvgPicture.asset(
     noti,
     height: 19,
-    color: blackColor,
+    color: white,
   );
   static SvgPicture historyIcon = SvgPicture.asset(
     history,
@@ -28,7 +28,7 @@ class AppConstants {
     height: 19,
     color: blackColor,
   );
-    static SvgPicture homeActiveIcon = SvgPicture.asset(
+  static SvgPicture homeActiveIcon = SvgPicture.asset(
     home,
     height: 19,
     color: primaryColor,
@@ -80,7 +80,7 @@ class AppConstants {
     height: 7.h,
   );
 
-static List<LanguageModel> languages = [
+  static List<LanguageModel> languages = [
     LanguageModel(
         imageUrl: "",
         languageName: 'English',

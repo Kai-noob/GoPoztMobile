@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -13,7 +14,7 @@ class ReceiverPrepaidWidget extends StatelessWidget {
     required this.controller,
   });
 
-  final DeliveryController controller;
+  final ReceiverController controller;
 
   @override
   Widget build(BuildContext context) {

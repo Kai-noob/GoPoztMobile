@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:mengo_delivery/helpers/validator_helper.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 
 
 class ReceiverPhoneWidget extends StatelessWidget {
-final DeliveryController controller;
+final ReceiverController controller;
   const ReceiverPhoneWidget({
     super.key,
     required this.controller

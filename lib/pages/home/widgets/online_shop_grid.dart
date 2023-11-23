@@ -20,11 +20,11 @@ class OnlineShopsGrid extends StatelessWidget {
           mainAxisSpacing: 20,
           crossAxisSpacing: 35,
         ),
-        itemCount: controller.onlineShops.length > 8
+        itemCount: controller.deliverers.length > 8
             ? 8
-            : controller.onlineShops.length,
+            : controller.deliverers.length,
         itemBuilder: (BuildContext context, int index) {
-          return OnlineShopCard(shop: controller.onlineShops[index]);
+          return OnlineShopCard(delivererModel: controller.deliverers[index]);
         },
       ),
     );

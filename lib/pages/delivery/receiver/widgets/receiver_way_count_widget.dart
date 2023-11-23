@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 
 class ReceiverWayCountWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final ReceiverController controller;
   const ReceiverWayCountWidget({super.key, required this.controller});
 
   @override

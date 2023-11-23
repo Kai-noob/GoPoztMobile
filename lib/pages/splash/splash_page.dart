@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
 import '../../controllers/splash_controller.dart';
@@ -17,7 +18,9 @@ class SplashPage extends StatelessWidget {
             isLoading: controller.apiCallStatus == ApiCallStatus.loading,
             overlayBackgroundColor: Colors.black,
             circularProgressColor: primaryColor,
-            appIcon: Image.asset('assets/icons/icon.png'),
+            appIcon: ClipRRect(
+               borderRadius: BorderRadius.circular(100),
+              child: Image.asset('assets/icons/logo.png')),
             child: Scaffold(
               body: SizedBox(
                 width: double.infinity,
@@ -25,10 +28,21 @@ class SplashPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "assets/icons/logo.png",
-                      height: 120.h,
-                    ),
+                    ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.asset(
+                            "assets/icons/logo.png",
+                            height: 120.h,
+                          ),
+                        ),
+                        const CustomVerticalSpacer(height: 10),
+                        const Text(
+                          "Delivery Hub",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )
                   ],
                 ),
               ),

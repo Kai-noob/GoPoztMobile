@@ -1,23 +1,19 @@
 class UserModel {
-  final int id;
-  final String name;
-  final String phone;
-  final String level;
+  int? id;
+  String? name;
+  String? phone;
+  String? level;
+  String? profile;
 
-  UserModel({
-    required this.id,
-    required this.name,
-    required this.phone,
-    required this.level,
-  });
+  UserModel({this.id, this.name, this.phone, this.level, this.profile});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      level: json['level'] as String,
-    );
+        id: json['id'] as int,
+        name: json['name'] as String,
+        phone: json['phone'] as String,
+        level: json['level'] as String,
+        profile: json['profile']);
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +22,7 @@ class UserModel {
       'name': name,
       'phone': phone,
       'level': level,
+      'profile': profile
     };
   }
 }

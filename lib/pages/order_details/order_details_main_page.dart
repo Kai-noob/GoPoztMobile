@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
 
 import 'package:mengo_delivery/components/custom_backbutton.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
@@ -17,6 +18,7 @@ import 'widgets/order_details_total_widget.dart';
 import 'widgets/order_details_type_widget.dart';
 
 class OrderDetailsMainPage extends StatelessWidget {
+  
   const OrderDetailsMainPage({super.key});
 
   @override
@@ -24,7 +26,11 @@ class OrderDetailsMainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Order #1234"),
-        leading: const CustomBackButton(),
+        leading:  CustomBackButton(
+          onTap: (){
+            Get.back();
+          },
+        ),
         actions: [
           Center(
             child: Padding(

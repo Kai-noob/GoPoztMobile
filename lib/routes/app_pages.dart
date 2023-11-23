@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mengo_delivery/bindings/delivery_binding.dart';
+import 'package:mengo_delivery/bindings/receiver_binding.dart';
+import 'package:mengo_delivery/bindings/sender_binding.dart';
 import 'package:mengo_delivery/pages/delivery/delivery_main_page.dart';
 import 'package:mengo_delivery/pages/delivery/receiver/receiver_main_page.dart';
 
@@ -45,15 +47,15 @@ class AppPages {
         binding: SplashBinding()),
     GetPage(
         name: _Paths.delivery,
-        page: () => const DeliveryMainPage(),
+        page: () =>  DeliveryMainPage(),
         binding: DeliveryBinding()),
     GetPage(
         name: _Paths.recipient,
         page: () => ReceiverMainPage(),
-        binding: DeliveryBinding()),
+        binding: ReceiverBinding()),
     GetPage(
         name: _Paths.sender,
         page: () => SenderMainPage(),
-        binding: DeliveryBinding()),
+        binding: SenderBinding()),
   ];
 }

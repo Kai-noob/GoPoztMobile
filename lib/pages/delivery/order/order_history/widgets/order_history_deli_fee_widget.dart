@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../../../../controllers/orders_controller.dart';
 
 class OrderHistoryDeliFeeWidget extends StatelessWidget {
+  final int wayIndex;
+  final int orderIndex;
+  final OrdersController controller;
   const OrderHistoryDeliFeeWidget({
     super.key,
+    required this.wayIndex,
+    required this.orderIndex,
+    required this.controller,
   });
 
   @override
@@ -13,7 +22,7 @@ class OrderHistoryDeliFeeWidget extends StatelessWidget {
       children: [
         30.horizontalSpace,
         Text(
-          "Deli fees-2500MMK",
+          "Deli fees-${controller.orders[orderIndex].parcels[wayIndex].parcelTotalAmount} MMK",
           style: TextStyle(
             color: Colors.black,
             fontSize: 13.sp,
@@ -22,7 +31,7 @@ class OrderHistoryDeliFeeWidget extends StatelessWidget {
         ),
         15.horizontalSpace,
         Text(
-          "Normal",
+          "${controller.orders[orderIndex].parcels[wayIndex].deliveryTime.capitalize}",
           style: TextStyle(
             color: Colors.black,
             fontSize: 13.sp,

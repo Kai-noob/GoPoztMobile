@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
+import 'package:mengo_delivery/pages/delivery/receiver/widgets/receiver_confirm_widget.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CreateOrderWayCountWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final ReceiverController controller;
   const CreateOrderWayCountWidget({
     super.key, required this.controller,
   });

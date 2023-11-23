@@ -5,6 +5,8 @@ import 'package:mengo_delivery/components/custom_divider.dart';
 import 'package:mengo_delivery/components/custom_text.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
+import 'package:mengo_delivery/controllers/sender_controller.dart';
 import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -13,11 +15,12 @@ import '../../../../../routes/app_pages.dart';
 import 'create_order_way_count_widget.dart';
 
 class CreateOrderToWidget extends StatelessWidget {
-  final DeliveryController controller;
-  const CreateOrderToWidget({
-    super.key,
-    required this.controller,
-  });
+  final SenderController senderController;
+  final ReceiverController receiverController;
+  const CreateOrderToWidget(
+      {super.key,
+      required this.senderController,
+      required this.receiverController});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class CreateOrderToWidget extends StatelessWidget {
                 text: "Deliver to:",
               ),
               CreateOrderWayCountWidget(
-                controller: controller,
+                controller: receiverController,
               ),
             ],
           ),
@@ -47,8 +50,8 @@ class CreateOrderToWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (controller.parcels.isNotEmpty)
-                  ...controller.parcels.map((parcel) {
+                if (receiverController.wayHistories.isNotEmpty)
+                  ...receiverController.wayHistories.map((wayHistory) {
                     // Return a widget for each parcel
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,17 +61,14 @@ class CreateOrderToWidget extends StatelessWidget {
                           children: [
                             CustomText(
                                 text:
-                                    "Way ${controller.parcels.indexOf(parcel) + 1} : ${parcel.receiver.name}"),
+                                    "Way ${receiverController.wayHistories.indexOf(wayHistory) + 1} : ${wayHistory.parcelModel.receiver.name}"),
                             Flexible(
                               child: IconButton(
                                   onPressed: () {
                                     // print("called");
-                                    int index =
-                                        controller.parcels.indexOf(parcel);
-                                    if (index >= 0 &&
-                                        index < controller.parcels.length) {
-                                      controller.parcels.removeAt(index);
-                                    }
+                                    receiverController.removeWayHistoryAtIndex(
+                                        receiverController.wayHistories
+                                            .indexOf(wayHistory));
                                   },
                                   icon: const Icon(Icons.close)),
                             ),
@@ -81,11 +81,11 @@ class CreateOrderToWidget extends StatelessWidget {
                       ],
                     );
                   }).toList(),
-                if (controller.parcels.isEmpty)
+                if (receiverController.parcels.isEmpty)
                   InkWell(
                     onTap: () {
-                      if (controller.sender.cityId != 0 &&
-                          controller.sender.name.isNotEmpty) {
+                      if (senderController.sender.cityId != 0 &&
+                          senderController.sender.name.isNotEmpty) {
                         Get.toNamed(Routes.recipient);
                       } else {
                         SnackBarHelper.showErrorMessage(
@@ -120,9 +120,9 @@ class CreateOrderToWidget extends StatelessWidget {
                 const CustomVerticalSpacer(height: 8),
                 GestureDetector(
                   onTap: () {
-                    if (controller.sender.cityId != 0 &&
-                        controller.sender.name.isNotEmpty &&
-                        controller.parcels.isNotEmpty) {
+                    if (senderController.sender.cityId != 0 &&
+                        senderController.sender.name.isNotEmpty &&
+                        receiverController.parcels.isNotEmpty) {
                       Get.toNamed(Routes.recipient);
                     }
                   },

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:mengo_delivery/models/receiver_model.dart';
 
@@ -40,6 +42,7 @@ class ParcelModel {
 
   Map<String, dynamic> toJson() {
     Logger().e(parcelPhotos.toList());
+    print("Parcel Photo${convertStringListToFileList(parcelPhotos)}");
     final Map<String, dynamic> data = {
       'pickup_time': pickupTime,
       'delivery_time': deliveryTime,
@@ -47,11 +50,21 @@ class ParcelModel {
       'prepaid': prepaid,
       'parcel_size': 'md',
       'parcel_weight': parcelWeight,
-      'parcel_photos': null,
+      'parcel_photos': parcelPhotos.isEmpty
+          ? null
+          : convertStringListToFileList(parcelPhotos),
       'collect_cash_amount': collectCashAmount,
       'receiver': receiver.toJson()
     };
 
     return data;
+  }
+
+  List<File> convertStringListToFileList(List<String> stringList) {
+    List<File> fileList = [];
+    for (String path in stringList) {
+      fileList.add(File(path));
+    }
+    return fileList;
   }
 }

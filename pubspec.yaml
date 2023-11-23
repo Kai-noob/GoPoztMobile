@@ -49,6 +49,14 @@ dependencies:
   selector_wheel: ^1.1.2
   dio_cache_interceptor: ^3.4.4
   dio_cache_interceptor_hive_store: ^3.2.1
+  pusher_client_fixed: ^0.0.2+2
+  firebase_messaging: ^14.7.4
+  flutter_local_notifications: ^16.1.0
+  firebase_core: ^2.22.0
+  laravel_echo_null: ^0.0.5+7
+  pusher_beams: ^1.1.1
+  path: ^1.8.3
+  
 
 dev_dependencies:
   flutter_test:
@@ -84,5 +92,5 @@ flutter:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/icon.png"
+  image_path: "assets/icons/logo.png"
   min_sdk_android: 2

@@ -4,8 +4,10 @@ import 'package:mengo_delivery/controllers/delivery_controller.dart';
 import 'package:mengo_delivery/helpers/validator_helper.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../controllers/sender_controller.dart';
+
 class SenderNoteWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
   const SenderNoteWidget({super.key, required this.controller});
 
   @override

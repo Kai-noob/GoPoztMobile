@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 import 'package:mengo_delivery/components/my_widgets_animator.dart';
 import 'package:mengo_delivery/models/ads_model.dart';
+import 'package:mengo_delivery/utils/app_colors.dart';
 
 import '../../../controllers/home_controller.dart';
 
@@ -20,25 +21,33 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
       children: [
         const AppHeader(),
         const CustomVerticalSpacer(height: 5),
-        HomeCarouselSlider(adsBanners: [
-          AdsModel(
-              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdepositphotos.com%2Fvector%2Fsummer-sale-web-banner-template-design-concept-website-design-advertising-275012978.html&psig=AOvVaw1RL9ia_K8PXC-1K5_s6Ttx&ust=1697247910853000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIDkoqjz8YEDFQAAAAAdAAAAABAG")
-        ]),
+        HomeCarouselSlider(adsBanners: controller.advertisements),
         const CustomVerticalSpacer(height: 17),
-        Text(
-          "OS Users",
-          style: TextStyle(fontSize: 16.sp),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Text(
+            "ပို့ဆောင်ရန် ရွေးချယ်ပါ",
+            style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: primaryColor),
+          ),
         ),
         const CustomVerticalSpacer(height: 10),
         OnlineShopsGrid(controller: controller),
         const CustomVerticalSpacer(height: 10),
-        Text(
-          "Announcements",
-          style: TextStyle(fontSize: 16.sp),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Text(
+            "ကြော်ငြာချက်များ",
+            style: TextStyle(
+                fontSize: 14.sp,
+                color: primaryColor,
+                fontWeight: FontWeight.w500),
+          ),
         ),
         const CustomVerticalSpacer(height: 10),
         AnnouncementsSection(controller: controller),

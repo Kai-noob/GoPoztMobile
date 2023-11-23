@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765279464773",
+    "project_id": "deliveryhub-f7c9d",
+    "storage_bucket": "deliveryhub-f7c9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765279464773:android:98c11b277e4ac5fee7622c",
+        "android_client_info": {
+          "package_name": "com.deliveryhubmm.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAo4zSqBceL7WUF70mBj6s4ahbwWQ1FCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

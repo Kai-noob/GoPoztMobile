@@ -62,7 +62,7 @@ class BaseClient {
       options: CacheOptions(
         store:
             HiveCacheStore(AppCachePathProvider.path, hiveBoxName: "go_pozt"),
-        policy: CachePolicy.refreshForceCache,
+        policy: CachePolicy.refresh,
         hitCacheOnErrorExcept: [401, 404],
         maxStale: const Duration(minutes: 5),
         keyBuilder: (request) {
@@ -362,13 +362,11 @@ class BaseClient {
     }
 
 // Provide a default message if the response doesn't contain errors.
-    if (message.isEmpty) {
-      message = "Unknown error";
-    }
+
     if (context != null) {
       // SnackBarHelper.showErrorMessage(context: context, title: message);
     } else {
-      Fluttertoast.showToast(msg: message);
+      // Fluttertoast.showToast(msg: message);
     }
   }
 

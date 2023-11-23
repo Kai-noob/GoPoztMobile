@@ -7,10 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../controllers/delivery_controller.dart';
+import '../../../../controllers/sender_controller.dart';
 import '../../../../utils/app_colors.dart';
 
 class SenderTimeWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
   const SenderTimeWidget({super.key, required this.controller});
 
   @override

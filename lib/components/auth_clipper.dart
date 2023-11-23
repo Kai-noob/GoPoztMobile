@@ -49,12 +49,15 @@ class AuthClipper extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 40.verticalSpace,
-                Image.asset(
-                  "assets/icons/logo.png",
-                  height: 100,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    "assets/icons/logo.png",
+                    height: 100,
+                  ),
                 ),
                 const Text(
-                  "GOPOZT",
+                  "Delivery Hub",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

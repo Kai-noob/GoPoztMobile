@@ -12,7 +12,7 @@ class OrderHistoryPrepaidFeeWidget extends StatelessWidget {
       children: [
         30.horizontalSpace,
         Text(
-          "Prepaid fees-2500MMK",
+          "Deli fees-2500MMK",
           style: TextStyle(
             color: Colors.black,
             fontSize: 13.sp,

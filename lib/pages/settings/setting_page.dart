@@ -1,8 +1,10 @@
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:mengo_delivery/controllers/profile_controller.dart';
+import 'package:mengo_delivery/pages/profile_edit/profile_edit_page.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
 import '../../network/api_call_status.dart';
@@ -19,7 +21,9 @@ class SettingPage extends StatelessWidget {
         isLoading: controller.apiCallStatus == ApiCallStatus.loading,
         overlayBackgroundColor: Colors.black,
         circularProgressColor: primaryColor,
-        appIcon: Image.asset('assets/icons/icon.png'),
+        appIcon: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Image.asset('assets/icons/logo.png')),
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Setting"),
@@ -28,11 +32,19 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: ListView(
               children: [
-                SimpleUserCard(
+                SmallUserCard(
+                  cardRadius: 20,
+                  cardColor: primaryColor,
+                  onTap: () {},
                   userProfilePic:
                       const AssetImage("assets/images/profile.jpeg"),
                   userName: controller.userModel.name,
+                  userMoreInfo: Text(
+                    controller.userModel.phone??"",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
                 ),
+                // Text(controller.userModel.name),
                 // User card
                 // BigUserCard(
                 //   settingColor: Colors.white,
@@ -68,7 +80,9 @@ class SettingPage extends StatelessWidget {
                 SettingsGroup(
                   items: [
                     SettingsItem(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => const ProfileEditPage());
+                      },
                       icons: Icons.edit,
                       iconStyle: IconStyle(
                           iconsColor: Colors.white,

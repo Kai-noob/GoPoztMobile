@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_divider.dart';
 import 'package:mengo_delivery/components/custom_text.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/sender_controller.dart';
+import 'package:mengo_delivery/pages/delivery/sender/widgets/sender_confirm_widget.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 
 import '../../../../../routes/app_pages.dart';
 
 class CreateOrderFromWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final SenderController controller;
   const CreateOrderFromWidget({
     super.key,
     required this.controller,

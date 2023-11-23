@@ -1,65 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
+import 'package:mengo_delivery/pages/delivery/receiver/widgets/receiver_fee_details_widget.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-
-
 class ReceiverEstimationWidget extends StatelessWidget {
+  final ReceiverController controller;
   const ReceiverEstimationWidget({
     super.key,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-        decoration: const BoxDecoration(color: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Estimation",
-                  style: TextStyle(
-                      color: black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                4.verticalSpace,
-                Text(
-                  "MMK-",
-                  style: TextStyle(
-                      color: black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                const Icon(
-                  LineIcons.caret_up,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                Text(
-                  "Details",
-                  style: TextStyle(
+    return Obx(() {
+      return Expanded(
+        flex: 2,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+          decoration: const BoxDecoration(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Estimation",
+                    style: TextStyle(
+                        color: black,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  4.verticalSpace,
+                  Text(
+                    "MMK-${controller.calculateTotalFee()}",
+                    style: TextStyle(
+                        color: black,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(() => ReceiverFeeDetailsWidget(
+                      isUrgent: controller.deliveryTime == 'urgent',
+                      isOverweight: controller.parcelWeight > 3,
+                      wayFee: controller.totalFee,
+                      urgentFee: controller.urgentFee,
+                      overWeightFee: controller.overWeightFee));
+                },
+                child: Column(
+                  children: [
+                    const Icon(
+                      LineIcons.caret_up,
                       color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                )
-              ],
-            )
-          ],
+                      size: 20,
+                    ),
+                    Text(
+                      "Details",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

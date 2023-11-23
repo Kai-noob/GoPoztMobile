@@ -25,7 +25,9 @@ class LoginPage extends StatelessWidget {
         isLoading: authController.apiCallStatus == ApiCallStatus.loading,
         overlayBackgroundColor: Colors.black,
         circularProgressColor: primaryColor,
-        appIcon: Image.asset('assets/icons/icon.png'),
+        appIcon: ClipRRect(
+           borderRadius: BorderRadius.circular(100),
+          child: Image.asset('assets/icons/logo.png')),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../controllers/delivery_controller.dart';
@@ -12,7 +13,7 @@ class ReceiverItemTypeWidget extends StatelessWidget {
     required this.controller,
   });
 
-  final DeliveryController controller;
+  final ReceiverController controller;
 
   @override
   Widget build(BuildContext context) {

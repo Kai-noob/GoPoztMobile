@@ -6,11 +6,13 @@ class DeliveryModel {
   SenderModel sender;
   List<ParcelModel> parcels;
 
+
   DeliveryModel({required this.sender,required this.parcels});
 
   Map<String,dynamic> toJson(){
     return {
       'sender':sender.toJson(),
+      
       'parcels': parcels.map((parcel) => parcel.toJson()).toList(),
     };
   }

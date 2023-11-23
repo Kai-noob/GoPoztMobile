@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:mengo_delivery/helpers/validator_helper.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -8,7 +9,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../../utils/app_colors.dart';
 
 class ReceiverCashAmountWidget extends StatelessWidget {
-  final DeliveryController controller;
+  final ReceiverController controller;
   const ReceiverCashAmountWidget({super.key, required this.controller});
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mengo_delivery/controllers/delivery_controller.dart';
+import 'package:mengo_delivery/controllers/receiver_controller.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ReceiverWeightWidget extends StatelessWidget {
@@ -10,7 +11,7 @@ class ReceiverWeightWidget extends StatelessWidget {
     required this.controller,
   });
 
-  final DeliveryController controller;
+  final ReceiverController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,10 @@ class ReceiverWeightWidget extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => controller.decreaseWeight(),
+                    onTap: () {
+                      controller.decreaseWeight();
+                  
+                    },
                     child: const Icon(
                       Icons.remove,
                       size: 20,
@@ -43,7 +47,10 @@ class ReceiverWeightWidget extends StatelessWidget {
                   ),
                   4.horizontalSpace,
                   GestureDetector(
-                    onTap: () => controller.increseWeight(),
+                    onTap: () {
+                      controller.increseWeight();
+                  
+                    },
                     child: const Icon(
                       Icons.add,
                       size: 20,

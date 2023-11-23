@@ -1,11 +1,17 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/route_manager.dart';
+
 import 'package:logger/logger.dart';
 import 'package:mengo_delivery/models/user_model.dart';
 
 import 'package:mengo_delivery/routes/app_pages.dart';
 import 'package:mengo_delivery/network/api_call_status.dart';
+import 'package:path/path.dart';
 
 import '../helpers/shared_pref_helper.dart';
 import '../helpers/snackbar_helper.dart';
@@ -15,8 +21,13 @@ import '../utils/api_url.dart';
 class ProfileController extends GetxController {
   ApiCallStatus apiCallStatus = ApiCallStatus.loading;
 
-  final Rx<UserModel> _userModel=UserModel(id: 0, name: "", phone: "", level: "").obs;
-  UserModel get userModel=> _userModel.value;
+  final Rx<UserModel> _userModel = UserModel(
+    id: 0,
+    name: "",
+    phone: "",
+    level: "",
+  ).obs;
+  UserModel get userModel => _userModel.value;
   final BaseClient _baseClient = BaseClient();
 
   logout(BuildContext context) async {
@@ -81,7 +92,7 @@ class ProfileController extends GetxController {
       },
       onSuccess: (response) {
         // api done successfully
-        _userModel.value=UserModel.fromJson(response.data);
+        _userModel.value = UserModel.fromJson(response.data);
         Logger().e(_userModel.value);
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
@@ -97,6 +108,120 @@ class ProfileController extends GetxController {
         update();
       },
     );
+  }
+
+  updateProfile(
+    BuildContext context,
+    UserModel user,
+  ) async {
+    await _baseClient.safeApiCall(
+      ApiUrls
+          .editProfileUrl, // Replace with the actual update profile API endpoint
+      RequestType.post, // Use the appropriate HTTP method for updating profiles
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      data: FormData.fromMap({
+        // 'profile': await MultipartFile.fromFile(
+        //   profile.path,
+        //   filename: basename(profile.path),
+        // ),
+        '_method': 'put',
+        "name": userModel.name,
+        "phone": userModel.phone,
+        // Add any other form fields as needed
+      }),
+      onLoading: () {
+        // Indicate loading state
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        // API call done successfully
+        // _userModel.value = UserModel.fromJson(response.data);
+        // Logger().e(_userModel.value);
+
+        // Indicate success state
+        apiCallStatus = ApiCallStatus.success;
+        update();
+
+        // Show success message to the user
+        SnackBarHelper.showSuccessMessage(
+          context: context,
+          title: response.data["message"],
+        );
+      },
+      onError: (error) {
+        // Show error message to the user
+        BaseClient.handleApiError(apiException: error);
+
+        // Indicate error status
+        apiCallStatus = ApiCallStatus.error;
+        update();
+      },
+    );
+  }
+
+  updateProfileImage(
+    BuildContext context,
+    File profile,
+  ) async {
+    await _baseClient.safeApiCall(
+      ApiUrls
+          .editProfileUrl, // Replace with the actual update profile API endpoint
+      RequestType.post, // Use the appropriate HTTP method for updating profiles
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      data: FormData.fromMap({
+        '_method': 'put',
+        'profile': await MultipartFile.fromFile(profile.path,
+            filename: profile.path.split('/').last),
+        // Add any other form fields as needed
+      }),
+      onLoading: () {
+        // Indicate loading state
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        // API call done successfully
+        // _userModel.value = UserModel.fromJson(response.data);
+        // Logger().e(_userModel.value);
+
+        // Indicate success state
+        apiCallStatus = ApiCallStatus.success;
+        update();
+
+        // Show success message to the user
+        SnackBarHelper.showSuccessMessage(
+          context: context,
+          title: response.data["message"],
+        );
+      },
+      onError: (error) {
+        // Show error message to the user
+        BaseClient.handleApiError(apiException: error);
+
+        // Indicate error status
+        apiCallStatus = ApiCallStatus.error;
+        update();
+      },
+    );
+  }
+
+  setUserName(String name) {
+    _userModel.value.name = name;
+  }
+
+  setPhone(String phone) {
+    _userModel.value.phone = phone;
   }
 
   @override

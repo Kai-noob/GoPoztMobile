@@ -16,7 +16,7 @@ class AnnouncementCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 1.4),
+        border: Border.all(color: primaryColor, width: 1.4),
         borderRadius: BorderRadius.circular(10),
       ),
       height: 30.h,
@@ -25,7 +25,7 @@ class AnnouncementCard extends StatelessWidget {
         imageUrl: announcement.image ?? "",
         fit: BoxFit.cover,
         placeholder: (context, url) => const Icon(Icons.image),
-        errorWidget: (context,url,error)=>const Icon(Icons.image),
+        errorWidget: (context, url, error) => const Icon(Icons.image),
       ),
     );
   }
