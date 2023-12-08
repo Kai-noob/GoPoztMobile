@@ -25,7 +25,7 @@ class OrderHistoryDeliFeeWidget extends StatelessWidget {
           "Deli fees-${controller.orders[orderIndex].parcels[wayIndex].parcelTotalAmount} MMK",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w300,
           ),
         ),
@@ -34,7 +34,7 @@ class OrderHistoryDeliFeeWidget extends StatelessWidget {
           "${controller.orders[orderIndex].parcels[wayIndex].deliveryTime.capitalize}",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w300,
           ),
         ),

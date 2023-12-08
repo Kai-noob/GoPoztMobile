@@ -17,7 +17,7 @@ class ODCancelWidget extends StatelessWidget {
       child: Text(
         "Cancel",
         style: TextStyle(
-            color: white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+            color: white, fontSize: 14.sp, fontWeight: FontWeight.w500),
       ),
     ));
   }

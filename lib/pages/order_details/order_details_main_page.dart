@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
@@ -18,7 +17,6 @@ import 'widgets/order_details_total_widget.dart';
 import 'widgets/order_details_type_widget.dart';
 
 class OrderDetailsMainPage extends StatelessWidget {
-  
   const OrderDetailsMainPage({super.key});
 
   @override
@@ -26,8 +24,8 @@ class OrderDetailsMainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Order #1234"),
-        leading:  CustomBackButton(
-          onTap: (){
+        leading: CustomBackButton(
+          onTap: () {
             Get.back();
           },
         ),
@@ -39,7 +37,7 @@ class OrderDetailsMainPage extends StatelessWidget {
                 "Delivery",
                 style: TextStyle(
                     color: redColor,
-                    fontSize: 15.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
@@ -53,7 +51,7 @@ class OrderDetailsMainPage extends StatelessWidget {
         Text(
           "Addresses",
           style: TextStyle(
-              color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         const CustomVerticalSpacer(height: 10),
         const ODSenderAddressWidget(),
@@ -63,7 +61,7 @@ class OrderDetailsMainPage extends StatelessWidget {
         Text(
           "Delivery Man",
           style: TextStyle(
-              color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         const CustomVerticalSpacer(height: 10),
         const ODDeliveryPersonWidget(),
@@ -71,7 +69,7 @@ class OrderDetailsMainPage extends StatelessWidget {
         Text(
           "Item Information",
           style: TextStyle(
-              color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         const CustomVerticalSpacer(height: 10),
         const ODTypeWidget(),
@@ -79,7 +77,7 @@ class OrderDetailsMainPage extends StatelessWidget {
         Text(
           "Other Information",
           style: TextStyle(
-              color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         const CustomVerticalSpacer(height: 10),
         const ODCollectPaymentWidget(),
@@ -87,7 +85,7 @@ class OrderDetailsMainPage extends StatelessWidget {
         Text(
           "Photos",
           style: TextStyle(
-              color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         const CustomVerticalSpacer(height: 15),
         const ODImageWidget(),

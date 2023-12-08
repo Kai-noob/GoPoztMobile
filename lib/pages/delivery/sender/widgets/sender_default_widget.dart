@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mengo_delivery/controllers/sender_controller.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -7,8 +8,9 @@ import '../../../../utils/app_colors.dart';
 
 
 class SenderDefaultWidget extends StatelessWidget {
+  final SenderController senderController;
   const SenderDefaultWidget({
-    super.key,
+    super.key, required this.senderController,
   });
 
   @override
@@ -34,6 +36,7 @@ class SenderDefaultWidget extends StatelessWidget {
             // setState(() {
             //   isBroke = selected;
             // });
+            
           },
         ),
       ]),

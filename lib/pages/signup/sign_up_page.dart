@@ -29,8 +29,8 @@ class SignUpPage extends StatelessWidget {
         overlayBackgroundColor: Colors.black,
         circularProgressColor: primaryColor,
         appIcon: ClipRRect(
-           borderRadius: BorderRadius.circular(100),
-          child: Image.asset('assets/icons/logo.png')),
+            borderRadius: BorderRadius.circular(100),
+            child: Image.asset('assets/icons/logo.png')),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: Form(
@@ -46,11 +46,13 @@ class SignUpPage extends StatelessWidget {
                 SignUpPasswordWidget(passwordController: passwordController),
                 const CustomVerticalSpacer(height: 25),
                 SignUpButtonWidget(
-                    formKey: formKey,
-                    authController: authController,
-                    nameController: nameController,
-                    phoneController: phoneController,
-                    passwordController: passwordController),
+                  formKey: formKey,
+                  authController: authController,
+                  nameController: nameController,
+                  phoneController: phoneController,
+                  passwordController: passwordController,
+                  ctx: context,
+                ),
                 const CustomVerticalSpacer(height: 40),
                 const SignUpLoginWidget()
               ],

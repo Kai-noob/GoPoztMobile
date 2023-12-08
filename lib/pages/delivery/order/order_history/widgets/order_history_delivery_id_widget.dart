@@ -25,7 +25,7 @@ class OrderHistoryDeliveryIdWidget extends StatelessWidget {
             "Delivery id:${controller.orders[index].deliverer == null ? "" : controller.orders[index].deliverer!.id}",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 13.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -35,7 +35,7 @@ class OrderHistoryDeliveryIdWidget extends StatelessWidget {
                 : controller.orders[index].deliverer!.name,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 13.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w300,
             ),
           ),

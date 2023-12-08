@@ -319,56 +319,65 @@ class BaseClient {
   /// handle error automaticly (if user didnt pass onError) method
   /// it will try to show the message from api if there is no message
   /// from api it will show the reason (the dio message)
-  static void handleApiError(
-      {required ApiException apiException, BuildContext? context}) {
-    // String msg = apiException.response!.data?["message"]?.toString() ??
-    //     "An error occurred";
+ static void handleApiError({
+  required ApiException apiException,
+  BuildContext? context,
+}) {
+  String message = "";
 
-    String message = "";
+  try {
+    if (apiException.response != null) {
+      final responseData = apiException.response!.data;
 
-    try {
-      // Your API call or logic here
+      if (responseData != null && responseData.containsKey("errors")) {
+        final errors = responseData["errors"];
 
-      if (apiException.response != null &&
-          apiException.response!.data != null &&
-          apiException.response!.data!.containsKey("errors")) {
-        final errors = apiException.response!.data!["errors"];
+        if (errors is Map<String, dynamic>) {
+          List<String> validationErrors = [];
 
-        if (errors is Map) {
-          final phoneErrors = errors["phone"] ?? [];
-          final passwordErrors = errors["password"] ?? [];
+          errors.forEach((key, value) {
+            if (value is List) {
+              validationErrors.addAll(value.map((error) => error.toString()));
+            } else {
+              validationErrors.add(value.toString());
+            }
+          });
 
-          if (phoneErrors.isNotEmpty) {
-            // Handle phone field errors
-            message = phoneErrors.join(", ");
-          }
-
-          if (passwordErrors.isNotEmpty) {
-            // Handle password field errors
-            message = passwordErrors.join(", ");
+          if (validationErrors.isNotEmpty) {
+            // Join all validation errors into a single message
+            message = validationErrors.join(", ");
+          } else {
+            // Set a default message for validation errors
+            message = "Validation error";
           }
         } else {
           // Handle unexpected error structure
-          message = "Something wrong";
+          message = "Something went wrong";
         }
+      } else if (responseData != null && responseData.containsKey("message")) {
+        // Handle other types of errors with a 'message' key
+        message = responseData["message"];
       } else {
         // Handle other types of errors
-        message = apiException.response!.data["message"];
+        message = "An error occurred";
       }
-    } catch (error) {
-      Logger().i(error.toString());
-      // Handle other types of errors, e.g., network errors or unexpected exceptions
-      message = "";
-    }
-
-// Provide a default message if the response doesn't contain errors.
-
-    if (context != null) {
-      // SnackBarHelper.showErrorMessage(context: context, title: message);
     } else {
-      // Fluttertoast.showToast(msg: message);
+      // Handle Dio-specific errors
+      message = "Dio error";
     }
+  } catch (error) {
+    // Handle unexpected exceptions or errors
+    message = "An unexpected error occurred";
+    Logger().e(error.toString());
   }
+
+  if (context != null) {
+    SnackBarHelper.showErrorMessage(context: context, title: message);
+  } else {
+    // Show a toast or handle differently in non-UI context
+    // Fluttertoast.showToast(msg: message);
+  }
+}
 
   static void handleAuthError(ApiException apiException) {
     String msg = apiException.response!.data?["message"]?.toString() ??

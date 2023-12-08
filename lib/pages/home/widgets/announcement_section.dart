@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mengo_delivery/pages/announcements/announcement_page.dart';
 
 import '../../../controllers/home_controller.dart';
 import 'announcement_card.dart';
@@ -18,8 +20,12 @@ class AnnouncementsSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: controller.announcements.length,
         itemBuilder: (BuildContext context, int index) {
-          return AnnouncementCard(
-              announcement: controller.announcements[index]);
+          return InkWell(
+            onTap: () => Get.to(() => AnnouncementPage(
+                announcement: controller.announcements[index])),
+            child:
+                AnnouncementCard(announcement: controller.announcements[index]),
+          );
         },
       ),
     );

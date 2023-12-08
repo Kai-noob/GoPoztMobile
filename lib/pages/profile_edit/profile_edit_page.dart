@@ -25,8 +25,6 @@ class ProfileEditPage extends StatefulWidget {
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
-
-
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -55,8 +53,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       // -- IMAGE with ICON
                       InkWell(
                         onTap: () {
-                          _showImageSource(context,controller);
-                    
+                          _showImageSource(context, controller);
                         },
                         child: Stack(
                           children: [
@@ -68,8 +65,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                     borderRadius: BorderRadius.circular(100),
                                     image: DecorationImage(
                                         image: CachedNetworkImageProvider(
-                                          
-                                            controller.userModel.profile!)),
+                                            controller.userModel.profile ??
+                                                "")),
                                     border: Border.all(color: primaryColor)),
 
                                 // child: _imageFile == null
@@ -168,7 +165,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                     shape: const StadiumBorder()),
                                 child: Text("Save",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp)),
+                                        color: Colors.white, fontSize: 14.sp)),
                               ),
                             ),
                             // const SizedBox(height: tFormHeight),
@@ -186,20 +183,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         ));
   }
 
-  Future<void> _getImage(ImageSource source,ProfileController controller) async {
-     XFile? pickedFile = await _picker.pickImage(source: source);
+  Future<void> _getImage(
+      ImageSource source, ProfileController controller) async {
+    XFile? pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile != null) {
-       setState(() {
-         controller.updateProfileImage(context, File(pickedFile.path));
-       });
-        
-      } else {
-        print('No image selected.');
-      }
+      setState(() {
+        controller.updateProfileImage(context, File(pickedFile.path));
+      });
+    } else {
+      print('No image selected.');
+    }
   }
 
-  void _showImageSource(BuildContext context,ProfileController controller) {
+  void _showImageSource(BuildContext context, ProfileController controller) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -211,7 +208,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Choose from Gallery'),
                 onTap: () {
-                  _getImage(ImageSource.gallery,controller);
+                  _getImage(ImageSource.gallery, controller);
                   Navigator.pop(context);
                 },
               ),
@@ -219,7 +216,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 leading: const Icon(Icons.photo_camera),
                 title: const Text('Take a Picture'),
                 onTap: () {
-                  _getImage(ImageSource.camera,controller);
+                  _getImage(ImageSource.camera, controller);
                   Navigator.pop(context);
                 },
               ),

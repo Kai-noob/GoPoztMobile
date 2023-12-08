@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mengo_delivery/pages/history/history_card.dart';
+import 'package:mengo_delivery/pages/history/widgets/history_card.dart';
 import 'package:mengo_delivery/pages/history/history_page.dart';
 import 'package:mengo_delivery/pages/home/home_page.dart';
 import 'package:mengo_delivery/pages/notification/notification_page.dart';

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +9,26 @@ import 'helpers/instance_helper.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- 
-  Map<String, Map<String, String>> languages = await di.init();
+  await EasyLocalization.ensureInitialized();
+
+  await di.init();
   await AppCachePathProvider.initPath();
   await Permission.notification.isDenied.then((value) {
     if (value) {
       Permission.notification.request();
     }
   });
-   await Firebase.initializeApp();
+  await Firebase.initializeApp();
   await FirebaseMessaging.instance.getInitialMessage();
+  await FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.onBackgroundMessage(_firebaseMessageBackgound);
-  runApp(App(
-    languages: languages,
+  runApp(EasyLocalization(
+    supportedLocales: const [Locale('en', 'US'), Locale('my','MM')],
+    path: 'assets/translations', // <-- change the path of the translation files
+    fallbackLocale: const Locale('en', 'US'),
+    child: const App(),
   ));
 }
-
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessageBackgound(RemoteMessage message) async {

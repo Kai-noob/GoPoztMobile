@@ -12,7 +12,7 @@ class ThemeHelper {
           // scaffoldBackgroundColor: Colors.white,
           // fontFamily: GoogleFonts.nunito(fontWeight: FontWeight.w500,fontSize: 15).fontFamily,
           fontFamily:
-              GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600)
+              GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600)
                   .fontFamily,
           iconTheme: const IconThemeData(color: Colors.black),
           dialogBackgroundColor: Colors.white,
@@ -22,13 +22,12 @@ class ThemeHelper {
           // tabBarTheme: const TabBarTheme(labelColor: Colors.black),
           appBarTheme: AppBarTheme(
             color: primaryColor,
-            elevation: 10,
+            elevation: 0,
             titleTextStyle: TextStyle(
               fontFamily:
-                  GoogleFonts.poppins( fontWeight: FontWeight.w600)
-                      .fontFamily,
-              fontSize: 16.sp,
-              // fontSize: 16.sp,
+                  GoogleFonts.inter(fontWeight: FontWeight.w600,fontSize: 17.sp).fontFamily,
+              fontSize: 17.sp,
+              // fontSize: 14.sp,
               // fontWeight: FontWeight.w500,
               color: Colors.white,
             ),

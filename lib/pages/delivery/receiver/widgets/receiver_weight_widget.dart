@@ -23,14 +23,13 @@ class ReceiverWeightWidget extends StatelessWidget {
               Text(
                 "Weight",
                 style: TextStyle(
-                    color: black, fontSize: 13.sp, fontWeight: FontWeight.w500),
+                    color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
               Row(
                 children: [
                   GestureDetector(
                     onTap: () {
                       controller.decreaseWeight();
-                  
                     },
                     child: const Icon(
                       Icons.remove,
@@ -42,14 +41,13 @@ class ReceiverWeightWidget extends StatelessWidget {
                     controller.parcelWeight.toString(),
                     style: TextStyle(
                         color: black,
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                   4.horizontalSpace,
                   GestureDetector(
                     onTap: () {
                       controller.increseWeight();
-                  
                     },
                     child: const Icon(
                       Icons.add,

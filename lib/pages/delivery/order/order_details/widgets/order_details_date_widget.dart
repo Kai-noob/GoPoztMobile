@@ -15,16 +15,13 @@ class OrderDetailsDateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: Text(
-        DateFormat('E/d-M-yyyy').format(DateTime.parse(order.createdAt)),
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w300,
-            overflow: TextOverflow.ellipsis),
-      ),
+    return Text(
+      "Date: ${DateFormat('E-d-M-yyyy').format(DateTime.parse(order.createdAt))}",
+      style: TextStyle(
+          color: Colors.black,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w300,
+          overflow: TextOverflow.ellipsis),
     );
   }
 }

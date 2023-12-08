@@ -17,7 +17,7 @@ class CityAreaBackground extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: Colors.white,
+        color: const Color(0xFFF5F5F5),
       ),
       child: child,
     );

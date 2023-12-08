@@ -11,6 +11,7 @@ class LoginButtonWidget extends StatelessWidget {
     required AuthController authController,
     required TextEditingController phoneController,
     required TextEditingController passwordController,
+   required this.ctx
   })  : _formKey = formKey,
         _authController = authController,
         _phoneController = phoneController,
@@ -20,6 +21,7 @@ class LoginButtonWidget extends StatelessWidget {
   final AuthController _authController;
   final TextEditingController _phoneController;
   final TextEditingController _passwordController;
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class LoginButtonWidget extends StatelessWidget {
                     LoginModel(
                         phone: _phoneController.text,
                         password: _passwordController.text),
-                    context);
+                    ctx);
               } else {
                 print("Error");
               }

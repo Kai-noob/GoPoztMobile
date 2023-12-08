@@ -16,7 +16,6 @@ class AppConstants {
   static SvgPicture notiIcon = SvgPicture.asset(
     noti,
     height: 19,
-    color: white,
   );
   static SvgPicture historyIcon = SvgPicture.asset(
     history,
@@ -79,17 +78,4 @@ class AppConstants {
   static SizedBox defaultSpacer = SizedBox(
     height: 7.h,
   );
-
-  static List<LanguageModel> languages = [
-    LanguageModel(
-        imageUrl: "",
-        languageName: 'English',
-        countryCode: 'US',
-        languageCode: 'en'),
-    LanguageModel(
-        imageUrl: "",
-        languageName: 'Burmese',
-        countryCode: 'MM',
-        languageCode: 'mm'),
-  ];
 }

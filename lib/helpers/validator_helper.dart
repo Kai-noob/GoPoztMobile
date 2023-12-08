@@ -4,7 +4,8 @@ class ValidatorHelper {
       return "Please fill in your phone number";
     }
 
-    RegExp phoneNumberRegExp = RegExp(r'^09\d{9}$');
+   RegExp phoneNumberRegExp = RegExp(r'^09\d+$');
+
 
     if (!phoneNumberRegExp.hasMatch(value)) {
       return "Invalid Myanmar phone number format";

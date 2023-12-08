@@ -26,8 +26,8 @@ class LoginPage extends StatelessWidget {
         overlayBackgroundColor: Colors.black,
         circularProgressColor: primaryColor,
         appIcon: ClipRRect(
-           borderRadius: BorderRadius.circular(100),
-          child: Image.asset('assets/icons/logo.png')),
+            borderRadius: BorderRadius.circular(100),
+            child: Image.asset('assets/icons/logo.png')),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -46,6 +46,7 @@ class LoginPage extends StatelessWidget {
                     authController: authController,
                     phoneController: phoneController,
                     passwordController: passwordController,
+                    ctx: context,
                   ),
                   const SizedBox(height: 20),
                   const LoginForgotPasswordWidget(),

@@ -34,7 +34,7 @@ class CreateOrderTimeWidget extends StatelessWidget {
           ],
         ),
         subtitle: Text(
-          "ပုံမှန်အားဖြင့် (၈နာရီ) အတွင်းလာယူသည်။(စိတ်ကြိုက်ပြင်ဆင်နိုင်သည်။)",
+          "ပုံမှန်အားဖြင့် (၂၄နာရီ) အတွင်းလာယူသည်။(စိတ်ကြိုက်ပြင်ဆင်နိုင်သည်။)",
           style: TextStyle(
               color: Colors.black,
               fontSize: 11.sp,

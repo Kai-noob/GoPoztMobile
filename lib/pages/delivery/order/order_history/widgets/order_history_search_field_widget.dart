@@ -12,37 +12,56 @@ class OrderHistorySearchFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: TextFormField(
-        onChanged: (value) {
-          if(value.isEmpty){
-            controller.getOrders();
-          }else{
-            controller.searchOrders(value);
-          }
-        },
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(10),
-            fillColor: Colors.white,
-            filled: true,
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey)),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey)),
-            prefixIcon: const Icon(
-              Icons.search,
-              color: Colors.grey,
-            ),
-            suffixIcon: const Icon(
-              LineIcons.times,
-              color: Colors.grey,
-            )),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      child: Form(
+        key: formKey,
+        child: TextFormField(
+          onChanged: (value) {
+            // if (value.isEmpty) {
+            //   controller.getOrders();
+            // } else {
+            //   controller.searchOrders(value);
+            // }
+          },
+          onFieldSubmitted: (value) {
+            if (value.isEmpty) {
+              controller.getOrders();
+            } else {
+              controller.searchOrders(value);
+            }
+          },
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(10),
+              fillColor: Colors.white,
+              filled: true,
+              labelText: "Search Orders..",
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey)),
+              prefixIcon: const Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              suffixIcon: InkWell(
+                onTap: () {
+                  formKey.currentState?.reset();
+                },
+                child: const Icon(
+                  LineIcons.times,
+                  color: Colors.grey,
+                ),
+              )),
+        ),
       ),
     );
   }

@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 // const Color primaryColor = Color(0xFFfebd59);
 // const Color primaryColor=Color(0xFFFF6B6B);
 // const Color primaryColor=Color(0xFF0149ff);
-const Color primaryColor=Color(0xFF004AAD);
-
-
+const Color primaryColor = Color(0xFF004AAD);
+// const Color primaryColor=Color(0xFFE7A368);
 
 Color scaffoldColorLight = const Color(0xFF5DADE2);
 const scaffoldSecondaryDark = Color(0xFF1E1E1E);

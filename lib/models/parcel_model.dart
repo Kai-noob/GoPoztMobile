@@ -40,31 +40,31 @@ class ParcelModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    Logger().e(parcelPhotos.toList());
-    print("Parcel Photo${convertStringListToFileList(parcelPhotos)}");
-    final Map<String, dynamic> data = {
-      'pickup_time': pickupTime,
-      'delivery_time': deliveryTime,
-      'item_type': itemType,
-      'prepaid': prepaid,
-      'parcel_size': 'md',
-      'parcel_weight': parcelWeight,
-      'parcel_photos': parcelPhotos.isEmpty
-          ? null
-          : convertStringListToFileList(parcelPhotos),
-      'collect_cash_amount': collectCashAmount,
-      'receiver': receiver.toJson()
-    };
+  // Map<String, dynamic> toJson() {
+  //   Logger().e(parcelPhotos.toList());
+  //   print("Parcel Photo${convertStringListToFileList(parcelPhotos)}");
+  //   final Map<String, dynamic> data = {
+  //     'pickup_time': pickupTime,
+  //     'delivery_time': deliveryTime,
+  //     'item_type': itemType,
+  //     'prepaid': prepaid,
+  //     'parcel_size': 'md',
+  //     'parcel_weight': parcelWeight,
+  //     'parcel_photos': parcelPhotos.isEmpty
+  //         ? null
+  //         : convertStringListToFileList(parcelPhotos),
+  //     'collect_cash_amount': collectCashAmount,
+  //     'receiver': receiver.toJson()
+  //   };
 
-    return data;
-  }
+  //   return data;
+  // }
 
-  List<File> convertStringListToFileList(List<String> stringList) {
-    List<File> fileList = [];
-    for (String path in stringList) {
-      fileList.add(File(path));
-    }
-    return fileList;
-  }
+  // List<File> convertStringListToFileList(List<String> stringList) {
+  //   List<File> fileList = [];
+  //   for (String path in stringList) {
+  //     fileList.add(File(path));
+  //   }
+  //   return fileList;
+  // }
 }

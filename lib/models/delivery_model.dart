@@ -13,7 +13,7 @@ class DeliveryModel {
     return {
       'sender':sender.toJson(),
       
-      'parcels': parcels.map((parcel) => parcel.toJson()).toList(),
+      // 'parcels': parcels.map((parcel) => parcel.toJson()).toList(),
     };
   }
 }

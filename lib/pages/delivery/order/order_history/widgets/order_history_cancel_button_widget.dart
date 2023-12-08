@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class OrderHistoryCancelWidget extends StatelessWidget {
   const OrderHistoryCancelWidget({
     super.key,
@@ -20,11 +19,10 @@ class OrderHistoryCancelWidget extends StatelessWidget {
         "Cancel",
         style: TextStyle(
           color: Colors.white,
-          fontSize: 12.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w500,
         ),
       ),
     );
   }
 }
-

@@ -15,7 +15,7 @@ class OrderHistoryPrepaidFeeWidget extends StatelessWidget {
           "Deli fees-2500MMK",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w300,
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mengo_delivery/components/custom_vertical_spacer.dart';
 
@@ -28,13 +29,6 @@ class LogoutDialog extends StatelessWidget {
             shape: BoxShape.rectangle,
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black,
-                offset: Offset(0, 10),
-                blurRadius: 10,
-              ),
-            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -42,10 +36,10 @@ class LogoutDialog extends StatelessWidget {
               const CustomVerticalSpacer(height: 15),
               // Your logo goes here
 
-              const Text(
+              Text(
                 "Logout",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -65,20 +59,20 @@ class LogoutDialog extends StatelessWidget {
                     onPressed: () {
                       Get.back();
                     },
-                    child: const Text(
-                      "CANCEL",
+                    child: Text(
+                      "Cancel",
                       style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.blue,
+                        fontSize: 14.sp,
+                        color: Colors.black,
                       ),
                     ),
                   ),
                   TextButton(
                     onPressed: onTap,
-                    child: const Text(
-                      "LOGOUT",
+                    child: Text(
+                      "Confirm",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14.sp,
                         color: Colors.red,
                       ),
                     ),

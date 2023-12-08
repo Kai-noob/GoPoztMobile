@@ -21,7 +21,7 @@ class ReceiverWayCountWidget extends StatelessWidget {
           "WAY ${controller.parcels.length + 1}",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
           textAlign: TextAlign.center,

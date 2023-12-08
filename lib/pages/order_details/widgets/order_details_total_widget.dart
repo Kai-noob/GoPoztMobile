@@ -20,13 +20,13 @@ class ODTotalWidget extends StatelessWidget {
             Text(
               "Total",
               style: TextStyle(
-                  color: white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+                  color: white, fontSize: 14.sp, fontWeight: FontWeight.w500),
             ),
             4.verticalSpace,
             Text(
               "MMK-",
               style: TextStyle(
-                  color: white, fontSize: 12.sp, fontWeight: FontWeight.w500),
+                  color: white, fontSize: 14.sp, fontWeight: FontWeight.w500),
             )
           ],
         ),

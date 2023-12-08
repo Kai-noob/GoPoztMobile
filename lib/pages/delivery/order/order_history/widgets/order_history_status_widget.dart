@@ -27,7 +27,7 @@ class OrderHistoryStatusWidget extends StatelessWidget {
               color: controller.orders[index].status == 'pending'
                   ? Colors.redAccent
                   : Colors.green,
-              fontSize: 13.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w300,
               overflow: TextOverflow.ellipsis),
         ),

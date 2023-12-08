@@ -107,6 +107,7 @@ class SenderController extends GetxController {
   }
 
   getSenderTownships(int cityId) async {
+    apiCallStatus = ApiCallStatus.loading;
     await _baseClient.safeApiCall(
       "${ApiUrls.citiesUrl}/$cityId", // url
       RequestType.get,
@@ -140,6 +141,8 @@ class SenderController extends GetxController {
   }
 
   Future<void> getCities() async {
+   
+
     await _baseClient.safeApiCall(
       ApiUrls.citiesUrl, // url
       RequestType.get,
@@ -176,6 +179,10 @@ class SenderController extends GetxController {
   void onInit() {
     getCities();
     super.onInit();
+  }
+
+  setLoading(ApiCallStatus call){
+    apiCallStatus=call;
   }
 
   @override

@@ -7,6 +7,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../utils/app_colors.dart';
+import '../../sender/widgets/sender_clear_all_widget.dart';
+import '../../sender/widgets/sender_confirm_widget.dart';
 
 class ReceiverParcelSizeWidget extends StatelessWidget {
   final ReceiverController controller;
@@ -49,11 +51,12 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  15.verticalSpace,
                   Text(
                     "Parcel Size",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                   40.verticalSpace,
@@ -81,7 +84,7 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                                 color: controller.parcelSize == "sm"
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 15.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -106,7 +109,7 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                                 color: controller.parcelSize == "md"
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 15.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -131,13 +134,37 @@ class ReceiverParcelSizeWidget extends StatelessWidget {
                                 color: controller.parcelSize == "lg"
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 15.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
                     ],
                   ),
+                  const Spacer(),
+                  Container(
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        SenderClearAllWidget(
+                          label: "Cancel",
+                          onTap: () {
+                            controller.setParcelSize("");
+
+                            Get.back();
+                          },
+                        ),
+                        SenderConfirmWidget(
+                          onTap: () {
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )));

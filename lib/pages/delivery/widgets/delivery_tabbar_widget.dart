@@ -14,7 +14,7 @@ class DeliveryTabBarWidget extends StatelessWidget {
       indicatorSize: TabBarIndicatorSize.label,
       indicatorColor: Colors.white,
       labelStyle: TextStyle(
-        fontSize: 16.sp,
+        fontSize: 14.sp,
         fontFamily: GoogleFonts.poppins(
           color: Colors.black,
         ).fontFamily,

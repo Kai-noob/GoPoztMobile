@@ -17,6 +17,21 @@ class OrderResponse {
   }
 }
 
+
+class CompletedOrderResponse {
+  final List<Order> orders;
+
+  CompletedOrderResponse({required this.orders});
+
+  factory CompletedOrderResponse.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> ordersJson = json['orders']['data'];
+    final List<Order> orders =
+        ordersJson.map((task) => Order.fromJson(task)).toList();
+    return CompletedOrderResponse(orders: orders);
+  }
+}
+
+
 class Order {
   final int id;
   final Sender sender;
@@ -61,7 +76,7 @@ class Sender {
   final City city;
   final Township township;
   final String street;
-  final dynamic description;
+  final String description;
 
   Sender({
     required this.id,
@@ -95,13 +110,13 @@ class Parcel {
   final String itemType;
   final bool prepaid;
   final String parcelSize;
-  final dynamic parcelWeight;
-  final String? parcelDescription;
+  final int parcelWeight;
+  final dynamic parcelDescription;
   final Receiver receiver;
   final List<dynamic> parcelPhotos;
   final String status;
-  final dynamic collectCashAmount;
-  final dynamic parcelTotalAmount;
+  final int collectCashAmount;
+  final int parcelTotalAmount;
 
   Parcel(
       {required this.id,
@@ -115,8 +130,8 @@ class Parcel {
       required this.receiver,
       required this.parcelPhotos,
       required this.status,
-      this.collectCashAmount,
-      this.parcelTotalAmount});
+      required this.collectCashAmount,
+      required this.parcelTotalAmount});
 
   factory Parcel.fromJson(Map<String, dynamic> json) {
     return Parcel(

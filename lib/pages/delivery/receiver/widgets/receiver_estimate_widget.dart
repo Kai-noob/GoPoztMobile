@@ -33,7 +33,7 @@ class ReceiverEstimationWidget extends StatelessWidget {
                     "Estimation",
                     style: TextStyle(
                         color: black,
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                   4.verticalSpace,
@@ -41,7 +41,7 @@ class ReceiverEstimationWidget extends StatelessWidget {
                     "MMK-${controller.calculateTotalFee()}",
                     style: TextStyle(
                         color: black,
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   )
                 ],
@@ -66,7 +66,7 @@ class ReceiverEstimationWidget extends StatelessWidget {
                       "Details",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 12.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
                     )
                   ],

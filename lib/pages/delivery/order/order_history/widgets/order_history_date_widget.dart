@@ -23,7 +23,7 @@ class OrderHistoryDateWidget extends StatelessWidget {
             .format(DateTime.parse(controller.orders[index].createdAt)),
         style: TextStyle(
             color: Colors.black,
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w300,
             overflow: TextOverflow.ellipsis),
       ),

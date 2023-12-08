@@ -1,11 +1,11 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:mengo_delivery/bindings/init_binding.dart';
-import 'package:mengo_delivery/controllers/localization_controller.dart';
 
 import 'package:mengo_delivery/helpers/theme_helper.dart';
 import 'package:pusher_client_fixed/pusher_client_fixed.dart';
@@ -25,8 +25,9 @@ const String hostAuthEndPoint = "http://$hostEndPoint/broadcasting/auth";
 // const String eventName = 'MessageCreatedEvent';
 
 class App extends StatefulWidget {
-  final Map<String, Map<String, String>> languages;
-  const App({super.key, required this.languages});
+  const App({
+    super.key,
+  });
 
   @override
   State<App> createState() => _AppState();
@@ -49,7 +50,6 @@ class _AppState extends State<App> {
       PusherOptions(
         host: hostEndPoint,
         encrypted: true,
-
         cluster: cluster,
         auth: PusherAuth(
           hostAuthEndPoint,
@@ -70,7 +70,7 @@ class _AppState extends State<App> {
         channel = pusherClient
             .subscribe('App.Models.User.${MySharedPref.getUserId()}');
 
-    print(channel.name);
+        print(channel.name);
       }
     });
 
@@ -86,28 +86,24 @@ class _AppState extends State<App> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetBuilder<LocalizationController>(
-            builder: (localizationController) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeHelper.lightTheme,
-            translations: Messages(languages: widget.languages),
-            fallbackLocale: Locale(AppConstants.languages[0].languageCode!,
-                AppConstants.languages[0].countryCode),
-            locale: localizationController.locale,
-            initialRoute:
-                AppPages.INITIAL, // first screen to show when app is running
-            getPages: AppPages.routes,
-            initialBinding: InitBinding(),
-          );
-        });
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeHelper.lightTheme,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          initialRoute:
+              AppPages.INITIAL, // first screen to show when app is running
+          getPages: AppPages.routes,
+          initialBinding: InitBinding(),
+        );
       },
     );
   }
 
   @override
   void dispose() {
-pusherClient.unsubscribe('App.Models.User.${MySharedPref.getUserId()}');
+    pusherClient.unsubscribe('App.Models.User.${MySharedPref.getUserId()}');
     pusherClient.disconnect();
     super.dispose();
   }

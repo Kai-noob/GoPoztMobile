@@ -13,6 +13,7 @@ class SignUpButtonWidget extends StatelessWidget {
     required TextEditingController nameController,
     required TextEditingController phoneController,
     required TextEditingController passwordController,
+    required this.ctx
   })  : _formKey = formKey,
         _authController = authController,
         _nameController = nameController,
@@ -24,6 +25,7 @@ class SignUpButtonWidget extends StatelessWidget {
   final TextEditingController _nameController;
   final TextEditingController _phoneController;
   final TextEditingController _passwordController;
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class SignUpButtonWidget extends StatelessWidget {
                         name: _nameController.text,
                         phone: _phoneController.text,
                         password: _passwordController.text),
-                    context);
+                    ctx);
               } else {
                 print("Error");
               }

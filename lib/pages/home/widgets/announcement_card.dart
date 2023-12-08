@@ -16,17 +16,13 @@ class AnnouncementCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
-        border: Border.all(color: primaryColor, width: 1.4),
-        borderRadius: BorderRadius.circular(10),
-      ),
+          border: Border.all(color: primaryColor, width: 1.4),
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+              image: CachedNetworkImageProvider(announcement.image ?? ""),
+              fit: BoxFit.cover)),
       height: 30.h,
       width: 150.w,
-      child: CachedNetworkImage(
-        imageUrl: announcement.image ?? "",
-        fit: BoxFit.cover,
-        placeholder: (context, url) => const Icon(Icons.image),
-        errorWidget: (context, url, error) => const Icon(Icons.image),
-      ),
     );
   }
 }

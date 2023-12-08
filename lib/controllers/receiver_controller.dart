@@ -81,7 +81,7 @@ class ReceiverController extends GetxController {
   final RxList<City> _cities = <City>[].obs;
   List<City> get cities => _cities.toList();
 
-  final RxList<File> _parcelPhotos=RxList.empty();
+  final RxList<File> _parcelPhotos = RxList.empty();
   List<File> get parcelPhotos => _parcelPhotos.toList();
 
   void decreaseWeight() {
@@ -138,6 +138,10 @@ class ReceiverController extends GetxController {
     _receiverNote.value = value;
   }
 
+  void setReceiverParcelPhotos() {
+    _parcelPhotos.value = [];
+  }
+
   void setReceiverCashAmount(String value) {
     _receiverCashAmount.value = value;
   }
@@ -179,7 +183,7 @@ class ReceiverController extends GetxController {
       _wayHistories.removeAt(index);
       // Notify observers of the change
     }
-     if (index >= 0 && index < _parcels.length) {
+    if (index >= 0 && index < _parcels.length) {
       _parcels.removeAt(index);
       // Notify observers of the change
     }
@@ -365,17 +369,18 @@ class ReceiverController extends GetxController {
 
   Future<void> selectImagesAndUpload() async {
     List<XFile>? selectedImages;
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     try {
-      selectedImages = await _picker.pickMultiImage(); // Select multiple images
+      selectedImages = await picker.pickMultiImage(); // Select multiple images
     } catch (e) {
       print('Error selecting images: $e');
     }
 
     if (selectedImages != null && selectedImages.isNotEmpty) {
-      List<File> imageFiles = selectedImages.map((image) => File(image.path)).toList();
+      List<File> imageFiles =
+          selectedImages.map((image) => File(image.path)).toList();
       // await uploadMultipleImages(imageFiles);
-      _parcelPhotos.value=imageFiles;
+      _parcelPhotos.value = imageFiles;
     }
   }
 

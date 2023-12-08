@@ -8,6 +8,7 @@ import 'package:mengo_delivery/helpers/shared_pref_helper.dart';
 import 'package:mengo_delivery/helpers/snackbar_helper.dart';
 import 'package:mengo_delivery/models/register_model.dart';
 import 'package:mengo_delivery/routes/app_pages.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../network/api_call_status.dart';
 import '../network/base_client.dart';
@@ -57,7 +58,7 @@ class AuthController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(apiException: error,context: context);
+        BaseClient.handleApiError(apiException: error, context: context);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;
@@ -87,9 +88,8 @@ class AuthController extends GetxController {
       onSuccess: (response) {
         // api done successfully
 
-        Logger().d(response.data["token"]);
         MySharedPref.setToken(response.data["token"]);
-             MySharedPref.setUserId(response.data['user']['id']);
+        MySharedPref.setUserId(response.data['user']['id']);
         Get.offAllNamed(Routes.dashboard);
         SnackBarHelper.showSuccessMessage(
             context: context, title: "Successfully logined.");
@@ -102,7 +102,10 @@ class AuthController extends GetxController {
       // will automaticly handle error and show message to user
       onError: (error) {
         // show error message to user
-        BaseClient.handleApiError(apiException: error,context: context);
+        BaseClient.handleApiError(apiException: error, context: context);
+        // SnackBarHelper.showErrorMessage(context: context, title: error.message);
+        // SnackBarHelper.showErrorMessage(
+        //     title: error.response!.data["message"], context: context);
 
         // *) indicate error status
         apiCallStatus = ApiCallStatus.error;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mengo_delivery/controllers/orders_controller.dart';
-import 'package:mengo_delivery/pages/history/history_card.dart';
+import 'package:mengo_delivery/pages/history/widgets/history_card.dart';
 import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
 
@@ -37,7 +37,7 @@ class _HistoryPageState extends State<HistoryPage>
               padding: EdgeInsets.symmetric(horizontal: 3.w),
               child: Column(
                 children: [
-                  30.verticalSpace,
+                  10.verticalSpace,
                   Card(
                     elevation: 5.0,
                     shadowColor: Colors.black12,
@@ -62,7 +62,7 @@ class _HistoryPageState extends State<HistoryPage>
                             text: "Pending",
                           ),
                           Tab(
-                            text: "OnDelivery",
+                            text: "Delivering",
                           ),
                           Tab(
                             text: "Completed",
@@ -77,9 +77,18 @@ class _HistoryPageState extends State<HistoryPage>
                     children: [
                       // RecentView(),
                       // DownloadView(),
-                      HistoryCard(orders: ordersController.pendingOrders),
-                      HistoryCard(orders: ordersController.deliveringOrders),
-                      HistoryCard(orders: ordersController.completedOrders),
+                      HistoryCard(
+                        orders: ordersController.pendingOrders,
+                        refresh: () => ordersController.getPendingOrders(),
+                      ),
+                      HistoryCard(
+                        orders: ordersController.deliveringOrders,
+                        refresh: () => ordersController.getDeliveringOrders(),
+                      ),
+                      HistoryCard(
+                        orders: ordersController.completedOrders,
+                        refresh: () => ordersController.getCompletedOrders(),
+                      ),
                     ],
                   ))
                 ],

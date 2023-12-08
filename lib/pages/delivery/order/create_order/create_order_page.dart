@@ -15,23 +15,22 @@ class CreateOrderPage extends StatelessWidget {
   final SenderController senderController;
   final ReceiverController receiverController;
   final DeliveryController deliveryController;
-  final int?partnerId;
-  final bool?isPartner;
+  final int? partnerId;
+  final bool? isPartner;
   const CreateOrderPage(
       {super.key,
       required this.senderController,
       required this.receiverController,
       required this.deliveryController,
       required this.partnerId,
-      required this.isPartner
-      });
+      required this.isPartner});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(children: [
           // AppConstants.defaultSpacer,
-          const CustomVerticalSpacer(height: 10),
+
           CreateOrderCard(
             senderController: senderController,
             receiverController: receiverController,

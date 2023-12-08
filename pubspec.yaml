@@ -53,9 +53,17 @@ dependencies:
   firebase_messaging: ^14.7.4
   flutter_local_notifications: ^16.1.0
   firebase_core: ^2.22.0
-  laravel_echo_null: ^0.0.5+7
-  pusher_beams: ^1.1.1
+  # laravel_echo_null: ^0.0.5+7
+  # pusher_beams: ^1.1.1
   path: ^1.8.3
+  http_parser: ^4.0.2
+  flutter_easyloading: ^3.0.5
+  easy_localization: ^3.0.3
+  restart_app: ^1.2.1
+  timeline_tile_nic: ^2.0.1
+  lottie: ^2.7.0
+  flutter_phone_direct_caller: ^2.1.1
+  
   
 
 dev_dependencies:
@@ -88,6 +96,7 @@ flutter:
     - assets/icons/
     - assets/language/
     - assets/images/
+    - assets/translations/
 
 flutter_icons:
   android: "launcher_icon"

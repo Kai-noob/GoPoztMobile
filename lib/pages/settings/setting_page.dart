@@ -1,11 +1,15 @@
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:mengo_delivery/controllers/profile_controller.dart';
+import 'package:mengo_delivery/pages/profile_edit/password_change_page.dart';
 import 'package:mengo_delivery/pages/profile_edit/profile_edit_page.dart';
+import 'package:mengo_delivery/pages/settings/language_page.dart';
 import 'package:overlay_loader_with_app_icon/overlay_loader_with_app_icon.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../network/api_call_status.dart';
 import '../../utils/app_colors.dart';
@@ -32,18 +36,20 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: ListView(
               children: [
-                SmallUserCard(
-                  cardRadius: 20,
-                  cardColor: primaryColor,
-                  onTap: () {},
-                  userProfilePic:
-                      const AssetImage("assets/images/profile.jpeg"),
-                  userName: controller.userModel.name,
-                  userMoreInfo: Text(
-                    controller.userModel.phone??"",
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                  ),
-                ),
+                // SmallUserCard(
+                //   cardRadius: 20,
+                //   cardColor: primaryColor,
+                //   onTap: () {},
+                //   userProfilePic:
+                // CachedNetworkImageProvider(
+                //                             controller.userModel.profile ??
+                //                                 ""),
+                //   userName: controller.userModel.name,
+                //   userMoreInfo: Text(
+                //     controller.userModel.phone??"",
+                //     style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                //   ),
+                // ),
                 // Text(controller.userModel.name),
                 // User card
                 // BigUserCard(
@@ -83,6 +89,14 @@ class SettingPage extends StatelessWidget {
                       onTap: () {
                         Get.to(() => const ProfileEditPage());
                       },
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                       icons: Icons.edit,
                       iconStyle: IconStyle(
                           iconsColor: Colors.white,
@@ -92,28 +106,23 @@ class SettingPage extends StatelessWidget {
                       subtitle: "Tap to change your profile",
                     ),
                     SettingsItem(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => const LanguagePage());
+                      },
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                       icons: Icons.language,
-                      iconStyle: IconStyle(),
+                      iconStyle: IconStyle(
+                          backgroundColor: primaryColor,
+                          iconsColor: Colors.white),
                       title: 'Language',
                       subtitle: "Myanmar",
-                    ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.dark_mode,
-                      iconStyle: IconStyle(
-                        iconsColor: Colors.white,
-                        withBackground: true,
-                        backgroundColor: Colors.red,
-                      ),
-                      title: 'Dark mode',
-                      subtitle: "Automatic",
-                      trailing: Switch.adaptive(
-                        value: false,
-                        onChanged: (value) {
-                          // _themeController.changeTheme(Colors.black, Colors.white);
-                        },
-                      ),
                     ),
                   ],
                 ),
@@ -122,27 +131,48 @@ class SettingPage extends StatelessWidget {
                     SettingsItem(
                       onTap: () {},
                       icons: Icons.info,
-                      iconStyle: IconStyle(
-                        backgroundColor: Colors.purple,
-                      ),
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
+                      iconStyle: IconStyle(backgroundColor: primaryColor),
                       title: 'About',
                       // subtitle: "Learn more about Mengo Delivery App",
                     ),
                     SettingsItem(
-                      onTap: () {},
+                      onTap: () {
+                        Share.share(
+                            'https://play.google.com?id=com.deliverymm.app');
+                      },
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                       icons: Icons.share,
-                      iconStyle: IconStyle(
-                        backgroundColor: Colors.green,
-                      ),
+                      iconStyle: IconStyle(backgroundColor: primaryColor),
                       title: 'Share',
                       // subtitle: "Learn more about Ziar'App",
                     ),
                     SettingsItem(
                       onTap: () {},
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                       icons: Icons.book,
-                      iconStyle: IconStyle(
-                        backgroundColor: Colors.amber,
-                      ),
+                      iconStyle: IconStyle(backgroundColor: primaryColor),
                       title: 'Terms&Conditions',
                       // subtitle: "Learn more about Mengo Delivery App",
                     ),
@@ -156,12 +186,43 @@ class SettingPage extends StatelessWidget {
                   items: [
                     SettingsItem(
                       onTap: () {
+                        Get.to(() => const PasswordChangePage());
+                      },
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
+                      icons: Icons.change_circle,
+                      iconStyle: IconStyle(
+                          iconsColor: Colors.white,
+                          withBackground: true,
+                          backgroundColor: primaryColor),
+                      title: 'Change Password',
+                    ),
+                    SettingsItem(
+                      onTap: () {
                         showLogoutDialog(context, () {
                           controller.logout(context);
                         });
                       },
+                      titleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                      subtitleStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
                       icons: Icons.logout,
-                      title: "Sign Out",
+                      iconStyle: IconStyle(
+                          iconsColor: Colors.white,
+                          withBackground: true,
+                          backgroundColor: primaryColor),
+                      title: "Logout",
                     ),
                     // SettingsItem(
                     //   onTap: () {},

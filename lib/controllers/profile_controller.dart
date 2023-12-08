@@ -30,6 +30,11 @@ class ProfileController extends GetxController {
   UserModel get userModel => _userModel.value;
   final BaseClient _baseClient = BaseClient();
 
+  final RxString _newPassword = "".obs;
+  String get newPassword => _newPassword.value;
+  final RxString _confirmNewPassword = "".obs;
+  String get confirmNewPassword => _confirmNewPassword.value;
+
   logout(BuildContext context) async {
     // *) perform api call
     await _baseClient.safeApiCall(
@@ -143,7 +148,7 @@ class ProfileController extends GetxController {
         // API call done successfully
         // _userModel.value = UserModel.fromJson(response.data);
         // Logger().e(_userModel.value);
-
+        getProfile();
         // Indicate success state
         apiCallStatus = ApiCallStatus.success;
         update();
@@ -196,6 +201,7 @@ class ProfileController extends GetxController {
         // Logger().e(_userModel.value);
 
         // Indicate success state
+        getProfile();
         apiCallStatus = ApiCallStatus.success;
         update();
 
@@ -216,12 +222,75 @@ class ProfileController extends GetxController {
     );
   }
 
+  updatePassword(
+    BuildContext context,
+    String password,
+  ) async {
+    await _baseClient.safeApiCall(
+      ApiUrls
+          .editProfileUrl, // Replace with the actual update profile API endpoint
+      RequestType.post, // Use the appropriate HTTP method for updating profiles
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer ${MySharedPref.getToken()}",
+      },
+
+      data: FormData.fromMap({
+        '_method': 'put',
+        'password': password
+        // Add any other form fields as needed
+      }),
+      onLoading: () {
+        // Indicate loading state
+        apiCallStatus = ApiCallStatus.loading;
+        update();
+      },
+      onSuccess: (response) {
+        // API call done successfully
+        // _userModel.value = UserModel.fromJson(response.data);
+        // Logger().e(_userModel.value);
+
+        // Indicate success state
+        getProfile();
+        apiCallStatus = ApiCallStatus.success;
+        update();
+
+        // Show success message to the user
+        SnackBarHelper.showSuccessMessage(
+          context: context,
+          title: "Password Changed Successfully",
+        );
+      },
+      onError: (error) {
+        // Show error message to the user
+        BaseClient.handleApiError(apiException: error);
+
+        // Indicate error status
+        apiCallStatus = ApiCallStatus.error;
+        update();
+      },
+    );
+  }
+
   setUserName(String name) {
     _userModel.value.name = name;
   }
 
   setPhone(String phone) {
     _userModel.value.phone = phone;
+  }
+
+  setNewPassword(String newPassword) {
+    _newPassword.value = newPassword;
+  }
+
+  setConfirmPassword(String confirmPassword) {
+    _confirmNewPassword.value = confirmPassword;
+  }
+
+  bool validatePasswords() {
+    return _newPassword.value == _confirmNewPassword.value;
   }
 
   @override

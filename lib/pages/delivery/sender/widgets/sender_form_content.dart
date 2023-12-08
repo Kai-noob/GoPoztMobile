@@ -61,7 +61,9 @@ class SenderFormContent extends StatelessWidget {
             indent: 15,
           ),
           const CustomVerticalSpacer(height: 8),
-          const SenderDefaultWidget(),
+          SenderDefaultWidget(
+            senderController: controller,
+          ),
           const CustomVerticalSpacer(height: 8),
         ],
       ),

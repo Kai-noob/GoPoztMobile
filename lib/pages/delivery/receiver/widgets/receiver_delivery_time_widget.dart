@@ -7,6 +7,9 @@ import 'package:mengo_delivery/utils/app_colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../sender/widgets/sender_clear_all_widget.dart';
+import '../../sender/widgets/sender_confirm_widget.dart';
+
 class ReceiverDeliveryTimeWidget extends StatelessWidget {
   final ReceiverController controller;
   const ReceiverDeliveryTimeWidget({super.key, required this.controller});
@@ -52,11 +55,12 @@ class ReceiverDeliveryTimeWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  15.verticalSpace,
                   Text(
                     "Delivery Time",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                   40.verticalSpace,
@@ -84,7 +88,7 @@ class ReceiverDeliveryTimeWidget extends StatelessWidget {
                                 color: controller.deliveryTime == "urgent"
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 15.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -111,13 +115,37 @@ class ReceiverDeliveryTimeWidget extends StatelessWidget {
                                 color: controller.deliveryTime == "normal"
                                     ? Colors.white
                                     : Colors.black,
-                                fontSize: 15.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
                     ],
                   ),
+                  const Spacer(),
+                  Container(
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                          SenderClearAllWidget(
+                            label: "Cancel",
+                            onTap: () {
+                              controller.setDeliveryTime("");
+
+                              Get.back();
+                            },
+                          ),
+                        SenderConfirmWidget(
+                          onTap: () {
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )));

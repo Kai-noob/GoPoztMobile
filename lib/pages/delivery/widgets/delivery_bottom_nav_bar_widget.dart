@@ -16,7 +16,7 @@ class DeliveryBottomNavBarWidget extends StatelessWidget {
   final ReceiverController receiverController;
   final SenderModel sender;
   final List<ParcelModel> parcels;
-  final int?partnerId;
+  final int? partnerId;
   final bool? isPartner;
   const DeliveryBottomNavBarWidget(
       {super.key,
@@ -25,15 +25,15 @@ class DeliveryBottomNavBarWidget extends StatelessWidget {
       required this.parcels,
       required this.receiverController,
       required this.partnerId,
-      required this.isPartner
-      });
+      required this.isPartner});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: const Color(0xFFF5F5F5),
       height: 55.h,
       child: Row(children: [
-         DeliveryNavBarEstimationWidget(
+        DeliveryNavBarEstimationWidget(
           receiverController: receiverController,
         ),
         DeliveryNavBarOrderWidget(

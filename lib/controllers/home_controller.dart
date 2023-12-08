@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   final RxList<Announcement> _announcements = RxList.empty();
   List<Announcement> get announcements => _announcements.toList();
 
-  final RxList<DelivererModel>_deliverers = RxList.empty();
+  final RxList<DelivererModel> _deliverers = RxList.empty();
   List<DelivererModel> get deliverers => _deliverers.toList();
 
   final RxList<Advertisement> _advertisements = RxList.empty();

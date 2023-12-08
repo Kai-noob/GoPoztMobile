@@ -23,7 +23,7 @@ class ODTypeWidget extends StatelessWidget {
               style: TextStyle(
                   color: blackColor,
                   fontWeight: FontWeight.w500,
-                  fontSize: 15.sp),
+                  fontSize: 14.sp),
             ),
             6.verticalSpace,
             Text(
@@ -31,7 +31,7 @@ class ODTypeWidget extends StatelessWidget {
               style: TextStyle(
                   color: blackColor,
                   fontWeight: FontWeight.w500,
-                  fontSize: 15.sp),
+                  fontSize: 14.sp),
             ),
             6.verticalSpace,
             Text(
@@ -39,7 +39,7 @@ class ODTypeWidget extends StatelessWidget {
               style: TextStyle(
                   color: blackColor,
                   fontWeight: FontWeight.w500,
-                  fontSize: 15.sp),
+                  fontSize: 14.sp),
             ),
           ],
         ),

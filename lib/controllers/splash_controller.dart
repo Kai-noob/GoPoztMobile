@@ -153,9 +153,24 @@ class SplashController extends GetxController {
   //step 2
 
   getToken() async {
-    await _firebaseMessaging.getToken().then((value) async {
-      print(value);
-      await refreshToken(value!);
+    await _firebaseMessaging.getToken().then((String?token) async {
+       if (token != null) {
+      print("Refreshed Token: $token");
+      await refreshToken(token);
+
+    } else {
+      print("Unable to get refreshed token");
+    }
+
+    });
+      _firebaseMessaging.onTokenRefresh.listen((String?token)async {
+       if (token != null) {
+      print("Refresh Token: $token");
+      await refreshToken(token);
+
+    } else {
+      print("Unable to get refreshed token");
+    }
     });
   }
 
@@ -234,11 +249,9 @@ class SplashController extends GetxController {
     });
   }
 
-  void getRfreshToken() async {
-    _firebaseMessaging.onTokenRefresh.listen((event) {
-      event.toString();
-    });
-  }
+  // void getRfreshToken() async {
+  
+  // }
 
   @override
   void onInit() {
@@ -248,6 +261,7 @@ class SplashController extends GetxController {
 
     requestPermission();
     getToken();
+    // getRfreshToken();
     firebaseInit();
     initLocalInitialization();
 

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-
-
 class ODCollectPaymentWidget extends StatelessWidget {
   const ODCollectPaymentWidget({
     super.key,
@@ -28,7 +26,7 @@ class ODCollectPaymentWidget extends StatelessWidget {
                 style: TextStyle(
                     color: blackColor,
                     fontWeight: FontWeight.w500,
-                    fontSize: 15.sp),
+                    fontSize: 14.sp),
               )),
               Flexible(
                   flex: 1,
@@ -37,7 +35,7 @@ class ODCollectPaymentWidget extends StatelessWidget {
                     style: TextStyle(
                         color: blackColor,
                         fontWeight: FontWeight.w500,
-                        fontSize: 13.sp),
+                        fontSize: 14.sp),
                   )),
             ],
           ),
@@ -51,7 +49,7 @@ class ODCollectPaymentWidget extends StatelessWidget {
                 style: TextStyle(
                     color: blackColor,
                     fontWeight: FontWeight.w500,
-                    fontSize: 15.sp),
+                    fontSize: 14.sp),
               )),
               Flexible(
                   flex: 1,
@@ -60,7 +58,7 @@ class ODCollectPaymentWidget extends StatelessWidget {
                     style: TextStyle(
                         color: blackColor,
                         fontWeight: FontWeight.w500,
-                        fontSize: 13.sp),
+                        fontSize: 14.sp),
                   )),
             ],
           ),

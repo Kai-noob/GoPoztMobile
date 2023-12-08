@@ -27,7 +27,7 @@ class CreateOrderFromWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 color: primaryColor, borderRadius: BorderRadius.circular(30)),
             child: const CustomText(
-              text: "From",
+              text: "Fr",
               color: Colors.white,
             ),
           ),

@@ -38,9 +38,7 @@ class DeliveryNavBarOrderWidget extends StatelessWidget {
             }else{
                   controller.createOrder(context, sender, parcels);
             }
-            Get.delete<SenderController>(force: true);
-            Get.delete<ReceiverController>(force: true);
-            Get.delete<DeliveryController>(force: true);
+           
           },
           child: Container(
             alignment: Alignment.center,

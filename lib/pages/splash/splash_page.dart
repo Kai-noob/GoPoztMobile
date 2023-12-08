@@ -35,14 +35,8 @@ class SplashPage extends StatelessWidget {
                             height: 120.h,
                           ),
                         ),
-                        const CustomVerticalSpacer(height: 10),
-                        const Text(
-                          "Delivery Hub",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )
+                     
+               
                   ],
                 ),
               ),

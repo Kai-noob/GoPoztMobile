@@ -36,13 +36,13 @@ class AppHeader extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
             const Spacer(),
-            IconButton(
-              icon: const Headset(
-                color: Colors.white,
-              ),
-              onPressed: () {},
-              color: Colors.white,
-            ),
+            // IconButton(
+            //   icon: const Headset(
+            //     color: Colors.white,
+            //   ),
+            //   onPressed: () {},
+            //   color: Colors.white,
+            // ),
             IconButton(
               icon: const Bell(
                 color: Colors.white,

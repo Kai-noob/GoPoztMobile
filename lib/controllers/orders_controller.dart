@@ -108,6 +108,7 @@ class OrdersController extends GetxController {
 
         OrderResponse orderResponse = OrderResponse.fromJson(response.data);
         _pendingOrders.value = orderResponse.orders;
+        print("Pending ${_pendingOrders.length}");
 
         // Logger().d("Order ${_orders[0].parcels}");
 
@@ -137,6 +138,7 @@ class OrdersController extends GetxController {
         update();
       },
       onSuccess: (response) {
+        print("Delivering ${response.data}");
         apiCallStatus = ApiCallStatus.success;
 
         OrderResponse orderResponse = OrderResponse.fromJson(response.data);
@@ -157,7 +159,7 @@ class OrdersController extends GetxController {
 
   Future<void> getCompletedOrders() async {
     await _baseClient.safeApiCall(
-      ApiUrls.deliveringOrdersUrl, // url
+      ApiUrls.completedOrdersUrl, // url
       RequestType.get,
       headers: {
         'Accept': 'application/json',
@@ -172,7 +174,8 @@ class OrdersController extends GetxController {
       onSuccess: (response) {
         apiCallStatus = ApiCallStatus.success;
 
-        OrderResponse orderResponse = OrderResponse.fromJson(response.data);
+        CompletedOrderResponse orderResponse =
+            CompletedOrderResponse.fromJson(response.data);
         _completedOrders.value = orderResponse.orders;
 
         // Logger().d("Order ${_orders[0].parcels}");
@@ -190,7 +193,7 @@ class OrdersController extends GetxController {
 
   @override
   void onInit() {
-    getOrders();
+    // getOrders();
     getPendingOrders();
     getDeliveringOrders();
     getCompletedOrders();

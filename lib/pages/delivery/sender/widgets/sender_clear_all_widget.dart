@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-
 class SenderClearAllWidget extends StatelessWidget {
+  final String? label;
   final VoidCallback onTap;
-  const SenderClearAllWidget({
-    super.key, required this.onTap,
-  });
+  const SenderClearAllWidget({super.key, required this.onTap, this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +18,9 @@ class SenderClearAllWidget extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.white),
           alignment: Alignment.center,
           child: Text(
-            "Clear all",
+            label ?? "Clear all",
             style: TextStyle(
-                color: black,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500),
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ),
       ),

@@ -34,72 +34,92 @@ class _DeliveryMainPageState extends State<DeliveryMainPage>
         Get.find<ReceiverController>();
     final DeliveryController deliveryController =
         Get.find<DeliveryController>();
-    final int? partnerId = Get.arguments['partner_id'];
-    final bool? isPartner = Get.arguments['isPartner'];
+    final Map<String, dynamic>? arguments =
+        Get.arguments as Map<String, dynamic>?;
+
+    final int? partnerId = arguments?['partner_id'] as int?;
+    final bool? isPartner = arguments?['isPartner'] as bool?;
 
     final SenderController senderController = Get.find<SenderController>();
     final OrdersController ordersController = Get.find<OrdersController>();
     TabController controller = TabController(vsync: this, length: 2);
 
     return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-          // appBar: AppBar(
-          //   title: const Text("Delivery Hub"),
-          // ),
-          body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: Column(
-          children: [
-            30.verticalSpace,
-            Card(
-              elevation: 5.0,
-              shadowColor: Colors.black12,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Container(
-                margin: const EdgeInsets.all(8),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: TabBar(
-                  controller: controller,
-                  indicator: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  unselectedLabelColor: Colors.grey,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  tabs: const [
-                    Tab(
-                      text: "Delivery",
+        length: 2,
+        child: GetBuilder<DeliveryController>(
+          builder: (deliveryController) {
+            return OverlayLoaderWithAppIcon(
+              isLoading:
+                  deliveryController.apiCallStatus == ApiCallStatus.loading,
+              overlayBackgroundColor: Colors.black,
+              circularProgressColor: primaryColor,
+              appIcon: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset('assets/icons/logo.png')),
+              child: Scaffold(
+                  // appBar: AppBar(
+                  //   title: const Text("Delivery Hub"),
+                  // ),
+                  body: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: Column(
+                  children: [
+                    30.verticalSpace,
+                    Card(
+                      elevation: 5.0,
+                      shadowColor: Colors.black12,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: TabBar(
+                          controller: controller,
+                          indicator: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          unselectedLabelColor: Colors.grey,
+                          labelPadding:
+                              const EdgeInsets.symmetric(horizontal: 25),
+                          tabs: const [
+                            Tab(
+                              text: "Delivery",
+                            ),
+                            Tab(
+                              text: "Order",
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Tab(
-                      text: "Order",
-                    ),
+                    Expanded(
+                        child: TabBarView(
+                      controller: controller,
+                      children: [
+                        CreateOrderPage(
+                          senderController: senderController,
+                          receiverController: receiverController,
+                          deliveryController: deliveryController,
+                          partnerId: partnerId,
+                          isPartner: isPartner,
+                        ),
+                        OrderHistoryPage(
+                          controller: ordersController,
+                        )
+                      ],
+                    ))
                   ],
                 ),
-              ),
-            ),
-            Expanded(
-                child: TabBarView(
-              controller: controller,
-              children: [
-                CreateOrderPage(
-                  senderController: senderController,
-                  receiverController: receiverController,
-                  deliveryController: deliveryController,
-                  partnerId: partnerId,
-                  isPartner: isPartner,
-                ),
-                OrderHistoryPage(
-                  controller: ordersController,
-                )
-              ],
-            ))
-          ],
-        ),
-      )),
-    );
+              )),
+            );
+          },
+        ));
   }
 }

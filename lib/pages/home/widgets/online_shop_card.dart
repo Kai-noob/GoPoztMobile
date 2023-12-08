@@ -17,25 +17,36 @@ class OnlineShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-          Get.toNamed(Routes.delivery,arguments: {
-              'partner_id':delivererModel.id,
-              'isPartner':true
-            });
+      onTap: () {
+        Get.toNamed(Routes.delivery,
+            arguments: {'partner_id': delivererModel.id, 'isPartner': true});
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: primaryColor, width: 1.4),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        height: 30.h,
-        width: 30.h,
-        child: CachedNetworkImage(
-          imageUrl: delivererModel.profile ?? "",
-          placeholder: (context, url) => const Icon(Icons.image),
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => const Icon(Icons.image),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                delivererModel.profile ?? "",
+              )),
+              border: Border.all(color: primaryColor, width: 1.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: 45.h,
+            width: 45.h,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            constraints: BoxConstraints(maxHeight: 66.h, maxWidth: 70.w),
+            child: Text(
+              delivererModel.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        ],
       ),
     );
   }

@@ -74,43 +74,20 @@ class MySharedPref {
   static Future<void> setFcmToken(String token) =>
       _sharedPreferences.setString(_fcmTokenKey, token);
 
-  // static Future<void> setSenderForm(SenderModel senderModel) {
-  //   final jsonString = jsonEncode(senderModel.toJson());
-  //   return _sharedPreferences.setString(_senderForm, jsonString);
-  // }
-
+  
   static Future<void> setSenderForm(SenderModel senderModel) {
-    final jsonString = _sharedPreferences.getString(_senderForm);
-    List<SenderModel> existingList = [];
-
-    if (jsonString != null) {
-      final List<dynamic> jsonList = jsonDecode(jsonString);
-      existingList =
-          jsonList.map((item) => SenderModel.fromJson(item)).toList();
-    }
-
-    existingList.add(senderModel);
-
-    final updatedJsonString =
-        jsonEncode(existingList.map((item) => item.toJson()).toList());
-    return _sharedPreferences.setString(_senderForm, updatedJsonString);
+    final jsonString = jsonEncode(senderModel.toJson());
+    return _sharedPreferences.setString(_senderForm, jsonString);
   }
 
-  static Future<void> setReceiverForm(ReceiverModel receiverModel) {
-    final jsonString = jsonEncode(receiverModel.toJson());
-    return _sharedPreferences.setString(_receiverForm, jsonString);
-  }
-
-  static Future<void> setParcelDetails(ParcelModel parcelModel) {
-    final jsonString = jsonEncode(parcelModel.toJson());
-    return _sharedPreferences.setString(_parcelDetails, jsonString);
-  }
-
+  
   static Future<void> setPickUpTime(String pickUpTime) =>
       _sharedPreferences.setString(_pickUpTime, pickUpTime);
 
   /// get authorization token
   static String? getFcmToken() => _sharedPreferences.getString(_fcmTokenKey);
+
+
   static String? getPickUpTime() {
     final String? jsonString = _sharedPreferences.getString(_pickUpTime);
     if (jsonString != null) {
@@ -120,8 +97,9 @@ class MySharedPref {
     }
   }
 
-  static SenderModel? getSenderForm() {
-    final String? jsonString = _sharedPreferences.getString(_senderForm);
+ 
+  static SenderModel? getSenderFrom() {
+    final jsonString = _sharedPreferences.getString(_senderForm);
     if (jsonString != null) {
       final jsonMap = jsonDecode(jsonString);
       return SenderModel.fromJson(jsonMap);
@@ -130,25 +108,7 @@ class MySharedPref {
     }
   }
 
-  static ReceiverModel? getReceiverForm() {
-    final jsonString = _sharedPreferences.getString(_receiverForm);
-    if (jsonString != null) {
-      final jsonMap = jsonDecode(jsonString);
-      return ReceiverModel.fromJson(jsonMap);
-    } else {
-      return null;
-    }
-  }
-
-  static ParcelModel? getParcelDetails() {
-    final jsonString = _sharedPreferences.getString(_parcelDetails);
-    if (jsonString != null) {
-      final jsonMap = jsonDecode(jsonString);
-      return ParcelModel.fromJson(jsonMap);
-    } else {
-      return null;
-    }
-  }
+  
 
   /// clear all data from shared pref
   static Future<void> clear() async => await _sharedPreferences.clear();

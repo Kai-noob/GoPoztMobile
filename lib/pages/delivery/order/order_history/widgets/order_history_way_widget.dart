@@ -34,7 +34,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
               "Way ${wayIndex + 1} ",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 11.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -47,7 +47,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
             controller.orders[orderIndex].parcels[wayIndex].receiver.city.name,
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
                 overflow: TextOverflow.ellipsis),
           ),
@@ -59,7 +59,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
         //     "#${controller.orders[orderIndex].parcels[wayIndex].id}",
         //     style: TextStyle(
         //       color: Colors.black,
-        //       fontSize: 13.sp,
+        //       fontSize: 14.sp,
         //       fontWeight: FontWeight.w300,
         //     ),
         //   ),
@@ -77,7 +77,7 @@ class OrderHistoryWayWidget extends StatelessWidget {
                         'pending'
                     ? Colors.redAccent
                     : Colors.green,
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
               ),
             ),

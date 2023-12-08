@@ -200,7 +200,7 @@ class ReceiverMainPage extends StatelessWidget {
                         endIndent: 15,
                         indent: 15,
                       ),
-                      const ReceiverOnlineShopWidget(),
+                      // const ReceiverOnlineShopWidget(),
                       const CustomVerticalSpacer(height: 15),
                       ReceiverImageWidget(
                         controller: receiverController,
@@ -215,8 +215,9 @@ class ReceiverMainPage extends StatelessWidget {
               )
             ]),
           ),
-          bottomNavigationBar: SizedBox(
+          bottomNavigationBar: Container(
             height: 55.h,
+                  color: const Color(0xFFF5F5F5),
             child: Row(children: [
               ReceiverEstimationWidget(
                 controller: receiverController,
@@ -301,7 +302,7 @@ class ReceiverMainPage extends StatelessWidget {
                   receiverController.setReceiverNote("");
                   receiverController.setParcelWeight(3.0);
                   receiverController.setIsPrepaid(false);
-                  // controller.set
+                  receiverController.setReceiverParcelPhotos();
                 },
               )
             ]),

@@ -20,7 +20,7 @@ class ReceiverNoteWidget extends StatelessWidget {
         maxLines: 2,
         keyboardType: TextInputType.multiline,
         style: TextStyle(
-            color: black, fontWeight: FontWeight.normal, fontSize: 13.sp),
+            color: black, fontWeight: FontWeight.normal, fontSize: 14.sp),
         decoration: InputDecoration(
             hintText: "Note",
             hintStyle: TextStyle(

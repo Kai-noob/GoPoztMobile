@@ -10,20 +10,13 @@ class OrderDetailsStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          "${order.status.capitalize}",
-          style: TextStyle(
-              color:
-                  order.status == 'pending' ? Colors.white : Colors.greenAccent,
-              fontSize: 15.sp,
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.w500),
-        ),
-      ),
+    return Text(
+      "Order Status:${order.status.capitalize}",
+      style: TextStyle(
+          color: order.status == 'pending' ? Colors.black : Colors.greenAccent,
+          fontSize: 14.sp,
+          fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500),
     );
   }
 }

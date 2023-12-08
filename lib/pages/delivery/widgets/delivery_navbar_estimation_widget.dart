@@ -32,7 +32,7 @@ class DeliveryNavBarEstimationWidget extends StatelessWidget {
                     "Estimation",
                     style: TextStyle(
                         color: black,
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
                   4.verticalSpace,
@@ -40,7 +40,7 @@ class DeliveryNavBarEstimationWidget extends StatelessWidget {
                     "MMK-${calculateTotalFeeAmount().toString()}",
                     style: TextStyle(
                         color: black,
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   )
                 ],
@@ -62,7 +62,7 @@ class DeliveryNavBarEstimationWidget extends StatelessWidget {
                     "Details",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   )
                 ],

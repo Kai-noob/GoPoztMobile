@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/get_instance.dart';
 
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
+import 'package:mengo_delivery/controllers/orders_controller.dart';
 import 'package:mengo_delivery/routes/app_pages.dart';
 
 import '../helpers/shared_pref_helper.dart';
@@ -18,9 +21,13 @@ import '../models/sender_model.dart';
 import '../network/api_call_status.dart';
 import '../network/base_client.dart';
 import '../utils/api_url.dart';
+import 'receiver_controller.dart';
+import 'sender_controller.dart';
 
 class DeliveryController extends GetxController {
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
+
+  OrdersController ordersController = Get.find<OrdersController>();
 
   //   final RxList<AvaliableWay> _avaliableWays = <AvaliableWay>[].obs;
   // List<AvaliableWay> get avaliableWays => _avaliableWays.toList();
@@ -58,67 +65,74 @@ class DeliveryController extends GetxController {
     // DeliveryModel deliveryModel =
     //     DeliveryModel(sender: senderModel, parcels: parcelModel);
     // Logger().f(deliveryModel.toJson());
-    // *) perform api call
+    // *) perform api call\
+    FormData formData = FormData();
+// FormData _formData = FormData();
+
+// Add sender data to FormData
+    senderModel.toJson().forEach((key, value) {
+      formData.fields.add(MapEntry(key, value.toString()));
+    });
+
+    List<Map<String, dynamic>> parcelDataList = [];
+
+// Process parcels and corresponding files
+    for (var parcel in parcelModel) {
+      List<String> parcelPhotos = parcel.parcelPhotos;
+      List<MultipartFile> multipartFiles = [];
+
+      for (String photoPath in parcelPhotos) {
+        File file = File(photoPath);
+        if (file.existsSync()) {
+          MultipartFile multipartFile = await MultipartFile.fromFile(
+            file.path,
+            filename: file.path.split('/').last,
+            contentType: MediaType('image', 'jpg'),
+          );
+          multipartFiles.add(multipartFile);
+        }
+      }
+
+      Map<String, dynamic> parcelData = {
+        'pickup_time': parcel.pickupTime,
+        'delivery_time': parcel.deliveryTime,
+        'item_type': parcel.itemType,
+        'prepaid': parcel.prepaid,
+        'parcel_size': parcel.parcelSize,
+        'parcel_weight': parcel.parcelWeight,
+        'collect_cash_amount': parcel.collectCashAmount,
+        'receiver': parcel.receiver.toJson(),
+      };
+
+      parcelDataList.add(parcelData);
+
+      for (int i = 0; i < multipartFiles.length; i++) {
+        formData.files.add(MapEntry(
+          'parcel_${parcelDataList.length}_photos[$i]',
+          multipartFiles[i],
+        ));
+      }
+    }
+
+    FormData parcelsFormData = FormData.fromMap({
+      'parcels': parcelDataList,
+      'sender': senderModel.toJson(),
+    });
+    Logger().e("data ${parcelsFormData.files} ${parcelsFormData.fields}");
+    FormData mergedFormData = formData..fields.addAll(parcelsFormData.fields);
+    Logger().e("merge data ${mergedFormData.files} ${mergedFormData.fields}");
+
     await _baseClient.safeApiCall(
       ApiUrls.ordersUrl, // url
       RequestType.post,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': "Bearer ${MySharedPref.getToken()}",
       },
       // queryParameters: deliveryModel.toJson(),
-      data: FormData.fromMap({
-        'sender': senderModel.toJson(),
-        'parcels': await Future.wait(
-          parcelModel.map(
-            (parcel) async {
-              // List<MultipartFile> multipartFiles = [];
-// List<File> files = convertStringListToFileList(parcel.parcelPhotos);
+      data: mergedFormData,
 
-//         for (File file in files) {
-//           if (file.existsSync()) {
-//             MultipartFile multipartFile = await MultipartFile.fromFile(
-//               file.path,
-//               filename: file.path.split('/').last,
-//             );
-//             multipartFiles.add(multipartFile);
-//           }
-//         }
-              // print("Photo ${parcel.parcelPhotos[0].toString()}");
-
-              List<String> parcelPhotos = parcel.parcelPhotos;
-              List<MultipartFile> multipartFiles = [];
-
-              for (String photoPath in parcelPhotos) {
-                File file = File(photoPath);
-                if (file.existsSync()) {
-                  MultipartFile multipartFile = await MultipartFile.fromFile(
-                    photoPath,
-                    filename: file.path.split('/').last,
-                  );
-                  print("Single ${multipartFile.filename}");
-                  multipartFiles.add(multipartFile);
-                }
-              }
-              print("MultitplePart File ${multipartFiles.length}");
-              return {
-                'pickup_time': parcel.pickupTime,
-                'delivery_time': parcel.deliveryTime,
-                'item_type': parcel.itemType,
-                'prepaid': parcel.prepaid,
-                'parcel_size': parcel.parcelSize,
-                'parcel_weight': parcel.parcelWeight,
-                'collect_cash_amount': parcel.collectCashAmount,
-                // 'parcel_photos':multipartFiles.isNotEmpty ? multipartFiles : null,
-                'parcel_photos': multipartFiles,
-
-                'receiver': parcel.receiver.toJson()
-              };
-            },
-          ).toList(),
-        )
-      }),
       onLoading: () {
         apiCallStatus = ApiCallStatus.loading;
         update();
@@ -131,6 +145,10 @@ class DeliveryController extends GetxController {
         Get.offAllNamed(Routes.dashboard);
         SnackBarHelper.showSuccessMessage(
             context: context, title: response.data["message"]);
+        ordersController.getPendingOrders();
+        Get.delete<SenderController>(force: true);
+        Get.delete<ReceiverController>(force: true);
+        Get.delete<DeliveryController>(force: true);
 
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
@@ -174,26 +192,78 @@ class DeliveryController extends GetxController {
 
       return;
     }
-    DeliveryModel deliveryModel =
-        DeliveryModel(sender: senderModel, parcels: parcelModel);
-    Logger().f(deliveryModel.toJson());
-    // *) perform api call
+    // DeliveryModel deliveryModel =
+    //     DeliveryModel(sender: senderModel, parcels: parcelModel);
+    // Logger().f(deliveryModel.toJson());
+    // *) perform api call\
+    FormData formData = FormData();
+// FormData _formData = FormData();
+
+// Add sender data to FormData
+    senderModel.toJson().forEach((key, value) {
+      formData.fields.add(MapEntry(key, value.toString()));
+    });
+
+    List<Map<String, dynamic>> parcelDataList = [];
+
+// Process parcels and corresponding files
+    for (var parcel in parcelModel) {
+      List<String> parcelPhotos = parcel.parcelPhotos;
+      List<MultipartFile> multipartFiles = [];
+
+      for (String photoPath in parcelPhotos) {
+        File file = File(photoPath);
+        if (file.existsSync()) {
+          MultipartFile multipartFile = await MultipartFile.fromFile(
+            file.path,
+            filename: file.path.split('/').last,
+            contentType: MediaType('image', 'jpg'),
+          );
+          multipartFiles.add(multipartFile);
+        }
+      }
+
+      Map<String, dynamic> parcelData = {
+        'pickup_time': parcel.pickupTime,
+        'delivery_time': parcel.deliveryTime,
+        'item_type': parcel.itemType,
+        'prepaid': parcel.prepaid,
+        'parcel_size': parcel.parcelSize,
+        'parcel_weight': parcel.parcelWeight,
+        'collect_cash_amount': parcel.collectCashAmount,
+        'receiver': parcel.receiver.toJson(),
+      };
+
+      parcelDataList.add(parcelData);
+
+      for (int i = 0; i < multipartFiles.length; i++) {
+        formData.files.add(MapEntry(
+          'parcel_${parcelDataList.length}_photos[$i]',
+          multipartFiles[i],
+        ));
+      }
+    }
+
+    FormData parcelsFormData = FormData.fromMap({
+      'parcels': parcelDataList,
+      'sender': senderModel.toJson(),
+      'partner_id': partnerId
+    });
+    Logger().e("data ${parcelsFormData.files} ${parcelsFormData.fields}");
+    FormData mergedFormData = formData..fields.addAll(parcelsFormData.fields);
+    Logger().e("merge data ${mergedFormData.files} ${mergedFormData.fields}");
+
     await _baseClient.safeApiCall(
       ApiUrls.ordersUrl, // url
       RequestType.post,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': "Bearer ${MySharedPref.getToken()}",
       },
-      queryParameters: {
-        'sender': deliveryModel.sender.toJson(),
-        'parcels': deliveryModel.parcels.map((parcel) {
-          print("Photo ${parcel.parcelPhotos[0].toString()}");
-          return parcel.toJson();
-        }).toList(),
-        'partner_id': partnerId
-      },
+      // queryParameters: deliveryModel.toJson(),
+      data: mergedFormData,
+
       onLoading: () {
         apiCallStatus = ApiCallStatus.loading;
         update();
@@ -206,6 +276,10 @@ class DeliveryController extends GetxController {
         Get.offAllNamed(Routes.dashboard);
         SnackBarHelper.showSuccessMessage(
             context: context, title: response.data["message"]);
+        Get.delete<SenderController>(force: true);
+        Get.delete<ReceiverController>(force: true);
+        Get.delete<DeliveryController>(force: true);
+        ordersController.getPendingOrders();
 
         // *) indicate success state
         apiCallStatus = ApiCallStatus.success;
@@ -224,19 +298,5 @@ class DeliveryController extends GetxController {
         update();
       },
     );
-  }
-
-  List<File> convertStringListToFileList(List<String> stringList) {
-    List<File> fileList = [];
-    for (String path in stringList) {
-      fileList.add(File(path));
-    }
-    return fileList;
-  }
-
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
   }
 }

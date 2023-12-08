@@ -27,17 +27,15 @@ class DashboardPage extends GetView<CustomMenuController> {
           backgroundColor: primaryColor,
           elevation: 1,
           onPressed: () {
-            Get.toNamed(Routes.delivery,arguments: {
-              'partner_id':null,
-              'isPartner':false
-            });
+            Get.toNamed(Routes.delivery,
+                arguments: {'partner_id': null, 'isPartner': false});
           },
           label: Text(
-            "ပါဆယ်ပို့ရန်",
+            "Create Parcel",
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: 13.sp),
+                fontSize: 14.sp),
           ),
           icon: const Padding(
               padding: EdgeInsets.all(5.0),
@@ -119,6 +117,7 @@ class DashboardPage extends GetView<CustomMenuController> {
               fontSize: 14.sp),
           selectedItemColor: Colors.white,
           items: const [
+            
             BottomNavigationBarItem(
               icon: HomeSimpleDoor(
                 height: 24,
